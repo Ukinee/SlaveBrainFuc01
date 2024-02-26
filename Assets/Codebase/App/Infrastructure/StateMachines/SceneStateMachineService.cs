@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using ApplicationCode.Core.Common.General.Utils;
 using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.StateMachines.States;
-using Codebase.Core.Infrastructure.Services.Interfaces;
+using Codebase.Core.Common.Application.Utilities.Constants;
+using Codebase.Core.Common.General.Utils;
+using Codebase.Core.Infrastructure.Curtain;
 using Codebase.Core.Services.SceneLoadServices;
+using Cysharp.Threading.Tasks;
 
 namespace Codebase.App.Infrastructure.StateMachines
 {
@@ -34,14 +36,16 @@ namespace Codebase.App.Infrastructure.StateMachines
             MaloyAlert.Message("Exiting scene");
         }
 
-        protected override async void OnBeforeStateChange<T>()
+        protected override async UniTask OnBeforeStateChangeAsync<T>()
         {
             _curtain.Show();
+            await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
             await _sceneLoadService.LoadSceneAsync(typeof(T).Name);
         }
 
-        protected override void OnAfterStateChange<T>()
+        protected override async UniTask OnAfterStateChangeAsync<T>()
         {
+            await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
             _curtain.Hide();
         }
     }

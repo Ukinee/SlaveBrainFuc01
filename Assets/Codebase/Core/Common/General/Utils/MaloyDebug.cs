@@ -1,4 +1,4 @@
-namespace ApplicationCode.Core.Common.General.Utils
+namespace Codebase.Core.Common.General.Utils
 {
     internal class MaloyDebug
     {

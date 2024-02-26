@@ -1,7 +1,7 @@
 ﻿#nullable enable
-using ApplicationCode.Core.Common.General.DataTypes.Vector2Int;
+using Codebase.Core.Common.General.DataTypes.Vector2Int;
 
-namespace ApplicationCode.Core.Common.General.DataTypes.GridPosition
+namespace Codebase.Core.Common.General.DataTypes.GridPosition
 {
     public partial struct Vector3Grid
     {

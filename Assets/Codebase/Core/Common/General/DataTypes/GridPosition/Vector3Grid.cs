@@ -1,4 +1,4 @@
-﻿namespace ApplicationCode.Core.Common.General.DataTypes.GridPosition
+﻿namespace Codebase.Core.Common.General.DataTypes.GridPosition
 {
     /// <summary>
     /// Assuming that Z is height

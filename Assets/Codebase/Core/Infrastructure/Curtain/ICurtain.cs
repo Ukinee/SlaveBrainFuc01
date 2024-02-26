@@ -1,4 +1,4 @@
-﻿namespace Codebase.Core.Infrastructure.Services.Interfaces
+﻿namespace Codebase.Core.Infrastructure.Curtain
 {
     public interface ICurtain
     {

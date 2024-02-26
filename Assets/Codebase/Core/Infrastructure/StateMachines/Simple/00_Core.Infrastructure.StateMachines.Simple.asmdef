@@ -1,7 +1,7 @@
 {
     "name": "00_Core.Infrastructure.StateMachines.Simple",
     "rootNamespace": "",
-    "references": ["GUID:1882f379332620944a916d0e0458c6af"],
+    "references": ["GUID:1882f379332620944a916d0e0458c6af","GUID:f51ebe6a0ceec4240a699833d6309b23"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

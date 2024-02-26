@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Codebase.Core.Services.Common;
+using Cysharp.Threading.Tasks;
 
 namespace Assets.Codebase.Core.Infrastructure.StateMachines.Simple
 {
@@ -28,19 +29,14 @@ namespace Assets.Codebase.Core.Infrastructure.StateMachines.Simple
         public void FixedUpdate(float deltaTime) =>
             _stateMachine.FixedUpdate(deltaTime);
 
-        public void SetState<T>()
+        public async void SetState<T>()
         {
-            OnBeforeStateChange<T>();
+            await OnBeforeStateChangeAsync<T>();
             _stateMachine.SetCurrentState(_stateFactories[typeof(T)].Invoke(this));
-            OnAfterStateChange<T>();
+            await OnAfterStateChangeAsync<T>();
         }
 
-        protected virtual void OnBeforeStateChange<T>()
-        {
-        }
-
-        protected virtual void OnAfterStateChange<T>()
-        {
-        }
+        protected abstract UniTask OnBeforeStateChangeAsync<T>();
+        protected abstract UniTask OnAfterStateChangeAsync<T>();
     }
 }

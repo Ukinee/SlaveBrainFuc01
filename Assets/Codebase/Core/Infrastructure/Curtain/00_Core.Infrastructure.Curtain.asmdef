@@ -1,3 +1,4 @@
 {
-	"name": "00_Core.Infrastructure.Curtain"
+	"name": "00_Core.Infrastructure.Curtain",
+	"references":[ "GUID:c34303143d2fe944b8cc62b80a73d63f", "GUID:b9a6492555c38f747983b5a899b64121" ]
 }

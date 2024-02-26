@@ -1,20 +1,27 @@
-﻿using Codebase.Core.Infrastructure.Services.Interfaces;
+﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using UnityEngine;
 
-namespace Codebase.Core.Infrastructure.Services.Implementations
+namespace Codebase.Core.Infrastructure.Curtain
 {
     public class Curtain : MonoBehaviour, ICurtain
     {
-        [SerializeField] private Canvas _canvas;
+        [SerializeField] private GameObject _panel;
+        
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
         
         public void Show()
         {
-            _canvas.gameObject.SetActive(true);
+            "Show".Log();
+            _panel.SetActive(true);
         }
 
         public void Hide()
         {
-            _canvas.gameObject.SetActive(false);
+            "Hide".Log();
+            _panel.SetActive(false);
         }
     }
 }

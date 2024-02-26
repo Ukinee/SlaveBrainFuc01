@@ -12,7 +12,7 @@ namespace Assets.Codebase.Core.Infrastructure.StateMachines.Simple
             _currentState = state;
             _currentState.Enter();
         }
-        
+
         public void FixedUpdate(float deltaTime)
         {
             if(_currentState is IFixedUpdatable fixedUpdatable)

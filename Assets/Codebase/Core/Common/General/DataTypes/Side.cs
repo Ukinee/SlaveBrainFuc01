@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCode.Core.Common.General.DataTypes
+namespace Codebase.Core.Common.General.DataTypes
 {
     public enum Side : byte
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCode.Core.Common.General.LiveDatas
+namespace Codebase.Core.Common.General.LiveDatas
 {
     public interface ILiveData<out T>
     {

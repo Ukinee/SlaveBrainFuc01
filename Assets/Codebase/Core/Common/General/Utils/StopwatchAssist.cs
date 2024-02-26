@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ApplicationCode.Core.Common.General.Utils
+namespace Codebase.Core.Common.General.Utils
 {
     public static class StopwatchAssist
     {

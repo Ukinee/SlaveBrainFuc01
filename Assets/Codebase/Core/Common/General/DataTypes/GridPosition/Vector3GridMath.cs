@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCode.Core.Common.General.DataTypes.GridPosition
+namespace Codebase.Core.Common.General.DataTypes.GridPosition
 {
     public partial struct Vector3Grid
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using ApplicationCode.Core.Common.General.Utils;
+using Codebase.Core.Common.General.Utils;
 
-namespace ApplicationCode.Core.Common.General.Extentions.ListExtentions
+namespace Codebase.Core.Common.General.Extensions.ListExtentions
 {
     public static partial class ListExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCode.Core.Common.General.DataTypes.Vector2Int
+namespace Codebase.Core.Common.General.DataTypes.Vector2Int
 {
     [Serializable]
     public partial struct Vector2Grid

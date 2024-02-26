@@ -1,4 +1,4 @@
-﻿namespace ApplicationCode.Core.Common.General.DataTypes.Vector2Int
+﻿namespace Codebase.Core.Common.General.DataTypes.Vector2Int
 {
     public partial struct Vector2Grid
     {

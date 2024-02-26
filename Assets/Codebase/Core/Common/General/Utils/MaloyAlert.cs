@@ -1,7 +1,7 @@
 #define UNITY
 //#define CONSOLE
 
-namespace ApplicationCode.Core.Common.General.Utils
+namespace Codebase.Core.Common.General.Utils
 {
     public static class MaloyAlert
     {

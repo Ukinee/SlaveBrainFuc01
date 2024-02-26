@@ -8,8 +8,7 @@ using Codebase.App.Infrastructure.StateMachines;
 using Codebase.App.Infrastructure.StateMachines.States;
 using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Core.Common.Application.Utils;
-using Codebase.Core.Infrastructure.Services.Implementations;
-using Codebase.Core.Infrastructure.Services.Interfaces;
+using Codebase.Core.Infrastructure.Curtain;
 using Codebase.Core.Services.SceneLoadServices;
 using UnityEngine;
 

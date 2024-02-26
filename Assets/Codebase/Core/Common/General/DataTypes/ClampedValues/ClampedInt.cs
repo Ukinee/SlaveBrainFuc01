@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCode.Core.Common.General.DataTypes.ClampedValues
+namespace Codebase.Core.Common.General.DataTypes.ClampedValues
 {
     public class ClampedInt
     {
