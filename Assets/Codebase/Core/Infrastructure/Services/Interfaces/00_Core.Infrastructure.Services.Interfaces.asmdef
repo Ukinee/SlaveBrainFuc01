@@ -1,0 +1,4 @@
+{
+	"name": "00_Core.Infrastructure.Services.Interfaces",
+	"references":[ "GUID:f51ebe6a0ceec4240a699833d6309b23" ]
+}
