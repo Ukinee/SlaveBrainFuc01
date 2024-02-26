@@ -1,0 +1,18 @@
+{
+    "name": "00_Core.Services.RaycastHitProvider",
+    "rootNamespace": "",
+    "references": [
+        "GUID:951c03db6addff54a9b7510564309979",
+        "GUID:b9a6492555c38f747983b5a899b64121",
+        "GUID:1882f379332620944a916d0e0458c6af"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

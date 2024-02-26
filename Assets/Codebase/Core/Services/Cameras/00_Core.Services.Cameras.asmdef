@@ -1,0 +1,17 @@
+{
+    "name": "00_Core.Services.Cameras",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6dd47fd886671b2459316a0b1906b5c3",
+        "GUID:b9a6492555c38f747983b5a899b64121"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
