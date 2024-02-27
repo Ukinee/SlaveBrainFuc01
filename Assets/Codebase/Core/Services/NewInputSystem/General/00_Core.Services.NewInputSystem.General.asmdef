@@ -1,0 +1,23 @@
+{
+    "name": "00_Core.Services.NewInputSystem.General",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f07ecb1c2b9d1ab4ab1564b0500bb21a",
+        "GUID:86572855e07f11a4eafd1da663397756",
+        "GUID:1882f379332620944a916d0e0458c6af",
+        "GUID:b9a6492555c38f747983b5a899b64121",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:4003c6ed21ac2584f8c14ddea4ec882f",
+        "GUID:77e0da7c3f542314cbaf0523381406fc",
+        "GUID:04032542e14e8634b8ac6ce3eade6901"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

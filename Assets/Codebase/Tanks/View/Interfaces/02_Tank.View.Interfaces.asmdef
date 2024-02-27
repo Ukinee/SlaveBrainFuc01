@@ -1,0 +1,14 @@
+{
+    "name": "02_Tank.View.Interfaces",
+    "rootNamespace": "",
+    "references": ["GUID:c5eb05227a90bb042b2d6d33068063e8","GUID:3a4d695f763cbf447a88a2d4586c5f67"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

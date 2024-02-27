@@ -1,0 +1,14 @@
+{
+    "name": "03_Balls.Views",
+    "rootNamespace": "",
+    "references": ["GUID:b9a6492555c38f747983b5a899b64121","GUID:c34303143d2fe944b8cc62b80a73d63f","GUID:cd13f2cbbf10a4542ae21ae405d37838"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

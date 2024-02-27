@@ -1,0 +1,8 @@
+{
+  "name": "00_Core.Services.NewInputSystem.Common",
+  "references": [
+    "GUID:f07ecb1c2b9d1ab4ab1564b0500bb21a",
+    "GUID:4fa848c6181699844bdd1340b2150aa8",
+    "GUID:86572855e07f11a4eafd1da663397756"
+  ]
+}

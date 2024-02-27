@@ -1,0 +1,76 @@
+{
+    "name": "GeneralInput",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "2b051c7f-cf84-4e2b-b4b5-705142a0b7a0",
+            "actions": [
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "2dd9526b-edd2-46a0-b8ea-6ad8e0d07b62",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InputPosition",
+                    "type": "Value",
+                    "id": "aa697d91-a7ba-46fe-bfa8-6b3fe79296ae",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "09c5ba5f-847c-491c-8642-cf833c550305",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7ed74398-b827-4eed-b8fa-41ee5f640733",
+                    "path": "<Touchscreen>/touch0/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "209665b2-c711-40c7-b7ac-b47fb9cc7801",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InputPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30f0ccf7-5de3-42de-90c5-25dd4b503348",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InputPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -33,7 +33,7 @@ namespace Codebase.App.Infrastructure.StateMachines
 
         public override void Exit()
         {
-            MaloyAlert.Message("Exiting scene");
+            MaloyAlert.Message("Disposing game");
         }
 
         protected override async UniTask OnBeforeStateChangeAsync<T>()

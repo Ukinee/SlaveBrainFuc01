@@ -1,7 +1,9 @@
 {
   "General": {
     "Data": {
-      "Curtain": "Curtain"
+      "Curtain": "Curtain",
+      "TankView": "TankView",
+      "BallView": "BallView"
     }
   }
 }

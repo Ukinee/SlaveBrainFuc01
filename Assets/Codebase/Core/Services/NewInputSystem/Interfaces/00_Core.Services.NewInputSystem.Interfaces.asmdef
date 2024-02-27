@@ -1,0 +1,14 @@
+{
+    "name": "00_Core.Services.NewInputSystem.Interfaces",
+    "rootNamespace": "",
+    "references": ["GUID:1882f379332620944a916d0e0458c6af"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

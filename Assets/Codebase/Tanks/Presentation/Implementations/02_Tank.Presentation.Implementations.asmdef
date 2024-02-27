@@ -1,0 +1,4 @@
+{
+	"name": "02_Tank.Presentation.Implementations",
+	"references":[ "GUID:5bcf56e290530a24aab4b9774a826564", "GUID:fd0d4eab569228640801d8583bd84924", "GUID:19790d531a0842442958b1c0b740ad71", "GUID:c5eb05227a90bb042b2d6d33068063e8" ]
+}

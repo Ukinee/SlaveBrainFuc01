@@ -13,7 +13,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         
         public void Enter()
         {
-            _stateMachineService.SetState<MainMenuScene>();
+            _stateMachineService.SetState<GameplayScene>();
         }
 
         public void Exit()

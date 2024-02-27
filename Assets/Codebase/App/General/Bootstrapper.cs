@@ -8,6 +8,8 @@ namespace Codebase.App.General
         private void Awake()
         {
             AppCore appCore = FindObjectOfType<AppCore>() ?? new AppCoreBuilder().Build();
+
+            //intendedException;
         }
     }
 }

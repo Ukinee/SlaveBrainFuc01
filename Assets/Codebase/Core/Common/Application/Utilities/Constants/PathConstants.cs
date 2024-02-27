@@ -7,6 +7,8 @@
         public static class General
         {
             public const string Curtain = "Curtain";
+            public const string Tank = "TankView";
+            public const string Ball = "BallView";
         }
 
         public static class Files
