@@ -7,6 +7,7 @@ using Codebase.Balls.Views;
 using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Core.Common.Application.Utils;
+using UnityEngine;
 
 namespace Codebase.Balls.Services.Implementations
 {
@@ -16,6 +17,7 @@ namespace Codebase.Balls.Services.Implementations
         private readonly string _path;
         private readonly ICollisionService _collisionService;
         private readonly IMoveService _moveService;
+        private readonly GameObject _gameObject;
 
         public BallCreationService
         (
@@ -29,6 +31,9 @@ namespace Codebase.Balls.Services.Implementations
             _collisionService = collisionService;
             _moveService = moveService;
             _path = filePathProvider.General.Data[PathConstants.General.Ball];
+
+            _gameObject = new GameObject(nameof(BallPool));
+            Object.DontDestroyOnLoad(_gameObject);
         }
 
         public BallPresenter Create()
@@ -38,6 +43,7 @@ namespace Codebase.Balls.Services.Implementations
             BallPresenter ballPresenter = new BallPresenter(_collisionService, _moveService, ballModel, ballView);
             
             ballView.Construct(ballPresenter);
+            ballView.transform.SetParent(_gameObject.transform);
             
             return ballPresenter;
         }

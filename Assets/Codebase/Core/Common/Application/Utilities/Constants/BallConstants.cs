@@ -3,7 +3,7 @@
     public class BallConstants
     {
         public const float Radius = 0.5f;
-        public const float Speed = 2f;
-        public const int DefaultAmountToShoot = 2;
+        public const float Speed = 6f;
+        public const int DefaultAmountToShoot = 1;
     }
 }
