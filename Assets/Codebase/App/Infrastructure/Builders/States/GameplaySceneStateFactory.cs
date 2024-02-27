@@ -50,7 +50,14 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             InputService inputService = inputServiceFactory.Create();
             BallMover ballMover = new BallMover();
-            BallPool ballPool = new BallPool(_assetProvider, _filePathProvider);
+
+            CollisionService collisionService = new CollisionService();
+            MoveService moveService = new MoveService();
+
+            BallCreationService ballCreationService = new BallCreationService
+                (_assetProvider, _filePathProvider, collisionService, moveService);
+
+            BallPool ballPool = new BallPool(ballCreationService.Create);
 
             TankPositionCalculator tankPositionCalculator = new TankPositionCalculator();
             TankModel tank = new TankCreationService(tankPositionCalculator, _filePathProvider, _assetProvider).Create();

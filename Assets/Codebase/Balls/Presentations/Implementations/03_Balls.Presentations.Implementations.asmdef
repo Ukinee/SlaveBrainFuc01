@@ -1,0 +1,4 @@
+{
+	"name": "03_Balls.Presentations.Implementations",
+	"references":[ "GUID:4bdd17f11a1ba394da2302790ba80f36", "GUID:9943d087e41963f4f969f4d93bcfd349", "GUID:77d4ab3645f08184ba929f0cc29a0987", "GUID:403c1f876a130db44a25985bcdd22717", "GUID:cd13f2cbbf10a4542ae21ae405d37838", "GUID:c5eb05227a90bb042b2d6d33068063e8" ]
+}

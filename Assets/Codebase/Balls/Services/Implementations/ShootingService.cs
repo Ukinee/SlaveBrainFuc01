@@ -1,4 +1,5 @@
-﻿using Codebase.Balls.Services.Interfaces;
+﻿using Codebase.Balls.Presentations.Interfaces;
+using Codebase.Balls.Services.Interfaces;
 using Codebase.Balls.Views;
 using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Tanks.CQRS;
@@ -28,7 +29,7 @@ namespace Codebase.Balls.Services.Implementations
 
             for (int i = 0; i < _ballsToShoot; i++)
             {
-                BallView ballView = _ballPool.Get(tankPosition, direction);
+                IBallPresenter ballView = _ballPool.Get(tankPosition, direction);
                 
                 _ballMover.Add(ballView);
             }

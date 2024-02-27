@@ -1,3 +1,4 @@
 {
-	"name": "03_Balls.Services.Interfaces"
+	"name": "03_Balls.Services.Interfaces",
+	"references":[ "GUID:9943d087e41963f4f969f4d93bcfd349" ]
 }

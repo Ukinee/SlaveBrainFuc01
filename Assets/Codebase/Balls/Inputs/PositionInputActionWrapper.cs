@@ -21,6 +21,9 @@ namespace Codebase.Balls.Inputs
         protected override void OnActionStart(Vector2 payload)
         {
             _raycastHitProvider.OnUpdate(payload);
+            
+            if (_raycastHitProvider.HasHit)
+                _aimService.SetPosition(_raycastHitProvider.HitPoint);
         }
 
         protected override void OnActionUpdate(Vector2 payload)
@@ -34,6 +37,9 @@ namespace Codebase.Balls.Inputs
         protected override void OnActionEnd(Vector2 payload)
         {
             _raycastHitProvider.OnUpdate(payload);
+            
+            if (_raycastHitProvider.HasHit)
+                _aimService.SetPosition(_raycastHitProvider.HitPoint);
         }
 
         public override void Dispose()

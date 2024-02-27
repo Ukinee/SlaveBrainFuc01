@@ -1,0 +1,4 @@
+{
+	"name": "03_Balls.Views.Interfaces",
+	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:4bdd17f11a1ba394da2302790ba80f36" ]
+}

@@ -5,6 +5,7 @@ using Codebase.App.Infrastructure.StateMachines.States;
 using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Infrastructure.Curtain;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.SceneLoadServices;
 using Cysharp.Threading.Tasks;
 

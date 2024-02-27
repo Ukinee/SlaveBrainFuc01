@@ -17,11 +17,8 @@ namespace Codebase.Balls.Services.Implementations
 
         public void SetPosition(Vector3 position)
         {
-            if(_isAiming == false)
-                return;
-            
             AimPosition = position;
-            AimPosition.Log();
+            AimPosition.Log(); 
         }
 
         public void EndAim()

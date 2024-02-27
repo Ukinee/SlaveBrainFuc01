@@ -1,31 +1,36 @@
-﻿using ApplicationCode.Core.Services.AssetProviders;
-using Codebase.Balls.Views;
-using Codebase.Core.Common.Application.Utilities.Constants;
-using Codebase.Core.Common.Application.Utils;
+﻿using System;
+using Codebase.Balls.Presentations.Implementations;
+using Codebase.Balls.Presentations.Interfaces;
 using Codebase.Core.Services.Pools;
 using UnityEngine;
 
 namespace Codebase.Balls.Services.Implementations
 {
-    public class BallPool : PoolBase<BallView>
+    public class BallPool : PoolBase<BallPresenter>
     {
-        public BallPool(AssetProvider assetProvider, FilePathProvider filePathProvider)
-            : base(() => assetProvider.Instantiate<BallView>(filePathProvider.General.Data[PathConstants.General.Ball]))
+        public BallPool(Func<BallPresenter> factory) : base(factory)
         {
         }
 
-        public BallView Get(Vector3 position, Vector3 direction)
+        public IBallPresenter Get(Vector3 position, Vector3 direction)
         {
-            BallView ballView = GetInternal();
-            ballView.SetPosition(position);
-            ballView.SetDirection(direction);
+            BallPresenter presenter = GetInternal();
+            
+            presenter.Enable();
+            presenter.SetPosition(position);
+            presenter.SetDirection(direction);
 
-            return ballView;
+            return presenter;
         }
 
-        protected override void OnCreate(BallView obj)
+        protected override void OnCreate(BallPresenter obj)
         {
             obj.SetPool(this);
+        }
+
+        protected override void OnBeforeReturn(BallPresenter obj)
+        {
+            obj.Disable();
         }
     }
 }
