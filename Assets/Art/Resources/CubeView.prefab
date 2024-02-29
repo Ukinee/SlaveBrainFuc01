@@ -123,6 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6381410527740958106}
+  - component: {fileID: 42113725011121346}
   - component: {fileID: 4721571048049207894}
   - component: {fileID: 1047134201385825164}
   - component: {fileID: -7538443304179077279}
@@ -149,6 +150,19 @@ Transform:
   - {fileID: 4904936727183382082}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &42113725011121346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5621359274126839659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a247a63b886a411abbf9955b51a8a2fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cubeView: {fileID: 4721571048049207894}
 --- !u!114 &4721571048049207894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5d82f13f854bdbaf21ff42a7674bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _activator: {fileID: 42113725011121346}
   _cubeViewData:
     List:
     - Key: 0

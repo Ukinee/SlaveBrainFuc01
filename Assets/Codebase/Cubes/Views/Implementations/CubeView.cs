@@ -18,37 +18,22 @@ namespace Codebase.Cubes.Views.Implementations
         {
         }
 
+        [SerializeField] private CubeActivator _activator;
         [SerializeField] private CubeViewData _cubeViewData;
 
         private Dictionary<CubeColor, GameObject> _colors;
         private IPool<CubeView> _pool;
-        private Rigidbody _rigidBody;
-        private bool _isActive;
 
         private void Awake()
         {
             _colors = _cubeViewData.Dictionary;
         }
 
-        public void Activate()
-        {
-            if(_isActive)
-                return;
-            
-            _isActive = true;
-            transform.SetParent(null);
-            _rigidBody = gameObject.AddComponent<Rigidbody>();
-            _rigidBody.velocity = Vector3.one * 5;
-        }
+        public void Activate() =>
+            _activator.Activate();
 
-        public void Deactivate()
-        {
-            if(_isActive == false)
-                return;
-            
-            _isActive = false;
-            Destroy(_rigidBody);
-        }
+        public void Deactivate() =>
+            _activator.Deactivate();
 
         public void SetColor(CubeColor color)
         {
@@ -56,10 +41,16 @@ namespace Codebase.Cubes.Views.Implementations
                 _colors[cubeColor].SetActive(false);
 
             _colors[color].SetActive(true);
-            
-            if(color == CubeColor.Transparent)
+
+            if (color == CubeColor.Transparent)
                 gameObject.SetActive(false);
         }
+
+        public void OnBallCollision() =>
+            Presenter.OnBallCollision();
+
+        public void OnDeactivatorCollision() =>
+            Presenter.OnDeactivatorCollision();
 
         public void ReturnToPool()
         {
@@ -67,19 +58,7 @@ namespace Codebase.Cubes.Views.Implementations
             _pool.Release(this);
         }
 
-        public void OnBallCollision() =>
-            Presenter.Activate();
-
-        public void OnDeactivatorCollision() =>
-            Presenter.Dispose();
-
         public void SetPool(IPool<CubeView> pool) =>
             _pool = pool;
-
-        public void Enable() =>
-            gameObject.SetActive(true);
-
-        public void Disable() =>
-            gameObject.SetActive(false);
     }
 }

@@ -5,7 +5,7 @@ namespace Codebase.Cubes.Presentations.Interfaces
 {
     public interface ICubePresenter : IPresenter, IDisposable
     {
-        public void Activate();
-        public void Deactivate();
+        public void OnBallCollision();
+        public void OnDeactivatorCollision();
     }
 }

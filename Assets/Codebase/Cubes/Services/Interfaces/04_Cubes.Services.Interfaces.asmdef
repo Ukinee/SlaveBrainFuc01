@@ -1,4 +1,4 @@
 {
 	"name": "04_Cubes.Services.Interfaces",
-	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:c23cd84cb5ea7444ba6808a1b0de9a1a", "GUID:c34303143d2fe944b8cc62b80a73d63f" ]
+	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:c23cd84cb5ea7444ba6808a1b0de9a1a", "GUID:c34303143d2fe944b8cc62b80a73d63f", "GUID:f6adeb0db4e809c44803851881ca8b48" ]
 }

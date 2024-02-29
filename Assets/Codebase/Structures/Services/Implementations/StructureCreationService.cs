@@ -2,6 +2,7 @@
 using Codebase.Core.Common.Application.Types;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Cubes.Models;
 using Codebase.Cubes.Services.Interfaces;
 using Codebase.Structures.Common;
 using Codebase.Structures.Infrastructure.Services.Interfaces;
@@ -44,16 +45,18 @@ namespace Codebase.Structures.Services.Implementations
             AmountView amountView = _assetProvider.Instantiate<AmountView>(_amountViewPath);
             //_interfaceService.AddAmountView(amountView);
 
-            StructureModel structureModel = new StructureModel(structureDto.Cubes.Length);
+            StructureModel structureModel = new StructureModel();
             StructurePresenter structurePresenter = new StructurePresenter(structureModel, structureView, amountView);
+            StructureController structureController = new StructureController(structureModel);
 
-            FillStructure(structureDto, structureView);
+            FillStructure(structureDto, structureView, structureController);
 
             structurePresenter.Enable();
         }
 
-        private void FillStructure(StructureDto structureDto, StructureView structureView)
+        private void FillStructure(StructureDto structureDto, Component structureView, StructureController structureController)
         {
+            
             int width = structureDto.Cubes.GetLength(1);
             int height = structureDto.Cubes.GetLength(0);
 
@@ -68,7 +71,9 @@ namespace Codebase.Structures.Services.Implementations
                 CubeColor cubeColor = structureDto.Cubes[y, x].Color;
                 Vector3 localPosition = firstCubePosition + new Vector3(x * BlockSize, -y * BlockSize);
 
-                _cubePoolService.Create(cubeColor, localPosition, structureView.transform);
+                CubeModel cubeModel = _cubePoolService.Create(cubeColor, localPosition, structureView.transform);
+                
+                structureController.AddCube(cubeModel);
             }
         }
     }

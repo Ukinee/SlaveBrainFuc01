@@ -16,7 +16,7 @@ namespace Codebase.Cubes.Services.Implementations
             _cubePool = cubePool;
         }
 
-        public void Create(CubeColor color, Vector3 localPosition, Transform parent)
+        public CubeModel Create(CubeColor color, Vector3 localPosition, Transform parent)
         {
             CubeModel cubeModel = new CubeModel();
             CubeView cubeView = _cubePool.Get(localPosition, parent);
@@ -26,6 +26,8 @@ namespace Codebase.Cubes.Services.Implementations
             cubeModel.SetColor(color);
             cubeView.Deactivate();
             cubePresenter.Enable();
+
+            return cubeModel;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Codebase.Tanks.Services.Implementations
     {
         public Vector3 CalculatePosition(float position)
         {
-            return Vector3.zero;
+            return Vector3.one * 4;
         }
 
         public float CalculatePosition(Vector3 position)
