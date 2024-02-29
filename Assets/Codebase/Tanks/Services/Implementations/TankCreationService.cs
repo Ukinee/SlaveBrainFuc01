@@ -1,6 +1,6 @@
 ﻿using ApplicationCode.Core.Services.AssetProviders;
-using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Core.Common.Application.Utils;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Tank.Model;
 using Codebase.Tank.Presentation.Implementations;
 using Codebase.Tank.Services.Interfaces;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ApplicationCode.Core.Services.AssetProviders;
 using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.BuildersFactories.States;
@@ -7,11 +8,12 @@ using Codebase.App.Infrastructure.Builders;
 using Codebase.App.Infrastructure.Builders.States;
 using Codebase.App.Infrastructure.StateMachines;
 using Codebase.App.Infrastructure.StateMachines.States;
-using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Core.Common.Application.Utils;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Infrastructure.Curtain;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.SceneLoadServices;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Codebase.App.General
@@ -23,7 +25,7 @@ namespace Codebase.App.General
             ContextActionService contextActionService = new ContextActionService();
             SceneLoadService sceneLoadService = new SceneLoadService();
             AssetProvider assetProvider = new AssetProvider();
-
+            
             FilePathProvider filePathProvider = new FilePathProviderFactory().Load();
             
             ICurtain curtain = assetProvider.Instantiate<Curtain>

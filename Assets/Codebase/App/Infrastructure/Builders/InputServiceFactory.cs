@@ -1,5 +1,4 @@
 ﻿using ApplicationCode.Core.Services.RaycastHitProviders;
-using Codebase.Core.Common.Application.Utilities.Constants;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.General.Wrappers.ActionMapWrappers.Base;
 using Codebase.Core.Services.NewInputSystem.General.Wrappers.InputActionWrappers;

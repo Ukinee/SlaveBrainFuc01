@@ -7,6 +7,7 @@ namespace Codebase.Core.Common.Application.Utils
     public class FilePathProvider
     {
         public FileData General = new FileData();
+        public FileData Structures = new FileData();
     }
 
     public class FileData

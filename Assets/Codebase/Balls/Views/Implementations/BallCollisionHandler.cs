@@ -1,4 +1,5 @@
 ﻿using Codebase.Balls.Presentations.Interfaces;
+using Codebase.Cubes.Views.Implementations;
 using UnityEngine;
 
 namespace Codebase.Balls.Views.Implementations
@@ -19,6 +20,11 @@ namespace Codebase.Balls.Views.Implementations
             if (other.collider.TryGetComponent<Reflector>(out _))
             {
                 _ballPresenter.Collide(other.GetContact(0).normal);
+            }
+
+            if (other.collider.TryGetComponent(out CubeView cubeView))
+            {
+                cubeView.OnBallCollision();
             }
 
             if (other.collider.TryGetComponent<Deactivator>(out _))

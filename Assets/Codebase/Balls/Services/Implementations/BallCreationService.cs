@@ -5,8 +5,9 @@ using Codebase.Balls.Presentations.Interfaces;
 using Codebase.Balls.Services.Interfaces;
 using Codebase.Balls.Views;
 using Codebase.Balls.Views.Implementations;
-using Codebase.Core.Common.Application.Utilities.Constants;
+using Codebase.Core.Common.Application.PoolTags;
 using Codebase.Core.Common.Application.Utils;
+using Codebase.Core.Common.Application.Utils.Constants;
 using UnityEngine;
 
 namespace Codebase.Balls.Services.Implementations
@@ -17,7 +18,7 @@ namespace Codebase.Balls.Services.Implementations
         private readonly string _path;
         private readonly ICollisionService _collisionService;
         private readonly IMoveService _moveService;
-        private readonly GameObject _gameObject;
+        private readonly BallPoolTag _gameObject;
 
         public BallCreationService
         (
@@ -32,7 +33,9 @@ namespace Codebase.Balls.Services.Implementations
             _moveService = moveService;
             _path = filePathProvider.General.Data[PathConstants.General.Ball];
 
-            _gameObject = new GameObject(nameof(BallPool));
+            _gameObject = Object.FindObjectOfType<BallPoolTag>()
+                          ?? new GameObject(nameof(BallPool)).AddComponent<BallPoolTag>();
+
             Object.DontDestroyOnLoad(_gameObject);
         }
 
@@ -41,10 +44,10 @@ namespace Codebase.Balls.Services.Implementations
             BallModel ballModel = new BallModel();
             BallView ballView = _assetProvider.Instantiate<BallView>(_path);
             BallPresenter ballPresenter = new BallPresenter(_collisionService, _moveService, ballModel, ballView);
-            
+
             ballView.Construct(ballPresenter);
             ballView.transform.SetParent(_gameObject.transform);
-            
+
             return ballPresenter;
         }
     }

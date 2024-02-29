@@ -1,7 +1,11 @@
 ﻿using Codebase.Balls.Services.Implementations;
+using Codebase.Core.Common.Application.Types;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
+using Codebase.Cubes.Services.Implementations;
+using Codebase.Structures.Services.Implementations;
+using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
 {
@@ -10,6 +14,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         private readonly BallMover _ballMover;
         private readonly InputService _inputService;
         private readonly ContextActionService _contextActionService;
+        private readonly StructureCreationService _structureCreationService;
         private readonly IContextInputAction[] _inputActions;
 
         public GameplayScene
@@ -17,12 +22,14 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             BallMover ballMover,
             InputService inputService,
             ContextActionService contextActionService,
+            StructureCreationService structureCreationService,
             IContextInputAction[] inputActions
         )
         {
             _ballMover = ballMover;
             _inputService = inputService;
             _contextActionService = contextActionService;
+            _structureCreationService = structureCreationService;
             _inputActions = inputActions;
         }
 
@@ -32,6 +39,8 @@ namespace Codebase.App.Infrastructure.StateMachines.States
                 _contextActionService.Register(inputAction);
             
             _inputService.Enable();
+            
+            _structureCreationService.CreateStructure("Tower");
         }
 
         public void Update(float deltaTime)

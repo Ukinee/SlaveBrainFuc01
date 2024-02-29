@@ -1,6 +1,6 @@
 ﻿using Codebase.Balls.Presentations.Interfaces;
 using Codebase.Balls.Views.Interfaces;
-using Codebase.Core.Common.Application.Utilities.Constants;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Common.General.Utils;
 using UnityEngine;
 

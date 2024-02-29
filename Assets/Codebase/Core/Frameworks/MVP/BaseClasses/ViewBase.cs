@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Codebase.Core.Frameworks.MVP.BaseClasses
 {
-    public class ViewBase<TPresenter> : MonoBehaviour, IView<TPresenter> where TPresenter : IPresenter
+    public abstract class ViewBase<TPresenter> : MonoBehaviour, IView<TPresenter> where TPresenter : IPresenter
     {
         protected TPresenter Presenter { get; private set; }
 
@@ -14,6 +14,11 @@ namespace Codebase.Core.Frameworks.MVP.BaseClasses
                 throw new InvalidOperationException($"{GetType().Name} View already constructed");
 
             Presenter = presenter;
+        }
+
+        protected void ResetPresenter()
+        {
+            Presenter = default;
         }
     }
 }

@@ -3,7 +3,15 @@
     "Data": {
       "Curtain": "Curtain",
       "TankView": "TankView",
-      "BallView": "BallView"
+      "BallView": "BallView",
+      "CubeView": "CubeView"
+    }
+  },
+  "Structures": {
+    "Data": {
+      "StructureDirectoryKey": "Structures/Saved/",
+      "Structure": "Structures/StructureView",
+      "AmountView": "Structures/AmountView"
     }
   }
 }

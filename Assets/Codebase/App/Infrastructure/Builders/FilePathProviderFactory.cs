@@ -1,5 +1,5 @@
-﻿using Codebase.Core.Common.Application.Utilities.Constants;
-using Codebase.Core.Common.Application.Utils;
+﻿using Codebase.Core.Common.Application.Utils;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 

@@ -1,7 +1,7 @@
 ﻿using Codebase.Balls.Presentations.Interfaces;
 using Codebase.Balls.Services.Interfaces;
 using Codebase.Balls.Views;
-using Codebase.Core.Common.Application.Utilities.Constants;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Tanks.CQRS;
 using UnityEngine;
 

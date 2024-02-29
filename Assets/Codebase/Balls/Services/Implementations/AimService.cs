@@ -1,12 +1,18 @@
 ﻿using Codebase.Balls.Services.Interfaces;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+using Codebase.Tanks.CQRS;
 using UnityEngine;
 
 namespace Codebase.Balls.Services.Implementations
 {
     public class AimService : IAimService
     {
+        private readonly GetTankPositionQuery _getTankPositionQuery;
         private bool _isAiming;
+
+        public AimService(GetTankPositionQuery getTankPositionQuery)
+        {
+            _getTankPositionQuery = getTankPositionQuery;
+        }
         
         public Vector3 AimPosition { get; private set; }
 
@@ -18,7 +24,6 @@ namespace Codebase.Balls.Services.Implementations
         public void SetPosition(Vector3 position)
         {
             AimPosition = position;
-            AimPosition.Log(); 
         }
 
         public void EndAim()

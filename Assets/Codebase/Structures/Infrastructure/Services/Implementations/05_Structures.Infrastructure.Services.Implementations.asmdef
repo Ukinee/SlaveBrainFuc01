@@ -1,0 +1,14 @@
+{
+    "name": "05_Structures.Infrastructure.Services.Implementations",
+    "rootNamespace": "",
+    "references": ["GUID:def724cdb56425648a5f496550bb2eb7","GUID:c34303143d2fe944b8cc62b80a73d63f","GUID:14ae29cd91a03f542bb61ca8220d8890","GUID:2bcd73f20f287b84093b2cf1eb7f5306"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
