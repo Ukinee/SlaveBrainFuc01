@@ -16,9 +16,7 @@ namespace Codebase.Cubes.Models
             ColorChanged?.Invoke(Color);
         }
 
-        public void Destroy()
-        {
+        public void Destroy() =>
             Destroyed?.Invoke(this);
-        }
     }
 }

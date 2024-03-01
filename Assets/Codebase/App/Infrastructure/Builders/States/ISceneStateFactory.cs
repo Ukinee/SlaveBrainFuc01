@@ -1,7 +1,7 @@
 ﻿using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.StateMachines.States;
 
-namespace Codebase.App.BuildersFactories.States
+namespace Codebase.App.Infrastructure.Builders.States
 {
     public interface ISceneStateFactory
     {

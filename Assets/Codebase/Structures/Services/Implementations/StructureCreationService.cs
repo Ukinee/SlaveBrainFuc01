@@ -47,7 +47,7 @@ namespace Codebase.Structures.Services.Implementations
 
             StructureModel structureModel = new StructureModel();
             StructurePresenter structurePresenter = new StructurePresenter(structureModel, structureView, amountView);
-            StructureController structureController = new StructureController(structureModel);
+            StructureController structureController = new StructureController(structureModel, structurePresenter);
 
             FillStructure(structureDto, structureView, structureController);
 

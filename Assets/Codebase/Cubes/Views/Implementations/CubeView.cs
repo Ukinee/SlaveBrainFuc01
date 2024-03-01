@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Codebase.Core.Common.Application.Types;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Frameworks.MVP.BaseClasses;
 using Codebase.Core.Services.Pools;
 using Codebase.Cubes.Presentations.Interfaces;
 using Codebase.Cubes.Views.Interfaces;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Codebase.Cubes.Views.Implementations
@@ -43,7 +41,7 @@ namespace Codebase.Cubes.Views.Implementations
             _colors[color].SetActive(true);
 
             if (color == CubeColor.Transparent)
-                gameObject.SetActive(false);
+                OnDeactivatorCollision();
         }
 
         public void OnBallCollision() =>

@@ -27,9 +27,6 @@ namespace Codebase.Cubes.Presentations.Implementations
             _cubeModel.ColorChanged -= OnColorChanged;
         }
 
-        public void SetColor(CubeColor color) =>
-            _cubeModel.SetColor(color);
-
         public void OnBallCollision() =>
             _cubeView.Activate();
 

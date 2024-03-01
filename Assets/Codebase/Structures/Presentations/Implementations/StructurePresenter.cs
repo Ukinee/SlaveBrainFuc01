@@ -6,11 +6,9 @@ namespace Codebase.Structures.Presentations.Implementations
 {
     public class StructurePresenter : IPresenter
     {
-        private readonly StructureModel _structureModel;
-        private readonly IStructureView _structureView;
-        private readonly IAmountView _amountView;
-
-        private int _maxAmount;
+        private StructureModel _structureModel;
+        private IStructureView _structureView;
+        private IAmountView _amountView;
 
         public StructurePresenter(StructureModel structureModel, IStructureView structureView, IAmountView amountView)
         {
@@ -22,7 +20,6 @@ namespace Codebase.Structures.Presentations.Implementations
         public void Enable()
         {
             _structureModel.AmountChanged += OnAmountChanged;
-            _maxAmount = _structureModel.Amount;
         }
 
         public void Disable()
@@ -32,16 +29,19 @@ namespace Codebase.Structures.Presentations.Implementations
 
         private void OnAmountChanged(int amount)
         {
-            _amountView.Set($"{amount} / {_maxAmount}");
-            
-            //if(_structureModel.Amount == 0)
+            _amountView.Set($"{amount} / {_structureModel.MaxAmount}");
         }
 
         public void Dispose()
         {
+            Disable();
             _structureModel.Dispose();
             _structureView.Dispose();
             _amountView.Dispose();
+
+            _structureModel = null;
+            _structureView = null;
+            _amountView = null;
         }
     }
 }
