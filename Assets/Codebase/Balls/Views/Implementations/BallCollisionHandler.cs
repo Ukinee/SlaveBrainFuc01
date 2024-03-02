@@ -9,28 +9,28 @@ namespace Codebase.Balls.Views.Implementations
     public class BallCollisionHandler : MonoBehaviour
     {
         private IBallPresenter _ballPresenter;
-        
-        public void Construct(IBallPresenter presenter)
-        {
+
+        public void Construct(IBallPresenter presenter) =>
             _ballPresenter = presenter;
-        }
-        
+
         private void OnCollisionEnter(Collision other)
         {
             if (other.collider.TryGetComponent<Reflector>(out _))
             {
-                _ballPresenter.Collide(other.GetContact(0).normal);
+                Vector3 normal = other.GetContact(0).normal;
+                _ballPresenter?.Collide(normal);
             }
 
             if (other.collider.TryGetComponent(out CubeView cubeView))
             {
-                cubeView.OnBallCollision();
-            }
-
-            if (other.collider.TryGetComponent<Deactivator>(out _))
-            {
-                _ballPresenter.ReturnToPool();
+                cubeView.OnBallCollision(_ballPresenter.Direction, transform.position);
             }
         }
+        
+        public void OnDeactivatorCollision() =>
+            _ballPresenter.OnDeactivatorCollision();
+
+        public void ResetPresenter() =>
+            _ballPresenter = null;
     }
 }

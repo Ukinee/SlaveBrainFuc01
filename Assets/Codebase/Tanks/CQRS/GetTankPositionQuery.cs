@@ -1,5 +1,5 @@
-﻿using Codebase.Tank.Model;
-using Codebase.Tank.Services.Interfaces;
+﻿using Codebase.Tank.Services.Interfaces;
+using Codebase.Tanks.Model;
 using UnityEngine;
 
 namespace Codebase.Tanks.CQRS

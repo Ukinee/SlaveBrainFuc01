@@ -1,11 +1,8 @@
 ﻿using Codebase.Balls.Services.Implementations;
-using Codebase.Core.Common.Application.Types;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
-using Codebase.Cubes.Services.Implementations;
 using Codebase.Structures.Services.Implementations;
-using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
 {

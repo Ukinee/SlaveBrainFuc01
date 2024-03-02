@@ -8,6 +8,8 @@ using Codebase.App.Infrastructure.Builders.Pools;
 using Codebase.App.Infrastructure.Builders.States;
 using Codebase.App.Infrastructure.StateMachines;
 using Codebase.App.Infrastructure.StateMachines.States;
+using Codebase.Balls.Services.Implementations;
+using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Infrastructure.Curtain;
@@ -24,22 +26,23 @@ namespace Codebase.App.General
             ContextActionService contextActionService = new ContextActionService();
             SceneLoadService sceneLoadService = new SceneLoadService();
             AssetProvider assetProvider = new AssetProvider();
-            
+
             FilePathProvider filePathProvider = new FilePathProviderFactory().Load();
-            
+
             ICurtain curtain = assetProvider.Instantiate<Curtain>
                 (filePathProvider.General.Data[PathConstants.General.Curtain]);
 
             AppCore appCore = new GameObject(nameof(AppCore)).AddComponent<AppCore>();
-            
+
             InitialSceneStateFactory initialSceneStateFactory = new InitialSceneStateFactory();
             MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory();
+
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory
             (
                 contextActionService,
                 filePathProvider,
                 assetProvider,
-                new BallPoolFactory(assetProvider, filePathProvider).Create(),
+                new BallViewPool(new BallViewFactory(assetProvider, filePathProvider).Create),
                 new CubePoolServiceFactory(assetProvider, filePathProvider).Create(),
                 new AudioServiceFactory().Create()
             );
@@ -60,7 +63,7 @@ namespace Codebase.App.General
 
             appCore.Construct(sceneStateMachineService);
             appCore.Init();
-            
+
             return appCore;
         }
     }

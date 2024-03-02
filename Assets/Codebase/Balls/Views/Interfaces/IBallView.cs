@@ -8,7 +8,6 @@ namespace Codebase.Balls.Views.Interfaces
     {
         public void SetPosition(Vector3 position);
 
-        public void Enable();
-        public void Disable();
+        public void ReturnToPool();
     }
 }

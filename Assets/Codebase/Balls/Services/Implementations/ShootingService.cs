@@ -1,6 +1,5 @@
-﻿using Codebase.Balls.Presentations.Interfaces;
+﻿using Codebase.Balls.Models;
 using Codebase.Balls.Services.Interfaces;
-using Codebase.Balls.Views;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Tanks.CQRS;
 using UnityEngine;
@@ -10,15 +9,15 @@ namespace Codebase.Balls.Services.Implementations
     public class ShootingService : IShootingService
     {
         private readonly GetTankPositionQuery _tankPositionQuery;
-        private readonly BallPool _ballPool;
+        private readonly BallPoolService _ballPoolService;
         private readonly BallMover _ballMover;
 
         private int _ballsToShoot = BallConstants.DefaultAmountToShoot;
         
-        public ShootingService(GetTankPositionQuery tankPositionQuery, BallPool ballPool, BallMover ballMover)
+        public ShootingService(GetTankPositionQuery tankPositionQuery, BallPoolService ballPoolService, BallMover ballMover)
         {
             _tankPositionQuery = tankPositionQuery;
-            _ballPool = ballPool;
+            _ballPoolService = ballPoolService;
             _ballMover = ballMover;
         }
         
@@ -29,9 +28,9 @@ namespace Codebase.Balls.Services.Implementations
 
             for (int i = 0; i < _ballsToShoot; i++)
             {
-                IBallPresenter ballView = _ballPool.Get(tankPosition, direction);
+                BallModel ball = _ballPoolService.Get(tankPosition, direction);
                 
-                _ballMover.Add(ballView);
+                _ballMover.Add(ball);
             }
         }
     }

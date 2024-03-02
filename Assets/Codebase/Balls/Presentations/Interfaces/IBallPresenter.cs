@@ -5,8 +5,9 @@ namespace Codebase.Balls.Presentations.Interfaces
 {
     public interface IBallPresenter : IPresenter
     {
-        public void Move(float deltaTime);
+        public Vector3 Direction { get;  }
+
         public void Collide(Vector3 normal);
-        public void ReturnToPool();
+        public void OnDeactivatorCollision();
     }
 }

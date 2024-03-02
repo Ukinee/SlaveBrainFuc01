@@ -1,0 +1,14 @@
+{
+    "name": "06_Maps.Views.Implementations",
+    "rootNamespace": "",
+    "references": ["GUID:c34303143d2fe944b8cc62b80a73d63f","GUID:abe37c14e9e7b4643bc87c24dc038dc4"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

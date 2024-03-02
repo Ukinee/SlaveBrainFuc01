@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Codebase.Tank.Model
+namespace Codebase.Tanks.Model
 {
     public class TankModel
     {
@@ -11,7 +11,7 @@ namespace Codebase.Tank.Model
             get => _position;
             set
             {
-                _position = Math.Clamp(value, -1f, 1f); 
+                _position = Math.Clamp(value, 0, 1f); 
                 PositionChanged?.Invoke(_position);
             }
         }

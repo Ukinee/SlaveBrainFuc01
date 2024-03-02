@@ -4,7 +4,8 @@
       "Curtain": "Curtain",
       "TankView": "TankView",
       "BallView": "BallView",
-      "CubeView": "CubeView"
+      "CubeView": "CubeView",
+      "Map": "Maps/Map"
     }
   },
   "Structures": {

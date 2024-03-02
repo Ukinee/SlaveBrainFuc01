@@ -1,10 +1,9 @@
-﻿using Codebase.Core.Frameworks.MVP.Interfaces;
-using Codebase.Tank.Model;
-using Codebase.Tank.Services.Interfaces;
+﻿using Codebase.Tank.Services.Interfaces;
 using Codebase.Tank.View.Interfaces;
+using Codebase.Tanks.Model;
 using UnityEngine;
 
-namespace Codebase.Tank.Presentation.Implementations
+namespace Codebase.Tanks.Presentation.Implementations
 {
     public class TankPositionPresenter
     {

@@ -17,6 +17,7 @@
             public const string Tank = "TankView";
             public const string Ball = "BallView";
             public const string Cube = "CubeView";
+            public const string Map = "Map";
         }
 
         public static class Files

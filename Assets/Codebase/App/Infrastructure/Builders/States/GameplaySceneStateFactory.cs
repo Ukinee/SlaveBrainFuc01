@@ -6,14 +6,16 @@ using Codebase.App.Infrastructure.StateMachines.States;
 using Codebase.Balls.Inputs;
 using Codebase.Balls.Services.Implementations;
 using Codebase.Core.Common.Application.Utils;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Cubes.Services.Implementations;
+using Codebase.Maps.Views.Implementations;
 using Codebase.Structures.Infrastructure.Services.Implementations;
 using Codebase.Structures.Services.Implementations;
-using Codebase.Tank.Model;
 using Codebase.Tanks.CQRS;
+using Codebase.Tanks.Model;
 using Codebase.Tanks.Services.Implementations;
 using UnityEngine;
 
@@ -24,7 +26,7 @@ namespace Codebase.App.Infrastructure.Builders.States
         private readonly ContextActionService _contextActionService;
         private readonly FilePathProvider _filePathProvider;
         private readonly AssetProvider _assetProvider;
-        private readonly BallPool _ballPool;
+        private readonly BallViewPool _ballViewPool;
         private readonly CubePoolService _cubePoolService;
         private readonly AudioService _audioService;
 
@@ -33,7 +35,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             ContextActionService contextActionService,
             FilePathProvider filePathProvider,
             AssetProvider assetProvider,
-            BallPool ballPool,
+            BallViewPool ballViewPool,
             CubePoolService cubePoolService,
             AudioService audioService
         )
@@ -41,7 +43,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             _contextActionService = contextActionService;
             _filePathProvider = filePathProvider;
             _assetProvider = assetProvider;
-            _ballPool = ballPool;
+            _ballViewPool = ballViewPool;
             _cubePoolService = cubePoolService;
             _audioService = audioService;
         }
@@ -60,17 +62,27 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _contextActionService
             );
 
+            MoveService moveService = new MoveService();
+            CollisionService collisionService = new CollisionService();
+            BallMover ballMover = new BallMover(moveService);
+            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover); 
+
             InputService inputService = inputServiceFactory.Create();
-            BallMover ballMover = new BallMover();
-            
-            TankPositionCalculator tankPositionCalculator = new TankPositionCalculator();
+
+            MapView mapView = Object.FindObjectOfType<MapView>() ??
+                              _assetProvider.Instantiate<MapView>(_filePathProvider.General.Data[PathConstants.General.Map]);
+
+            TankPositionCalculator tankPositionCalculator = new TankPositionCalculator
+                (mapView.TankLeftPosition, mapView.TankRightPosition, mapView.TankVerticalPosition);
+
             TankModel tank = new TankCreationService(tankPositionCalculator, _filePathProvider, _assetProvider).Create();
 
             GetTankPositionQuery tankPositionQuery = new GetTankPositionQuery(tank, tankPositionCalculator);
+            SetTankPositionCommand setTankPositionCommand = new SetTankPositionCommand(tank);
 
-            ShootingService shootingService = new ShootingService(tankPositionQuery, _ballPool, ballMover);
+            ShootingService shootingService = new ShootingService(tankPositionQuery, ballPoolService, ballMover);
             AimService aimService = new AimService(tankPositionQuery);
-            
+
             StructureReader structureReader = new StructureReader(_assetProvider, _filePathProvider);
 
             StructureCreationService structureCreationService = new StructureCreationService
@@ -78,8 +90,11 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _cubePoolService,
                 structureReader,
                 _assetProvider,
-                _filePathProvider
+                _filePathProvider,
+                mapView.StructureSpawnPoints
             );
+            
+            setTankPositionCommand.Handle(0.5f);
 
             return new GameplayScene
             (

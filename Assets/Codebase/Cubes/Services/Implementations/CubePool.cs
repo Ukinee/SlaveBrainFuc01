@@ -20,7 +20,7 @@ namespace Codebase.Cubes.Services.Implementations
             Object.DontDestroyOnLoad(_gameObject);
         }
 
-        public CubeView Get(Vector3 localPosition, Transform parent = null)
+        public CubeView Get(Vector3 localPosition, Transform parent)
         {
             CubeView cubeView = GetInternal();
 
@@ -29,6 +29,7 @@ namespace Codebase.Cubes.Services.Implementations
 
             cubeView.transform.SetParent(parent, false);
             cubeView.transform.localPosition = localPosition;
+            cubeView.gameObject.SetActive(true);
 
             return cubeView;
         }
@@ -41,6 +42,7 @@ namespace Codebase.Cubes.Services.Implementations
         protected override void OnBeforeReturn(CubeView obj)
         {
             obj.transform.SetParent(_gameObject.transform);
+            obj.gameObject.SetActive(false);
         }
     }
 }

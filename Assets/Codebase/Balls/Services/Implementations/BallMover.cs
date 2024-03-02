@@ -1,19 +1,27 @@
 ﻿using System.Collections.Generic;
+using Codebase.Balls.Models;
 using Codebase.Balls.Presentations.Interfaces;
+using Codebase.Balls.Services.Interfaces;
 using Codebase.Core.Services.Common;
 
 namespace Codebase.Balls.Services.Implementations
 {
-    public class BallMover : IUpdatable
+    public class BallMover : IUpdatable, IBallMover
     {
-        private readonly List<IBallPresenter> _balls = new List<IBallPresenter>();
+        private readonly IMoveService _moveService;
+        private readonly List<BallModel> _balls = new List<BallModel>();
 
-        public void Add(IBallPresenter ballView)
+        public BallMover(IMoveService moveService)
+        {
+            _moveService = moveService;
+        }
+
+        public void Add(BallModel ballView)
         {
             _balls.Add(ballView);
         }
 
-        public void Remove(IBallPresenter ballView)
+        public void Remove(BallModel ballView)
         {
             _balls.Remove(ballView);
         }
@@ -22,9 +30,9 @@ namespace Codebase.Balls.Services.Implementations
         {
             for (int i = _balls.Count - 1; i >= 0; i--)
             {
-                IBallPresenter ball = _balls[i];
+                BallModel ball = _balls[i];
 
-                ball.Move(deltaTime);
+                _moveService.Move(ball, deltaTime);
             }
         }
     }

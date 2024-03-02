@@ -1,4 +1,6 @@
 ﻿using Codebase.Balls.Services.Interfaces;
+using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
 using Codebase.Tanks.CQRS;
 using UnityEngine;
 
@@ -23,7 +25,7 @@ namespace Codebase.Balls.Services.Implementations
 
         public void SetPosition(Vector3 position)
         {
-            AimPosition = position;
+            AimPosition = position.WithY(GameConstants.YOffset);
         }
 
         public void EndAim()

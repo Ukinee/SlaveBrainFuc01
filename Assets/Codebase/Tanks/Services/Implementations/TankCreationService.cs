@@ -1,10 +1,10 @@
 ﻿using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
-using Codebase.Tank.Model;
-using Codebase.Tank.Presentation.Implementations;
 using Codebase.Tank.Services.Interfaces;
 using Codebase.Tank.View.Implementations;
+using Codebase.Tanks.Model;
+using Codebase.Tanks.Presentation.Implementations;
 
 namespace Codebase.Tanks.Services.Implementations
 {

@@ -5,7 +5,9 @@ namespace Codebase.Cubes.Views.Implementations
     public class CubeActivator : MonoBehaviour
     {
         [SerializeField] CubeView _cubeView;
-
+        [SerializeField] private Collider _collider;
+        [SerializeField] private LayerMask _activatedLayers;
+        
         private bool _isActive;
         private Rigidbody _rigidBody;
         
@@ -17,7 +19,7 @@ namespace Codebase.Cubes.Views.Implementations
             _isActive = true;
             transform.SetParent(null);
             _rigidBody = gameObject.AddComponent<Rigidbody>();
-            _rigidBody.velocity = Vector3.one * 5;
+            _collider.excludeLayers += _activatedLayers;
         }
 
         public void Deactivate()
@@ -25,6 +27,7 @@ namespace Codebase.Cubes.Views.Implementations
             if(_isActive == false)
                 return;
             
+            _collider.excludeLayers -= _activatedLayers;
             _isActive = false;
             Destroy(_rigidBody);
         }

@@ -10,59 +10,52 @@ namespace Codebase.Balls.Presentations.Implementations
     public class BallPresenter : IBallPresenter
     {
         private readonly ICollisionService _collisionService;
-        private readonly IMoveService _moveService;
-        private readonly BallModel _ballModel;
-        private readonly IBallView _ballView;
-        
-        private IPool<BallPresenter> _ballPool;
+        private readonly IBallMover _ballMover;
+        private BallModel _ballModel;
+        private IBallView _ballView;
 
         public BallPresenter
         (
             ICollisionService collisionService,
-            IMoveService moveService,
+            IBallMover ballMover,
             BallModel ballModel,
             IBallView ballView
         )
         {
             _collisionService = collisionService;
-            _moveService = moveService;
+            _ballMover = ballMover;
             _ballModel = ballModel;
             _ballView = ballView;
         }
+        
+        public Vector3 Direction => _ballModel.Direction;
 
         public void Enable()
         {
             _ballModel.OnPositionChanged += OnPositionChanged;
-            _ballView.Enable();
-
-            OnPositionChanged(_ballModel.Position);
         }
 
         public void Disable()
         {
             _ballModel.OnPositionChanged -= OnPositionChanged;
-            _ballView.Disable();
         }
-
-        public void SetPosition(Vector3 position) =>
-            _ballModel.SetPosition(position);
-
-        public void SetDirection(Vector3 direction) =>
-            _ballModel.SetDirection(direction);
-
-        public void Move(float deltaTime) =>
-            _moveService.Move(_ballModel, deltaTime);
 
         public void Collide(Vector3 normal) =>
             _collisionService.Collide(_ballModel, normal);
 
-        public void ReturnToPool() =>
-            _ballPool.Release(this);
-        
-        public void SetPool(IPool<BallPresenter> ballPool) =>
-            _ballPool = ballPool;
+        public void OnDeactivatorCollision() =>
+            Dispose();
 
         private void OnPositionChanged(Vector3 position) =>
             _ballView.SetPosition(position);
+
+        private void Dispose()
+        {
+            Disable();
+            _ballMover.Remove(_ballModel);
+            _ballView.ReturnToPool();
+            _ballView = null;
+            _ballModel = null;
+        }
     }
 }

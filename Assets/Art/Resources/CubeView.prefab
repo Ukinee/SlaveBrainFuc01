@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 549229309242597717}
   - component: {fileID: 3268586559220142855}
   - component: {fileID: 1622739756962173818}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7516050487527301811}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Transparent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 4721571048049207894}
   - component: {fileID: 1047134201385825164}
   - component: {fileID: -7538443304179077279}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CubeView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,6 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cubeView: {fileID: 4721571048049207894}
+  _collider: {fileID: 1047134201385825164}
+  _activatedLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &4721571048049207894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +234,7 @@ GameObject:
   - component: {fileID: 8446576671066939620}
   - component: {fileID: 3314792806619917906}
   - component: {fileID: 698955896039927229}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GrayCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4904936727183382082}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Views
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,7 +352,7 @@ GameObject:
   - component: {fileID: 6303559663716129014}
   - component: {fileID: 6372073335932554245}
   - component: {fileID: 3780585596630186113}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlackCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
