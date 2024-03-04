@@ -26,6 +26,7 @@ namespace Codebase.App.Infrastructure.Builders.States
         private readonly ContextActionService _contextActionService;
         private readonly FilePathProvider _filePathProvider;
         private readonly AssetProvider _assetProvider;
+        private readonly CubeRepository _cubeRepository;
         private readonly BallViewPool _ballViewPool;
         private readonly CubePoolService _cubePoolService;
         private readonly AudioService _audioService;
@@ -35,6 +36,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             ContextActionService contextActionService,
             FilePathProvider filePathProvider,
             AssetProvider assetProvider,
+            CubeRepository cubeRepository,
             BallViewPool ballViewPool,
             CubePoolService cubePoolService,
             AudioService audioService
@@ -43,6 +45,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             _contextActionService = contextActionService;
             _filePathProvider = filePathProvider;
             _assetProvider = assetProvider;
+            _cubeRepository = cubeRepository;
             _ballViewPool = ballViewPool;
             _cubePoolService = cubePoolService;
             _audioService = audioService;
@@ -85,13 +88,15 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             StructureReader structureReader = new StructureReader(_assetProvider, _filePathProvider);
 
+            StructureViewFactory structureViewFactory = new StructureViewFactory(_assetProvider, _filePathProvider);
+            FragmentationService fragmentationService = new FragmentationService(structureViewFactory, _cubeRepository);
+
             StructureCreationService structureCreationService = new StructureCreationService
             (
                 _cubePoolService,
                 structureReader,
-                _assetProvider,
-                _filePathProvider,
-                mapView.StructureSpawnPoints
+                fragmentationService,
+                structureViewFactory
             );
             
             setTankPositionCommand.Handle(0.5f);

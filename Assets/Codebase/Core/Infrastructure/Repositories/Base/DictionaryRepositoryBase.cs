@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace ApplicationCode.Core.Infrastructure.Repositories.Base
+namespace Codebase.Core.Infrastructure.Repositories.Base
 {
     public abstract class DictionaryRepositoryBase<TKey, TValue> : IReadonlyDictionaryRepository<TKey, TValue>
     {
@@ -11,7 +12,7 @@ namespace ApplicationCode.Core.Infrastructure.Repositories.Base
         public void Register(TKey key, TValue value)
         {
             _dictionary.Add(key, value);
-            
+
             OnAdd(key, value);
         }
 
@@ -23,6 +24,11 @@ namespace ApplicationCode.Core.Infrastructure.Repositories.Base
 
         public bool Contains(TKey key) =>
             _dictionary.ContainsKey(key);
+
+        public void RemoveByValue(TValue value)
+        {
+            _dictionary.Remove(_dictionary.First(x => EqualityComparer<TValue>.Default.Equals(x.Value, value)).Key);
+        }
 
         protected virtual void OnAdd(TKey key, TValue value)
         {

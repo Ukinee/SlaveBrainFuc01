@@ -22,7 +22,7 @@ namespace Codebase.Cubes.Views.Implementations
 
         private Dictionary<CubeColor, GameObject> _colors;
         private IPool<CubeView> _pool;
-        private StructureView _structureView;
+        private StructureView _parent;
 
         private void Awake() =>
             _colors = _cubeViewData.Dictionary;
@@ -36,22 +36,16 @@ namespace Codebase.Cubes.Views.Implementations
         public void SetColor(CubeColor color)
         {
             foreach (CubeColor cubeColor in _colors.Keys)
-                _colors[cubeColor].SetActive(false);
+                _colors[cubeColor].SetActive(cubeColor == color);
 
-            _colors[color].SetActive(true);
-
-            if (color == CubeColor.Transparent)
+            if(color == CubeColor.Transparent)
                 OnDeactivatorCollision();
         }
 
         public void OnBallCollision(Vector3 direction, Vector3 position)
         {
-            _structureView.Rigidbody.AddForceAtPosition
-                (-direction * 5, position, ForceMode.Impulse); //todo: Hardcoded Values
-
+            _parent.Collide(direction, position);
             Presenter.OnBallCollision();
-            //todo: вынести _structureView в презентер
-            //Presenter.OnBallCollision(direction, position);
         }
 
         public void OnDeactivatorCollision() =>
@@ -60,12 +54,11 @@ namespace Codebase.Cubes.Views.Implementations
         public void ReturnToPool()
         {
             ResetPresenter();
-            _structureView = null;
             _pool.Release(this);
         }
 
-        public void Initialize(StructureView structureView) =>
-            _structureView = structureView;
+        public void Init(StructureView structureView) =>
+            _parent = structureView;
 
         public void SetPool(IPool<CubeView> pool) =>
             _pool = pool;

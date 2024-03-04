@@ -11,10 +11,12 @@ namespace Codebase.Cubes.Services.Implementations
     public class CubePoolService : ICubePoolService
     {
         private readonly CubePool _cubePool;
+        private readonly CubeRepository _cubeRepository;
 
-        public CubePoolService(CubePool cubePool)
+        public CubePoolService(CubePool cubePool, CubeRepository cubeRepository)
         {
             _cubePool = cubePool;
+            _cubeRepository = cubeRepository;
         }
 
         public CubeModel Create(CubeColor color, Vector3 localPosition, StructureView parent)
@@ -23,10 +25,14 @@ namespace Codebase.Cubes.Services.Implementations
             
             CubeModel cubeModel = new CubeModel();
             CubePresenter cubePresenter = new CubePresenter(cubeModel, cubeView);
+            
+            _cubeRepository.Register(cubeModel, cubeView);
+            
             cubeView.Construct(cubePresenter);
-            cubeView.Initialize(parent);
-            cubeModel.SetColor(color);
+            cubeView.Init(parent);
             cubeView.Deactivate();
+            
+            cubeModel.SetColor(color);
             cubePresenter.Enable();
 
             return cubeModel;

@@ -1,8 +1,5 @@
 ﻿using Codebase.Balls.Models;
 using Codebase.Balls.Services.Interfaces;
-using Codebase.Core.Common.Application.Utils.Constants;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
-using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
 using UnityEngine;
 
 namespace Codebase.Balls.Services.Implementations

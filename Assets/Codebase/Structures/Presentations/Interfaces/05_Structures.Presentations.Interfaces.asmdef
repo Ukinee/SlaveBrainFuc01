@@ -1,3 +1,4 @@
 {
-	"name": "05_Structures.Presentations.Interfaces"
+	"name": "05_Structures.Presentations.Interfaces",
+	"references":[ "GUID:f6adeb0db4e809c44803851881ca8b48" ]
 }

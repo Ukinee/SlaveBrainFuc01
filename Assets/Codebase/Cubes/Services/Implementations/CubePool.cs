@@ -10,10 +10,13 @@ namespace Codebase.Cubes.Services.Implementations
 {
     public class CubePool : PoolBase<CubeView>
     {
+        private readonly CubeRepository _cubeRepository;
         private readonly CubePoolTag _gameObject;
 
-        public CubePool(Func<CubeView> factory) : base(factory)
+        public CubePool(CubeRepository cubeRepository, Func<CubeView> factory) : base(factory)
         {
+            _cubeRepository = cubeRepository;
+
             _gameObject = Object.FindObjectOfType<CubePoolTag>()
                           ?? new GameObject(nameof(CubePool)).AddComponent<CubePoolTag>();
 
@@ -41,8 +44,11 @@ namespace Codebase.Cubes.Services.Implementations
 
         protected override void OnBeforeReturn(CubeView obj)
         {
+            obj.Deactivate();
             obj.transform.SetParent(_gameObject.transform);
             obj.gameObject.SetActive(false);
+            
+            _cubeRepository.RemoveByValue(obj);
         }
     }
 }

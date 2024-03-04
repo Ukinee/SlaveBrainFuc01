@@ -3,6 +3,7 @@ using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Structures.Services.Implementations;
+using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
 {
@@ -37,7 +38,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             
             _inputService.Enable();
             
-            _structureCreationService.CreateStructure("Tower");
+            _structureCreationService.CreateStructure("Tower", Vector3.forward * 7);
         }
 
         public void Update(float deltaTime)

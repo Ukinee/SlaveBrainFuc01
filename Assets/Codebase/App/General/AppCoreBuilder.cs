@@ -15,6 +15,7 @@ using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Infrastructure.Curtain;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.SceneLoadServices;
+using Codebase.Cubes.Services.Implementations;
 using UnityEngine;
 
 namespace Codebase.App.General
@@ -36,14 +37,16 @@ namespace Codebase.App.General
 
             InitialSceneStateFactory initialSceneStateFactory = new InitialSceneStateFactory();
             MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory();
+            CubeRepository cubeRepository = new CubeRepository();
 
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory
             (
                 contextActionService,
                 filePathProvider,
                 assetProvider,
+                cubeRepository,
                 new BallViewPool(new BallViewFactory(assetProvider, filePathProvider).Create),
-                new CubePoolServiceFactory(assetProvider, filePathProvider).Create(),
+                new CubePoolServiceFactory(assetProvider, filePathProvider, cubeRepository).Create(),
                 new AudioServiceFactory().Create()
             );
 

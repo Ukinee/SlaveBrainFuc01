@@ -1,3 +1,4 @@
 {
-	"name": "05_Structures.Services.Interfaces"
+	"name": "05_Structures.Services.Interfaces",
+	"references":[ "GUID:f6adeb0db4e809c44803851881ca8b48" ]
 }

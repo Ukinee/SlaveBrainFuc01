@@ -22,19 +22,17 @@ namespace Codebase.Cubes.Presentations.Implementations
             OnColorChanged(_cubeModel.Color);
         }
 
-        public void Disable()
-        {
+        public void Disable() =>
             _cubeModel.ColorChanged -= OnColorChanged;
-        }
 
-        public void OnBallCollision() =>
-            _cubeView.Activate();
-
-        public void OnDeactivatorCollision()
+        public void OnBallCollision()
         {
-            _cubeView.Deactivate();
-            Dispose();
+            _cubeModel.Activate();
+            _cubeView.Activate();
         }
+
+        public void OnDeactivatorCollision() =>
+            Dispose();
 
         private void OnColorChanged(CubeColor color) =>
             _cubeView.SetColor(color);
@@ -42,8 +40,8 @@ namespace Codebase.Cubes.Presentations.Implementations
         public void Dispose()
         {
             Disable();
+            _cubeModel.Activate();
             _cubeView.ReturnToPool();
-            _cubeModel.Destroy();
             _cubeView = null;
             _cubeModel = null;
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ApplicationCode.Core.Infrastructure.Repositories.Base
+namespace Codebase.Core.Infrastructure.Repositories.Base
 {
     public interface IReadonlyDictionaryRepository<TKey, out TValue>
     {

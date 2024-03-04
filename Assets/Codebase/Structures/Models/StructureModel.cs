@@ -1,4 +1,5 @@
 ﻿using System;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 
 namespace Codebase.Structures.Models
 {
@@ -8,13 +9,13 @@ namespace Codebase.Structures.Models
         public int MaxAmount { get; private set; }
 
         public event Action<int> AmountChanged;
+        public event Action Disposed;
 
         public void Add()
         {
+            MaxAmount = Math.Max(Amount, MaxAmount);
             Amount++;
             AmountChanged?.Invoke(Amount);
-            
-            MaxAmount = Math.Max(MaxAmount, Amount);
         }
 
         public void Remove()
@@ -25,8 +26,8 @@ namespace Codebase.Structures.Models
 
         public void Dispose()
         {
-            Amount = -1;
-            AmountChanged = null;
+            $"Disposing Structure Model".Log();
+            Disposed?.Invoke();
         }
     }
 }

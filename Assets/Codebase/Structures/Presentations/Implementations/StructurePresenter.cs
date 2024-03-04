@@ -1,4 +1,5 @@
-﻿using Codebase.Core.Frameworks.MVP.Interfaces;
+﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+using Codebase.Core.Frameworks.MVP.Interfaces;
 using Codebase.Structures.Models;
 using Codebase.Structures.Views.Interfaces;
 
@@ -20,11 +21,13 @@ namespace Codebase.Structures.Presentations.Implementations
         public void Enable()
         {
             _structureModel.AmountChanged += OnAmountChanged;
+            _structureModel.Disposed += Dispose;
         }
 
         public void Disable()
         {
             _structureModel.AmountChanged -= OnAmountChanged;
+            _structureModel.Disposed -= Dispose;
         }
 
         private void OnAmountChanged(int amount)
@@ -32,10 +35,11 @@ namespace Codebase.Structures.Presentations.Implementations
             _amountView.Set($"{amount} / {_structureModel.MaxAmount}");
         }
 
-        public void Dispose()
+        private void Dispose()
         {
+            "Structure Presenter Dispose".Log();
+            
             Disable();
-            _structureModel.Dispose();
             _structureView.Dispose();
             _amountView.Dispose();
 

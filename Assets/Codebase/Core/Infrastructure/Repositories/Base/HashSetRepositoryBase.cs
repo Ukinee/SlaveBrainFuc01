@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApplicationCode.Core.Infrastructure.Repositories.Base
+namespace Codebase.Core.Infrastructure.Repositories.Base
 {
     public abstract class HashSetRepositoryBase<T>
     {

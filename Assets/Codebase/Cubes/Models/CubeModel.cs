@@ -6,9 +6,14 @@ namespace Codebase.Cubes.Models
     public class CubeModel
     {
         public CubeColor Color { get; private set; }
+        public bool IsActivated { get; private set; } = false;
 
         public event Action<CubeColor> ColorChanged;
-        public event Action<CubeModel> Destroyed;
+        public event Action<CubeModel> Activated;
+
+        public CubeModel()
+        {
+        }
 
         public void SetColor(CubeColor color)
         {
@@ -16,7 +21,10 @@ namespace Codebase.Cubes.Models
             ColorChanged?.Invoke(Color);
         }
 
-        public void Destroy() =>
-            Destroyed?.Invoke(this);
+        public void Activate()
+        {
+            IsActivated = true;
+            Activated?.Invoke(this);
+        }
     }
 }
