@@ -1,0 +1,18 @@
+{
+    "name": "00_Core.Frameworks.SignalSystem.General",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d0d33fa8a1c39d945bd52ebb437d61e9",
+        "GUID:b9a6492555c38f747983b5a899b64121",
+        "GUID:fef00b85313352f4a924657b98706e15"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

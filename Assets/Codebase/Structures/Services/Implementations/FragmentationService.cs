@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Codebase.Core.Common.Application.Types;
 using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
@@ -31,6 +30,7 @@ namespace Codebase.Structures.Services.Implementations
         {
             $"Handling fragmentation of {islands.Length} islands".Log();
             Random random = new Random();
+            
             foreach (CubeModel[,] island in islands)
             {
                 CubeColor color = ((CubeColor[])Enum.GetValues(typeof(CubeColor)))[random.Next(0, 17)];
