@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ApplicationCode.Core.Frameworks.SignalSystem.Interfaces;
-using ApplicationCode.Core.Frameworks.SignalSystem.Interfaces.SignalActions;
-using ApplicationCode.Core.Frameworks.SignalSystem.Interfaces.SignalActions.Generic;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces.SignalActions;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces.SignalActions.Generic;
 
-namespace ApplicationCode.Core.Frameworks.SignalSystem.Base
+namespace Assets.Codebase.Core.Frameworks.SignalSystem.Base
 {
     public abstract class SignalControllerBase : ISignalController
     {

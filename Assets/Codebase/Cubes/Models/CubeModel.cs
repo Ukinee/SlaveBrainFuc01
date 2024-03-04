@@ -1,30 +1,27 @@
-﻿using System;
-using Codebase.Core.Common.Application.Types;
+﻿using Codebase.Core.Common.Application.Types;
+using Codebase.Core.Common.General.LiveDatas;
+using Codebase.Core.Frameworks.EnitySystem.General;
 
 namespace Codebase.Cubes.Models
 {
-    public class CubeModel
+    public class CubeModel : BaseEntity
     {
-        public CubeColor Color { get; private set; }
-        public bool IsActivated { get; private set; } = false;
-
-        public event Action<CubeColor> ColorChanged;
-        public event Action<CubeModel> Activated;
-
-        public CubeModel()
+        public CubeModel(int id) : base(id)
         {
         }
+
+        private readonly LiveData<CubeColor> _colorData = new LiveData<CubeColor>(CubeColor.Magenta);
+
+        public ILiveData<CubeColor> Color => _colorData;
 
         public void SetColor(CubeColor color)
         {
-            Color = color;
-            ColorChanged?.Invoke(Color);
+            _colorData.Value = color;
         }
 
-        public void Activate()
+        protected override void OnDispose()
         {
-            IsActivated = true;
-            Activated?.Invoke(this);
+            _colorData.Dispose();
         }
     }
 }

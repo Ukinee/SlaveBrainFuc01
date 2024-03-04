@@ -1,33 +1,65 @@
 ﻿using System;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+using System.Linq;
+using Codebase.Core.Frameworks.EnitySystem.General;
+using Codebase.Core.Services.ArrayCrawler;
+using Codebase.Cubes.Models;
 
 namespace Codebase.Structures.Models
 {
-    public class StructureModel
+    public class StructureModel : BaseEntity
     {
-        public int Amount { get; private set; }
-        public int MaxAmount { get; private set; }
+        private ArrayCrawler<int> _crawler = new ArrayCrawler<int>();
+        
+        private readonly int[,] _cubes;
 
-        public event Action<int> AmountChanged;
-        public event Action Disposed;
-
-        public void Add()
+        public StructureModel(int id, int width, int height) : base(id)
         {
-            MaxAmount = Math.Max(Amount, MaxAmount);
-            Amount++;
-            AmountChanged?.Invoke(Amount);
+            _cubes = new int[height, width];
+        }
+        
+        public bool IsEmpty => Contains() == false;
+
+        public event Action<int[][,]> Fragmented;
+
+        public void Set(int cubeId, int y, int x)
+        {
+            _cubes[y, x] = cubeId;
         }
 
-        public void Remove()
+        public bool TryGetIndexers(int cubeId, out int height, out int width)
         {
-            Amount--;
-            AmountChanged?.Invoke(Amount);
+            height = -1;
+            width = -1;
+            
+            for (int y = 0; y < _cubes.GetLength(0); y++)
+            for (int x = 0; x < _cubes.GetLength(1); x++)
+            {
+                if (_cubes[y, x] != cubeId)
+                    continue;
+
+                height = y;
+                width = x;
+                
+                return true;
+            }
+
+            return false;
         }
 
-        public void Dispose()
+        public void HandleFragmentation()
         {
-            $"Disposing Structure Model".Log();
-            Disposed?.Invoke();
+            int[][,] islands = _crawler.Crawl(_cubes);
+
+            if (islands.Length == 1)
+                return;
+
+            Fragmented?.Invoke(islands);
+            Dispose();
+        }
+
+        private bool Contains()
+        {
+            return _cubes.Cast<int>().Any(id => id != 0);
         }
     }
 }

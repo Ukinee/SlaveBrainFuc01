@@ -1,9 +1,11 @@
-﻿using ApplicationCode.Core.Services.AssetProviders;
+﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces;
 using Codebase.Core.Common.Application.Types;
-using Codebase.Core.Common.Application.Utils;
-using Codebase.Core.Common.Application.Utils.Constants;
-using Codebase.Cubes.Models;
+using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
+using Codebase.Cubes.Controllers.Signals;
+using Codebase.Cubes.Services.Implementations;
 using Codebase.Cubes.Services.Interfaces;
+using Codebase.Cubes.Views.Implementations;
 using Codebase.Structures.Common;
 using Codebase.Structures.Infrastructure.Services.Interfaces;
 using Codebase.Structures.Models;
@@ -16,77 +18,103 @@ namespace Codebase.Structures.Services.Implementations
 {
     public class StructureCreationService
     {
-        private readonly ICubePoolService _cubePoolService;
+        private readonly ISignalBus _signalHandler;
+        private readonly IIdGenerator _idGenerator;
+        private readonly ICubeCreationService _cubeCreationService;
         private readonly IStructureReader _structureReader;
-        private FragmentationService _fragmentationService;
+        private readonly CubeViewRepository _cubeViewRepository;
         private StructureViewFactory _structureViewFactory;
 
         public StructureCreationService
         (
-            ICubePoolService cubePoolService,
+            ISignalBus signalHandler,
+            IIdGenerator idGenerator,
+            ICubeCreationService cubeCreationService,
             IStructureReader structureReader,
-            FragmentationService fragmentationService,
-            StructureViewFactory structureViewFactory
+            StructureViewFactory structureViewFactory,
+            CubeViewRepository cubeViewRepository
         )
         {
-            _cubePoolService = cubePoolService;
+            _signalHandler = signalHandler;
+            _idGenerator = idGenerator;
+            _cubeCreationService = cubeCreationService;
             _structureReader = structureReader;
-            _fragmentationService = fragmentationService;
             _structureViewFactory = structureViewFactory;
+            _cubeViewRepository = cubeViewRepository;
         }
 
-        public void CreateStructure(string structureName, Vector3 position)
+        public StructureModel Create(int[,] cubes, CubeColor cubeColor = default, bool overrideColor = false)
+        {
+            int height = cubes.GetLength(0);
+            int width = cubes.GetLength(1);
+
+            int id = _idGenerator.Generate();
+
+            StructureModel structureModel = new StructureModel(id, width, height);
+            StructureView structureView = _structureViewFactory.Create();
+            StructureViewController structureViewController = new StructureViewController(structureModel, structureView);
+
+            for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+            {
+                int cubeId = cubes[y, x];
+                
+                if (cubeId == 0)
+                    continue;
+
+                if (overrideColor)
+                    _signalHandler.Handle(new SetCubeColorSignal(cubeId, cubeColor));
+
+                CubeView cubeView = _cubeViewRepository.Get(cubeId);
+
+                cubeView.transform.SetParent(structureView.transform);
+                cubeView.transform.localPosition = cubeView.transform.localPosition.WithY(0);
+                cubeView.Init(structureView);
+
+                structureModel.Set(cubeId, y, x);
+            }
+
+            structureViewController.Enable();
+
+            return structureModel;
+        }
+
+        public StructureModel CreateStructure(string structureName, Vector3 position)
         {
             StructureDto structureDto = _structureReader.Read(structureName);
 
+            int[,] cubes = CreateCubes(structureDto, position);
+
+            return Create(cubes);
+        }
+
+        private int[,] CreateCubes(StructureDto structureDto, Vector3 position)
+        {
             int height = structureDto.Cubes.GetLength(0);
             int width = structureDto.Cubes.GetLength(1);
 
-            (var structureView, var amountView) = _structureViewFactory.CreateViews();
+            int[,] cubes = new int[height, width];
 
-            StructureModel structureModel = new StructureModel();
-
-            StructureService structureService = new StructureService(_fragmentationService, structureModel, width, height);
-
-            FillStructure
-            (
-                structureDto,
-                structureService,
-                structureView,
-                width,
-                height
-            );
-
-            StructurePresenter structurePresenter = new StructurePresenter(structureModel, structureView, amountView);
-
-            structureView.transform.SetPositionAndRotation(position, Quaternion.identity);
-
-            structurePresenter.Enable();
-        }
-
-        private void FillStructure
-        (
-            StructureDto structureDto,
-            StructureService structureService,
-            StructureView structureView,
-            int width,
-            int height
-        )
-        {
             float startX = width * BlockSize / 2 - BlockSize / 2;
             float startY = height * BlockSize / 2 - BlockSize / 2;
 
-            Vector3 firstCubePosition = new Vector3(-startX, 0, startY);
+            Vector3 firstCubePosition = new Vector3(-startX, 0, startY) + position;
 
             for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
             {
                 CubeColor cubeColor = structureDto.Cubes[y, x].Color;
-                Vector3 localPosition = firstCubePosition + new Vector3(x * BlockSize, 0, -y * BlockSize);
 
-                CubeModel cubeModel = _cubePoolService.Create(cubeColor, localPosition, structureView);
-                structureService.Add(cubeModel, y, x);
+                if (cubeColor == CubeColor.Transparent)
+                    continue;
+
+                Vector3 globalPosition = firstCubePosition + new Vector3(x * BlockSize, 0, -y * BlockSize);
+
+                int cubeModel = _cubeCreationService.Create(cubeColor, globalPosition);
+                cubes[y, x] = cubeModel;
             }
+
+            return cubes;
         }
     }
 }

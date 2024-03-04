@@ -1,9 +1,11 @@
-﻿using Codebase.Structures.Views.Interfaces;
+﻿using System;
+using Codebase.Structures.Views.Interfaces;
 using TMPro;
 using UnityEngine;
 
 namespace Codebase.Structures.Views.Implementations
 {
+    [Obsolete("", true)]
     public class AmountView : MonoBehaviour, IAmountView
     {
         [SerializeField] private TMP_Text _text;

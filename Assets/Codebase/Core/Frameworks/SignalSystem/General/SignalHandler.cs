@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ApplicationCode.Core.Frameworks.SignalSystem.Interfaces;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces;
 
 namespace Assets.Codebase.Core.Frameworks.SignalSystem.General
 {

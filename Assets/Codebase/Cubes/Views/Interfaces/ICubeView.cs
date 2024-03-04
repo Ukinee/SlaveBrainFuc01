@@ -9,6 +9,5 @@ namespace Codebase.Cubes.Views.Interfaces
         public void SetColor(CubeColor color);
 
         public void Activate();
-        public void ReturnToPool();
     }
 }

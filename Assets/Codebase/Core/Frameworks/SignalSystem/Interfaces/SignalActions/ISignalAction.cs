@@ -1,4 +1,4 @@
-﻿namespace ApplicationCode.Core.Frameworks.SignalSystem.Interfaces.SignalActions
+﻿namespace Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces.SignalActions
 {
     public interface ISignalAction
     {

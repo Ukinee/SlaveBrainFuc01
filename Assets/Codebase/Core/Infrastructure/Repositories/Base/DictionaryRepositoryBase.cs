@@ -8,6 +8,7 @@ namespace Codebase.Core.Infrastructure.Repositories.Base
         private readonly Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
         public IEnumerable<TKey> Keys => _dictionary.Keys;
+        public int Count => _dictionary.Count;
 
         public void Register(TKey key, TValue value)
         {

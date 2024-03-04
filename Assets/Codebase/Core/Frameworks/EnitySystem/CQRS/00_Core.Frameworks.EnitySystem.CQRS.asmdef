@@ -1,0 +1,4 @@
+{
+	"name": "00_Core.Frameworks.EnitySystem.CQRS",
+	"references":[ "GUID:94e81f475a0717144aecd7c3047e2f1d" ]
+}

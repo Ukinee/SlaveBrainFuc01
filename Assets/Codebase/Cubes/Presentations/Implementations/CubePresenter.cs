@@ -1,5 +1,9 @@
-﻿using Codebase.Core.Common.Application.Types;
-using Codebase.Cubes.Models;
+﻿using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces;
+using Codebase.Core.Common.Application.Types;
+using Codebase.Core.Common.General.LiveDatas;
+using Codebase.Core.Frameworks.SignalSystem.Common.Signals;
+using Codebase.Cubes.Controllers.Signals;
+using Codebase.Cubes.CQRS.Queries;
 using Codebase.Cubes.Presentations.Interfaces;
 using Codebase.Cubes.Views.Interfaces;
 
@@ -7,43 +11,44 @@ namespace Codebase.Cubes.Presentations.Implementations
 {
     public class CubePresenter : ICubePresenter
     {
-        private CubeModel _cubeModel;
+        private readonly int _id;
+        private ILiveData<CubeColor> _color;
+        private ISignalBus _signalBus;
         private ICubeView _cubeView;
 
-        public CubePresenter(CubeModel cubeModel, ICubeView cubeView)
+        public CubePresenter(int id, ISignalBus signalBus, GetColorQuery getColorQuery, ICubeView cubeView)
         {
-            _cubeModel = cubeModel;
+            _color = getColorQuery.Handle(id);
+            _id = id;
+            _signalBus = signalBus;
             _cubeView = cubeView;
         }
         
-        public void Enable()
-        {
-            _cubeModel.ColorChanged += OnColorChanged;
-            OnColorChanged(_cubeModel.Color);
-        }
+        public void Enable() =>
+            _color.AddListener(OnColorChanged);
 
         public void Disable() =>
-            _cubeModel.ColorChanged -= OnColorChanged;
-
-        public void OnBallCollision()
-        {
-            _cubeModel.Activate();
-            _cubeView.Activate();
-        }
+            _color.RemoveListener(OnColorChanged);
 
         public void OnDeactivatorCollision() =>
             Dispose();
+
+        public void OnBallCollision()
+        {
+            _signalBus.Handle(new ActivateCubeSignal(_id));
+            _cubeView.Activate();
+        }
 
         private void OnColorChanged(CubeColor color) =>
             _cubeView.SetColor(color);
 
         public void Dispose()
         {
-            Disable();
-            _cubeModel.Activate();
-            _cubeView.ReturnToPool();
+            _signalBus.Handle(new DisposeSignal(_id));
+            
+            _signalBus = null;
+            _color = null;
             _cubeView = null;
-            _cubeModel = null;
         }
     }
 }

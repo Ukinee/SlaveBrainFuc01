@@ -1,5 +1,9 @@
-﻿using Codebase.Core.Services.ArrayCrawler;
-using Codebase.Cubes.Models;
+﻿#define MALOYDEBUG
+
+using System;
+using System.Collections.Generic;
+using Codebase.Core.Common.Application.Types;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Structures.Models;
 using Codebase.Structures.Services.Interfaces;
 
@@ -7,79 +11,64 @@ namespace Codebase.Structures.Services.Implementations
 {
     public class StructureService : IStructureService
     {
-        private ArrayCrawler<CubeModel> _crawler = new ArrayCrawler<CubeModel>();
-        private FragmentationService _fragmentationService;
-        private StructureModel _structureModel;
-        private CubeModel[,] _cubes;
+        private List<StructureModel> _structures = new List<StructureModel>();
+        private StructureCreationService _structureCreationService;
 
-        public StructureService
-            (FragmentationService fragmentationService, StructureModel structureModel, int width, int height)
+        public StructureService(StructureCreationService structureCreationService)
         {
-            _structureModel = structureModel;
-            _fragmentationService = fragmentationService;
-            _cubes = new CubeModel[height, width];
+            _structureCreationService = structureCreationService;
         }
 
-        public void Add(CubeModel model, int y, int x)
+        public void Add(StructureModel structureModel)
         {
-            if (model.IsActivated)
-                return;
+            _structures.Add(structureModel);
 
-            model.Activated += Remove;
-            _cubes[y, x] = model;
-            _structureModel.Add();
+            structureModel.Disposed += RemoveStructure;
+            structureModel.Fragmented += OnStructureFragmented;
         }
 
-        public void Remove(CubeModel model)
+        public void RemoveCube(int cubeId)
         {
-            model.Activated -= Remove;
-
-            if (SetNull(model) == false)
-                return;
-
-            _structureModel.Remove();
-
-            if (_structureModel.Amount == 0)
+            foreach (StructureModel structure in _structures)
             {
-                Dispose();
-
-                return;
-            }
-
-            CubeModel[][,] islands = _crawler.Crawl(_cubes);
-
-            if (islands.Length == 1)
-                return;
-
-            _fragmentationService.Handle(islands);
-            Dispose();
-        }
-
-        private bool SetNull(CubeModel model)
-        {
-            for (int y = 0; y < _cubes.GetLength(0); y++)
-            for (int x = 0; x < _cubes.GetLength(1); x++)
-            {
-                if (_cubes[y, x] != model)
+                if (structure.TryGetIndexers(cubeId, out int height, out int width) == false)
                     continue;
 
-                _cubes[y, x] = null;
+                structure.Set(0, height, width);
+                structure.HandleFragmentation();
 
-                return true;
+                if (structure.IsEmpty)
+                    structure.Dispose();
+
+                break;
             }
-
-            return false;
         }
 
-        private void Dispose()
+        private void OnStructureFragmented(int[][,] islands)
         {
-            foreach (CubeModel cube in _cubes)
-                if (cube != null)
-                    cube.Activated -= Remove;
+#if MALOYDEBUG
+            Random random = new Random();
+#endif
 
-            _structureModel.Dispose();
-            _structureModel = null;
-            _cubes = null;
+            foreach (int[,] island in islands)
+            {
+#if MALOYDEBUG
+                CubeColor randomColor = (CubeColor)random.Next(0, Enum.GetNames(typeof(CubeColor)).Length);
+                StructureModel structureModel = _structureCreationService.Create(island, randomColor, true);
+#else
+                StructureModel structureModel = _structureCreationService.Create(island);
+#endif
+                Add(structureModel);
+            }
+        }
+
+        private void RemoveStructure(int structureId)
+        {
+            StructureModel model = _structures.Find(structure => structure.Id == structureId);
+            model.Disposed -= RemoveStructure;
+            model.Fragmented -= OnStructureFragmented;
+
+            _structures.Remove(model);
         }
     }
 }

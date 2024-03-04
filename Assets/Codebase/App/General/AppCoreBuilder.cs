@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
+using Assets.Codebase.Core.Frameworks.EnitySystem.Repositories;
+using Assets.Codebase.Core.Frameworks.SignalSystem.General;
 using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.Builders;
 using Codebase.App.Infrastructure.Builders.Pools;
@@ -9,7 +12,6 @@ using Codebase.App.Infrastructure.Builders.States;
 using Codebase.App.Infrastructure.StateMachines;
 using Codebase.App.Infrastructure.StateMachines.States;
 using Codebase.Balls.Services.Implementations;
-using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Infrastructure.Curtain;
@@ -35,18 +37,25 @@ namespace Codebase.App.General
 
             AppCore appCore = new GameObject(nameof(AppCore)).AddComponent<AppCore>();
 
+            IdGenerator idGenerator = new IdGenerator(1000);
+            EntityRepository entityRepository = new EntityRepository();
+            SignalHandler signalHandler = new SignalHandler();
+            SignalBus signalBus = new SignalBus(signalHandler);
+
             InitialSceneStateFactory initialSceneStateFactory = new InitialSceneStateFactory();
             MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory();
-            CubeRepository cubeRepository = new CubeRepository();
 
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory
             (
+                signalBus,
+                signalHandler,
+                entityRepository,
                 contextActionService,
                 filePathProvider,
                 assetProvider,
-                cubeRepository,
+                idGenerator,
                 new BallViewPool(new BallViewFactory(assetProvider, filePathProvider).Create),
-                new CubePoolServiceFactory(assetProvider, filePathProvider, cubeRepository).Create(),
+                new CubeViewPool(new CubeViewFactory(assetProvider, filePathProvider).Create),
                 new AudioServiceFactory().Create()
             );
 

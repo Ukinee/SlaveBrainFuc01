@@ -1,6 +1,11 @@
-﻿using ApplicationCode.Core.Services.AssetProviders;
+﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
+using ApplicationCode.Core.Services.AssetProviders;
 using ApplicationCode.Core.Services.Cameras;
 using ApplicationCode.Core.Services.RaycastHitProviders;
+using Assets.Codebase.Core.Frameworks.EnitySystem.Repositories;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Base;
+using Assets.Codebase.Core.Frameworks.SignalSystem.General;
+using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces;
 using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.StateMachines.States;
 using Codebase.Balls.Inputs;
@@ -10,8 +15,10 @@ using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
+using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Maps.Views.Implementations;
+using Codebase.Structures.Controllers;
 using Codebase.Structures.Infrastructure.Services.Implementations;
 using Codebase.Structures.Services.Implementations;
 using Codebase.Tanks.CQRS;
@@ -23,31 +30,40 @@ namespace Codebase.App.Infrastructure.Builders.States
 {
     public class GameplaySceneStateFactory : ISceneStateFactory
     {
+        private readonly SignalBus _signalBus;
+        private readonly EntityRepository _entityRepository;
         private readonly ContextActionService _contextActionService;
         private readonly FilePathProvider _filePathProvider;
         private readonly AssetProvider _assetProvider;
-        private readonly CubeRepository _cubeRepository;
+        private readonly IdGenerator _idGenerator;
         private readonly BallViewPool _ballViewPool;
-        private readonly CubePoolService _cubePoolService;
+        private readonly CubeViewPool _cubeViewPool;
         private readonly AudioService _audioService;
+        private SignalHandler _signalHandler;
 
         public GameplaySceneStateFactory
         (
+            SignalBus signalBus,
+            SignalHandler signalHandler,
+            EntityRepository entityRepository,
             ContextActionService contextActionService,
             FilePathProvider filePathProvider,
             AssetProvider assetProvider,
-            CubeRepository cubeRepository,
+            IdGenerator idGenerator,
             BallViewPool ballViewPool,
-            CubePoolService cubePoolService,
+            CubeViewPool cubeViewPool,
             AudioService audioService
         )
         {
+            _signalBus = signalBus;
+            _signalHandler = signalHandler;
+            _entityRepository = entityRepository;
             _contextActionService = contextActionService;
             _filePathProvider = filePathProvider;
             _assetProvider = assetProvider;
-            _cubeRepository = cubeRepository;
+            _idGenerator = idGenerator;
             _ballViewPool = ballViewPool;
-            _cubePoolService = cubePoolService;
+            _cubeViewPool = cubeViewPool;
             _audioService = audioService;
         }
 
@@ -68,12 +84,13 @@ namespace Codebase.App.Infrastructure.Builders.States
             MoveService moveService = new MoveService();
             CollisionService collisionService = new CollisionService();
             BallMover ballMover = new BallMover(moveService);
-            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover); 
+            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover);
 
             InputService inputService = inputServiceFactory.Create();
 
-            MapView mapView = Object.FindObjectOfType<MapView>() ??
-                              _assetProvider.Instantiate<MapView>(_filePathProvider.General.Data[PathConstants.General.Map]);
+            MapView mapView = Object.FindObjectOfType<MapView>()
+                              ?? _assetProvider.Instantiate<MapView>
+                                  (_filePathProvider.General.Data[PathConstants.General.Map]);
 
             TankPositionCalculator tankPositionCalculator = new TankPositionCalculator
                 (mapView.TankLeftPosition, mapView.TankRightPosition, mapView.TankVerticalPosition);
@@ -86,27 +103,28 @@ namespace Codebase.App.Infrastructure.Builders.States
             ShootingService shootingService = new ShootingService(tankPositionQuery, ballPoolService, ballMover);
             AimService aimService = new AimService(tankPositionQuery);
 
-            StructureReader structureReader = new StructureReader(_assetProvider, _filePathProvider);
-
-            StructureViewFactory structureViewFactory = new StructureViewFactory(_assetProvider, _filePathProvider);
-            FragmentationService fragmentationService = new FragmentationService(structureViewFactory, _cubeRepository);
-
-            StructureCreationService structureCreationService = new StructureCreationService
+            StructureSignalControllerFactory structureSignalControllerFactory = new StructureSignalControllerFactory
             (
-                _cubePoolService,
-                structureReader,
-                fragmentationService,
-                structureViewFactory
+                _assetProvider,
+                _filePathProvider,
+                _idGenerator,
+                _signalBus,
+                _entityRepository,
+                _cubeViewPool
             );
-            
-            setTankPositionCommand.Handle(0.5f);
 
+            setTankPositionCommand.Handle(0.5f);
+            
             return new GameplayScene
             (
+                _signalHandler,
                 ballMover,
                 inputService,
                 _contextActionService,
-                structureCreationService,
+                new ISignalController[]
+                {
+                    structureSignalControllerFactory.Create(),
+                },
                 new IContextInputAction[]
                 {
                     new PositionInputActionWrapper(raycastHitProvider, aimService),

@@ -1,4 +1,4 @@
-﻿namespace ApplicationCode.Core.Frameworks.SignalSystem.Interfaces
+﻿namespace Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces
 {
     public interface ISignalBus
     {

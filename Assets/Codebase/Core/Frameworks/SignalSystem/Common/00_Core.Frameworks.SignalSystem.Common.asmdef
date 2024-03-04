@@ -1,0 +1,4 @@
+{
+	"name": "00_Core.Frameworks.SignalSystem.Common",
+	"references":[ "GUID:d0d33fa8a1c39d945bd52ebb437d61e9", "GUID:94e81f475a0717144aecd7c3047e2f1d", "GUID:6ae07fe0f95956f40ab8326cceb77802" ]
+}

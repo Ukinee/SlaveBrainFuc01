@@ -48,19 +48,23 @@ namespace Codebase.Cubes.Views.Implementations
             Presenter.OnBallCollision();
         }
 
-        public void OnDeactivatorCollision() =>
+        public void OnDeactivatorCollision()
+        {
             Presenter.OnDeactivatorCollision();
+        }
+
+        public void Init(StructureView structureView)
+        {
+            _parent = structureView;
+        }
+
+        public void SetPool(IPool<CubeView> pool) =>
+            _pool = pool;
 
         public void ReturnToPool()
         {
             ResetPresenter();
             _pool.Release(this);
         }
-
-        public void Init(StructureView structureView) =>
-            _parent = structureView;
-
-        public void SetPool(IPool<CubeView> pool) =>
-            _pool = pool;
     }
 }
