@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Codebase.Core.Common.Application.Types;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Frameworks.MVP.BaseClasses;
 using Codebase.Core.Services.Pools;
 using Codebase.Cubes.Presentations.Interfaces;
@@ -38,8 +39,8 @@ namespace Codebase.Cubes.Views.Implementations
             foreach (CubeColor cubeColor in _colors.Keys)
                 _colors[cubeColor].SetActive(cubeColor == color);
 
-            if(color == CubeColor.Transparent)
-                OnDeactivatorCollision();
+            if (color == CubeColor.Transparent)
+                SetColor(CubeColor.Magenta);
         }
 
         public void OnBallCollision(Vector3 direction, Vector3 position)

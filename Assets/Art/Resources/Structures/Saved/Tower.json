@@ -25,7 +25,7 @@
         "Color": 8
       },
       {
-        "Color": 0
+        "Color": 13
       },
       {
         "Color": 8
@@ -42,7 +42,7 @@
         "Color": 8
       },
       {
-        "Color": 13
+        "Color": 1
       },
       {
         "Color": 8
@@ -59,7 +59,7 @@
         "Color": 8
       },
       {
-        "Color": 13
+        "Color": 1
       },
       {
         "Color": 8
@@ -76,7 +76,7 @@
         "Color": 8
       },
       {
-        "Color": 13
+        "Color": 1
       },
       {
         "Color": 8
@@ -87,30 +87,13 @@
     ],
     [
       {
-        "Color": 0
+        "Color": 15
       },
       {
-        "Color": 8
+        "Color": 16
       },
       {
-        "Color": 13
-      },
-      {
-        "Color": 8
-      },
-      {
-        "Color": 0
-      }
-    ],
-    [
-      {
-        "Color": 0
-      },
-      {
-        "Color": 8
-      },
-      {
-        "Color": 13
+        "Color": 1
       },
       {
         "Color": 8
@@ -121,19 +104,36 @@
     ],
     [
       {
-        "Color": 0
+        "Color": 10
       },
       {
-        "Color": 8
+        "Color": 11
+      },
+      {
+        "Color": 12
       },
       {
         "Color": 13
       },
       {
+        "Color": 14
+      }
+    ],
+    [
+      {
+        "Color": 5
+      },
+      {
+        "Color": 6
+      },
+      {
+        "Color": 7
+      },
+      {
         "Color": 8
       },
       {
-        "Color": 0
+        "Color": 9
       }
     ],
     [
@@ -141,16 +141,16 @@
         "Color": 0
       },
       {
-        "Color": 0
+        "Color": 1
       },
       {
-        "Color": 0
+        "Color": 2
       },
       {
-        "Color": 0
+        "Color": 3
       },
       {
-        "Color": 0
+        "Color": 4
       }
     ]
   ]
