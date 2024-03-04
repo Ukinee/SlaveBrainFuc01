@@ -37,7 +37,9 @@ namespace Codebase.Cubes.Views.Implementations
         public void SetColor(CubeColor color)
         {
             foreach (CubeColor cubeColor in _colors.Keys)
-                _colors[cubeColor].SetActive(cubeColor == color);
+                _colors[cubeColor].SetActive(false);
+            
+            _colors[color].SetActive(true);
 
             if (color == CubeColor.Transparent)
                 SetColor(CubeColor.Magenta);

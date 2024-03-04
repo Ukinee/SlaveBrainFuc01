@@ -46,7 +46,8 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             
             _inputService.Enable();
             
-            _signalHandler.Handle(new CreateStructureSignal("Tower", Vector3.forward * 7));
+            _signalHandler.Handle(new CreateStructureSignal("Tower", new Vector3(-3, 0, 7)));
+            _signalHandler.Handle(new CreateStructureSignal("Tower", new Vector3(3, 0, 7)));
         }
 
         public void Update(float deltaTime)

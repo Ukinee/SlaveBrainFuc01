@@ -39,9 +39,7 @@ namespace Codebase.Core.Services.ArrayCrawler
                 if (visited.Contains(new Vector2Int(x, y)))
                     continue;
                 
-                T element = array[x, y];
-                
-                if(_isEmpty(element))
+                if(_isEmpty(array[x, y]))
                     continue;
 
                 islandIndex++;
