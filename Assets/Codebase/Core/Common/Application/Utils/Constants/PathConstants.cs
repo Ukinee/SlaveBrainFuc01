@@ -18,6 +18,7 @@
             public const string Ball = "BallView";
             public const string Cube = "CubeView";
             public const string Map = "Map";
+            public const string Aim = "AimView";
         }
 
         public static class Files

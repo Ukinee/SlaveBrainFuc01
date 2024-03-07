@@ -1,8 +1,6 @@
 ﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
-using Assets.Codebase.Core.Frameworks.SignalSystem.Interfaces;
 using Codebase.Core.Common.Application.Types;
 using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
-using Codebase.Cubes.Controllers.Signals;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Cubes.Services.Interfaces;
 using Codebase.Cubes.Views.Implementations;
@@ -18,65 +16,20 @@ namespace Codebase.Structures.Services.Implementations
 {
     public class StructureCreationService
     {
-        private readonly ISignalBus _signalHandler;
-        private readonly IIdGenerator _idGenerator;
         private readonly ICubeCreationService _cubeCreationService;
         private readonly IStructureReader _structureReader;
-        private readonly CubeViewRepository _cubeViewRepository;
-        private StructureViewFactory _structureViewFactory;
+        private readonly StructureFactory _structureFactory;
 
         public StructureCreationService
         (
-            ISignalBus signalHandler,
-            IIdGenerator idGenerator,
             ICubeCreationService cubeCreationService,
             IStructureReader structureReader,
-            StructureViewFactory structureViewFactory,
-            CubeViewRepository cubeViewRepository
+            StructureFactory structureFactory
         )
         {
-            _signalHandler = signalHandler;
-            _idGenerator = idGenerator;
             _cubeCreationService = cubeCreationService;
             _structureReader = structureReader;
-            _structureViewFactory = structureViewFactory;
-            _cubeViewRepository = cubeViewRepository;
-        }
-
-        public StructureModel Create(int[,] cubes, CubeColor cubeColor = default, bool overrideColor = false)
-        {
-            int height = cubes.GetLength(0);
-            int width = cubes.GetLength(1);
-
-            int id = _idGenerator.Generate();
-
-            StructureModel structureModel = new StructureModel(id, width, height);
-            StructureView structureView = _structureViewFactory.Create();
-            StructureViewController structureViewController = new StructureViewController(structureModel, structureView);
-
-            for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
-            {
-                int cubeId = cubes[y, x];
-                
-                if (cubeId == 0)
-                    continue;
-
-                if (overrideColor)
-                    _signalHandler.Handle(new SetCubeColorSignal(cubeId, cubeColor));
-
-                CubeView cubeView = _cubeViewRepository.Get(cubeId);
-
-                cubeView.transform.SetParent(structureView.transform);
-                cubeView.transform.localPosition = cubeView.transform.localPosition.WithY(0);
-                cubeView.Init(structureView);
-
-                structureModel.Set(cubeId, y, x);
-            }
-
-            structureViewController.Enable();
-
-            return structureModel;
+            _structureFactory = structureFactory;
         }
 
         public StructureModel CreateStructure(string structureName, Vector3 position)
@@ -85,7 +38,7 @@ namespace Codebase.Structures.Services.Implementations
 
             int[,] cubes = CreateCubes(structureDto, position);
 
-            return Create(cubes);
+            return _structureFactory.Create(cubes);
         }
 
         private int[,] CreateCubes(StructureDto structureDto, Vector3 position)

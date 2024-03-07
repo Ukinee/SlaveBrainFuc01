@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Assets.Codebase.Core.Frameworks.EnitySystem.Repositories;
-using Assets.Codebase.Core.Frameworks.SignalSystem.General;
 using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.Builders;
 using Codebase.App.Infrastructure.Builders.Pools;
@@ -39,16 +37,12 @@ namespace Codebase.App.General
 
             IdGenerator idGenerator = new IdGenerator(1000);
             EntityRepository entityRepository = new EntityRepository();
-            SignalHandler signalHandler = new SignalHandler();
-            SignalBus signalBus = new SignalBus(signalHandler);
 
             InitialSceneStateFactory initialSceneStateFactory = new InitialSceneStateFactory();
             MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory();
 
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory
             (
-                signalBus,
-                signalHandler,
                 entityRepository,
                 contextActionService,
                 filePathProvider,

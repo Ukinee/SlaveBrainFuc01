@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Cubes.Models;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Cubes.Views.Implementations;
@@ -33,7 +32,6 @@ namespace Codebase.Cubes.Repositories.Implementations
             
             _cubeModelRepository.Remove(cubeId);
             _cubeViewRepository.Remove(cubeId);
-            
             $"{_cubeModelRepository.Count} cubes left".Log();
         }
     }

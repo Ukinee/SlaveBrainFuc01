@@ -1,4 +1,5 @@
 ﻿using ApplicationCode.Core.Services.Cameras;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Common.General.Utils;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace ApplicationCode.Core.Services.CursorWorldPositions
     internal class CursorWorldPositionService
     {
         private readonly CameraService _cameraService;
+        
+        private static readonly int SLayerMask = 1 << LayerMask.NameToLayer(GameConstants.RaycastTarget);
 
         public CursorWorldPositionService(CameraService cameraService)
         {
@@ -26,7 +29,7 @@ namespace ApplicationCode.Core.Services.CursorWorldPositions
             
             //todo: raycast layer
             
-            return Physics.Raycast(ray, out hit, float.MaxValue);
+            return Physics.Raycast(ray, out hit, float.MaxValue, SLayerMask);
         }
     }
 }

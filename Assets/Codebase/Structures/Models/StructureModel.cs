@@ -26,6 +26,20 @@ namespace Codebase.Structures.Models
             _cubes[y, x] = cubeId;
         }
 
+        public bool TryRemove(int cubeId)
+        {
+            if (TryGetIndexers(cubeId, out int height, out int width) == false)
+                return false;
+
+            Set(0, height, width);
+            HandleFragmentation();
+
+            if (IsEmpty)
+                Dispose();
+            
+            return true;
+        }
+
         public bool TryGetIndexers(int cubeId, out int height, out int width)
         {
             height = -1;

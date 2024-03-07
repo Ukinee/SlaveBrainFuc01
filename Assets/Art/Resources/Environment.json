@@ -5,7 +5,8 @@
       "TankView": "TankView",
       "BallView": "BallView",
       "CubeView": "CubeView",
-      "Map": "Maps/Map"
+      "Map": "Maps/Map",
+      "AimView": "AimView"
     }
   },
   "Structures": {

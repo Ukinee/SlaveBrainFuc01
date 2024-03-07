@@ -1,9 +1,4 @@
-﻿#define MALOYDEBUG
-
-using System;
-using System.Collections.Generic;
-using Codebase.Core.Common.Application.Types;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+﻿using System.Collections.Generic;
 using Codebase.Structures.Models;
 using Codebase.Structures.Services.Interfaces;
 
@@ -12,11 +7,11 @@ namespace Codebase.Structures.Services.Implementations
     public class StructureService : IStructureService
     {
         private List<StructureModel> _structures = new List<StructureModel>();
-        private StructureCreationService _structureCreationService;
+        private readonly StructureFactory _structureFactory;
 
-        public StructureService(StructureCreationService structureCreationService)
+        public StructureService(StructureFactory structureFactory)
         {
-            _structureCreationService = structureCreationService;
+            _structureFactory = structureFactory;
         }
 
         public void Add(StructureModel structureModel)
@@ -31,33 +26,17 @@ namespace Codebase.Structures.Services.Implementations
         {
             foreach (StructureModel structure in _structures)
             {
-                if (structure.TryGetIndexers(cubeId, out int height, out int width) == false)
-                    continue;
-
-                structure.Set(0, height, width);
-                structure.HandleFragmentation();
-
-                if (structure.IsEmpty)
-                    structure.Dispose();
-
-                break;
+                if (structure.TryRemove(cubeId))
+                    break;
             }
         }
 
         private void OnStructureFragmented(int[][,] islands)
         {
-#if MALOYDEBUG
-            Random random = new Random();
-#endif
-
             foreach (int[,] island in islands)
             {
-#if MALOYDEBUG
-                CubeColor randomColor = (CubeColor)random.Next(0, Enum.GetNames(typeof(CubeColor)).Length);
-                StructureModel structureModel = _structureCreationService.Create(island, randomColor, true);
-#else
-                StructureModel structureModel = _structureCreationService.Create(island);
-#endif
+                StructureModel structureModel = _structureFactory.Create(island);
+
                 Add(structureModel);
             }
         }

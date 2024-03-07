@@ -21,5 +21,15 @@ namespace Codebase.Core.Frameworks.EnitySystem.CQRS
             
             return typedEntity;
         }
+        
+        protected T2 Get<T2>(int id)
+        {
+            IEntity entity = _repository.Get(id);
+            
+            if(entity is not T2 typedEntity)
+                throw new Exception("Type error");
+            
+            return typedEntity;
+        }
     }
 }

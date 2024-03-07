@@ -1,4 +1,5 @@
 ﻿using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Structures.Views.Interfaces;
 using UnityEngine;
 
@@ -23,7 +24,10 @@ namespace Codebase.Structures.Views.Implementations
         
         public void Dispose()
         {
-            Destroy(gameObject);
+            if(gameObject.transform.childCount != 0)
+                "Structure has children on dispose".Log();
+            
+         //   Destroy(gameObject);
         }
     }
 }

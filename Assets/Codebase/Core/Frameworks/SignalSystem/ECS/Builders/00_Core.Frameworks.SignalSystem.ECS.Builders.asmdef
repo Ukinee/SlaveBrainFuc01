@@ -1,4 +1,0 @@
-{
-	"name": "00_Core.Frameworks.SignalSystem.ECS.Builders",
-	"references":[ "GUID:d0d33fa8a1c39d945bd52ebb437d61e9", "GUID:ace789cb23e428f4481221e1a8d7a32e", "GUID:94e81f475a0717144aecd7c3047e2f1d", "GUID:f5c77bda64868cf4298541daad1ec33c" ]
-}

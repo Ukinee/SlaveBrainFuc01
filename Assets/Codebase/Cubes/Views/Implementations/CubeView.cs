@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Codebase.Core.Common.Application.Types;
 using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Frameworks.MVP.BaseClasses;
 using Codebase.Core.Services.Pools;
 using Codebase.Cubes.Presentations.Interfaces;
@@ -68,6 +69,11 @@ namespace Codebase.Cubes.Views.Implementations
         {
             ResetPresenter();
             _pool.Release(this);
+        }
+
+        private void OnDestroy()
+        {
+            MaloyAlert.Error("Cube destroyed");
         }
     }
 }
