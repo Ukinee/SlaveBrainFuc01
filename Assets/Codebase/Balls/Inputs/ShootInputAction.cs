@@ -27,6 +27,9 @@ namespace Codebase.Balls.Inputs
 
         protected override void OnActionStart(object payload)
         {
+            if(_shootService.IsBusy)
+                return;
+            
             _aimService.StartAim(_raycastHitProvider.HitPoint);
         }
 
@@ -36,6 +39,12 @@ namespace Codebase.Balls.Inputs
 
         protected override void OnActionEnd(object payload)
         {
+            if(_shootService.IsBusy)
+                return;
+            
+            if(_aimService.IsAiming == false)
+                return;
+            
             _aimService.EndAim(_raycastHitProvider.HitPoint);
             _shootService.Shoot(_aimService.AimPosition);
         }

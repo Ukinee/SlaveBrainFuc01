@@ -70,10 +70,5 @@ namespace Codebase.Cubes.Views.Implementations
             ResetPresenter();
             _pool.Release(this);
         }
-
-        private void OnDestroy()
-        {
-            MaloyAlert.Error("Cube destroyed");
-        }
     }
 }

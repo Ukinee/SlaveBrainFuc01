@@ -1,7 +1,7 @@
 {
-    "name": "06_Maps.Views.Implementations",
+    "name": "00_Core.Services.PauseServices",
     "rootNamespace": "",
-    "references": ["GUID:c34303143d2fe944b8cc62b80a73d63f","GUID:abe37c14e9e7b4643bc87c24dc038dc4","GUID:19790d531a0842442958b1c0b740ad71","GUID:e8394bb085801f64180ba2a4e86c5046"],
+    "references": ["GUID:1882f379332620944a916d0e0458c6af"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -12,12 +12,10 @@ namespace Codebase.Balls.Services.Implementations
     {
         private readonly GetTankPositionQuery _getTankPositionQuery;
         private readonly IAimView _aimView;
-        private bool _isAiming;
-        
+
         private static readonly int SWallLayerMask = 1 << LayerMask.NameToLayer(GameConstants.Wall);
         private static readonly int SBlockLayerMask = 1 << LayerMask.NameToLayer(GameConstants.Block);
         private static readonly int SLayerMask = SWallLayerMask | SBlockLayerMask;
-
 
         public AimService(GetTankPositionQuery getTankPositionQuery, IAimView aimView)
         {
@@ -26,11 +24,12 @@ namespace Codebase.Balls.Services.Implementations
             _aimView.Disable();
         }
 
+        public bool IsAiming { get; private set; }
         public Vector3 AimPosition { get; private set; }
 
         public void StartAim(Vector3 position)
         {
-            _isAiming = true;
+            IsAiming = true;
             _aimView.Enable();
             SetPosition(position);
         }
@@ -38,15 +37,23 @@ namespace Codebase.Balls.Services.Implementations
         public void SetPosition(Vector3 position)
         {
             AimPosition = position.WithY(GameConstants.YOffset);
-            
-            if(_isAiming == false)
+
+            if (IsAiming == false)
                 return;
 
             Vector3 tankPosition = _getTankPositionQuery.Execute().WithY(GameConstants.YOffset);
             Vector3 direction = AimPosition - tankPosition;
             direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
 
-            if (Physics.Raycast(tankPosition, direction, out RaycastHit hit, float.MaxValue, SLayerMask) == false)
+            if (Physics.Raycast
+                (
+                    tankPosition,
+                    direction,
+                    out RaycastHit hit,
+                    float.MaxValue,
+                    SLayerMask
+                )
+                == false)
                 MaloyAlert.Error($"Raycast error in {nameof(AimService)}");
 
             AimPosition = hit.point;
@@ -56,8 +63,8 @@ namespace Codebase.Balls.Services.Implementations
         public void EndAim(Vector3 position)
         {
             SetPosition(position);
-            
-            _isAiming = false;
+
+            IsAiming = false;
             _aimView.Disable();
         }
     }

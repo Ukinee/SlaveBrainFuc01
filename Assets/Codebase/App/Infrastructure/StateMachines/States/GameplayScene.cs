@@ -2,6 +2,7 @@
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
+using Codebase.Core.Services.PauseServices;
 using Codebase.Structures.CQRS.Commands;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
     public class GameplayScene : ISceneState, IUpdatable, IFixedUpdatable, ILateUpdatable
     {
         private readonly BallMover _ballMover;
+        private readonly PauseService _pauseService;
         private readonly InputService _inputService;
         private readonly ContextActionService _contextActionService;
         private readonly CreateStructureCommand _createStructureCommand;
@@ -18,6 +20,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         public GameplayScene
         (
             BallMover ballMover,
+            PauseService pauseService,
             InputService inputService,
             ContextActionService contextActionService,
             CreateStructureCommand createStructureCommand,
@@ -25,6 +28,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         )
         {
             _ballMover = ballMover;
+            _pauseService = pauseService;
             _inputService = inputService;
             _contextActionService = contextActionService;
             _createStructureCommand = createStructureCommand;
@@ -44,6 +48,12 @@ namespace Codebase.App.Infrastructure.StateMachines.States
 
         public void Update(float deltaTime)
         {
+            if(Input.GetKeyDown(KeyCode.Space))
+                if(_pauseService.IsPaused)
+                    _pauseService.Resume();
+                else
+                    _pauseService.Pause();
+            
             _inputService.OnUpdate();
             _ballMover.Update(deltaTime);
         }

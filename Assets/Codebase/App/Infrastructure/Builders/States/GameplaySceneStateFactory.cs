@@ -13,6 +13,7 @@ using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
+using Codebase.Core.Services.PauseServices;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Maps.Views.Implementations;
 using Codebase.Structures.Controllers;
@@ -58,6 +59,8 @@ namespace Codebase.App.Infrastructure.Builders.States
 
         public ISceneState CreateSceneState(IStateMachineService stateMachineService)
         {
+            PauseService pauseService = new PauseService(_audioService);
+
             CameraService cameraService = new CameraService();
             cameraService.Set(Camera.main);
 
@@ -71,14 +74,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             );
 
             AimView aimView = _assetProvider.Instantiate<AimView>(_filePathProvider.General.Data[PathConstants.General.Aim]);
-
-            MoveService moveService = new MoveService();
-            CollisionService collisionService = new CollisionService();
-            BallMover ballMover = new BallMover(moveService);
-            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover);
-
-            InputService inputService = inputServiceFactory.Create();
-
+            
             MapView mapView = Object.FindObjectOfType<MapView>()
                               ?? _assetProvider.Instantiate<MapView>
                                   (_filePathProvider.General.Data[PathConstants.General.Map]);
@@ -88,11 +84,28 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             TankModel tank = new TankCreationService(tankPositionCalculator, _filePathProvider, _assetProvider).Create();
 
-            GetTankPositionQuery tankPositionQuery = new GetTankPositionQuery(tank, tankPositionCalculator);
+            GetTankPositionQuery getTankPositionQuery = new GetTankPositionQuery(tank, tankPositionCalculator);
             SetTankPositionCommand setTankPositionCommand = new SetTankPositionCommand(tank);
 
-            ShootingService shootingService = new ShootingService(tankPositionQuery, ballPoolService, ballMover);
-            AimService aimService = new AimService(tankPositionQuery, aimView);
+            TankPositionService tankPositionService = new TankPositionService
+            (
+                pauseService,
+                tankPositionCalculator,
+                setTankPositionCommand,
+                getTankPositionQuery
+            );
+
+            MoveService moveService = new MoveService();
+            CollisionService collisionService = new CollisionService();
+            BallMover ballMover = new BallMover(moveService);
+            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover, tankPositionService);
+
+            InputService inputService = inputServiceFactory.Create();
+
+            
+            ShootingService shootingService = new ShootingService(getTankPositionQuery, ballPoolService, ballMover);
+            AimService aimService = new AimService(getTankPositionQuery, aimView);
+
 
             CreateStructureCommandFactory createStructureCommandFactory = new CreateStructureCommandFactory
             (
@@ -105,9 +118,11 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             setTankPositionCommand.Handle(0.5f);
             
+
             return new GameplayScene
             (
                 ballMover,
+                pauseService,
                 inputService,
                 _contextActionService,
                 createStructureCommandFactory.Create(),

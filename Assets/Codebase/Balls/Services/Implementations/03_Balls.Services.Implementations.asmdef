@@ -1,4 +1,30 @@
 {
-	"name": "03_Balls.Services.Implementations",
-	"references":[ "GUID:cd13f2cbbf10a4542ae21ae405d37838", "GUID:e8394bb085801f64180ba2a4e86c5046", "GUID:def724cdb56425648a5f496550bb2eb7", "GUID:c34303143d2fe944b8cc62b80a73d63f", "GUID:1882f379332620944a916d0e0458c6af", "GUID:a0bd105bc224e534d8e78d1cc4cf582d", "GUID:403c1f876a130db44a25985bcdd22717", "GUID:b9a6492555c38f747983b5a899b64121", "GUID:9943d087e41963f4f969f4d93bcfd349", "GUID:4bdd17f11a1ba394da2302790ba80f36", "GUID:4b5a493edca0ac8448b9620c5f2d8626", "GUID:77d4ab3645f08184ba929f0cc29a0987", "GUID:c5eb05227a90bb042b2d6d33068063e8" ]
+    "name": "03_Balls.Services.Implementations",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cd13f2cbbf10a4542ae21ae405d37838",
+        "GUID:e8394bb085801f64180ba2a4e86c5046",
+        "GUID:def724cdb56425648a5f496550bb2eb7",
+        "GUID:c34303143d2fe944b8cc62b80a73d63f",
+        "GUID:1882f379332620944a916d0e0458c6af",
+        "GUID:a0bd105bc224e534d8e78d1cc4cf582d",
+        "GUID:403c1f876a130db44a25985bcdd22717",
+        "GUID:b9a6492555c38f747983b5a899b64121",
+        "GUID:9943d087e41963f4f969f4d93bcfd349",
+        "GUID:4bdd17f11a1ba394da2302790ba80f36",
+        "GUID:4b5a493edca0ac8448b9620c5f2d8626",
+        "GUID:77d4ab3645f08184ba929f0cc29a0987",
+        "GUID:c5eb05227a90bb042b2d6d33068063e8",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:19790d531a0842442958b1c0b740ad71"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

@@ -8,6 +8,6 @@ namespace Codebase.Balls.Presentations.Interfaces
         public Vector3 Direction { get;  }
 
         public void Collide(Vector3 normal);
-        public void OnDeactivatorCollision();
+        public void OnDeactivatorCollision(Vector3 position);
     }
 }

@@ -28,7 +28,7 @@ namespace Codebase.Balls.Views.Implementations
         }
         
         public void OnDeactivatorCollision() =>
-            _ballPresenter.OnDeactivatorCollision();
+            _ballPresenter.OnDeactivatorCollision(transform.position);
 
         public void ResetPresenter() =>
             _ballPresenter = null;

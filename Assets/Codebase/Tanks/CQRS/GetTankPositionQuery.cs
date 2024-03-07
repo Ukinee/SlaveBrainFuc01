@@ -19,5 +19,10 @@ namespace Codebase.Tanks.CQRS
         {
             return _tankPositionCalculator.CalculatePosition(_tank.Position);
         }
+
+        public float ExecuteRaw()
+        {
+            return _tank.Position;
+        }
     }
 }
