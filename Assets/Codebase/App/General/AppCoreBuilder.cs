@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Assets.Codebase.Core.Frameworks.EnitySystem.Repositories;
-using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.Builders;
 using Codebase.App.Infrastructure.Builders.Pools;
 using Codebase.App.Infrastructure.Builders.States;
 using Codebase.App.Infrastructure.StateMachines;
 using Codebase.App.Infrastructure.StateMachines.States;
+using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Balls.Services.Implementations;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Infrastructure.Curtain;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.SceneLoadServices;
 using Codebase.Cubes.Services.Implementations;
@@ -53,11 +54,11 @@ namespace Codebase.App.General
                 new AudioServiceFactory().Create()
             );
 
-            var stateFactories = new Dictionary<Type, Func<IStateMachineService, ISceneState>>()
+            var stateFactories = new Dictionary<Type, Func<IStateMachineService<IScenePayload>, ISceneState>>()
             {
-                [typeof(MainMenuScene)] = mainMenuSceneFactory.CreateSceneState,
-                [typeof(InitialScene)] = initialSceneStateFactory.CreateSceneState,
-                [typeof(GameplayScene)] = gameplaySceneStateFactory.CreateSceneState,
+                [typeof(MainMenuScenePayload)] = mainMenuSceneFactory.CreateSceneState,
+                [typeof(InitialScenePayload)] = initialSceneStateFactory.CreateSceneState,
+                [typeof(GameplayScenePayload)] = gameplaySceneStateFactory.CreateSceneState,
             };
 
             SceneStateMachineService sceneStateMachineService = new SceneStateMachineService

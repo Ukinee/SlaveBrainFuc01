@@ -1,4 +1,4 @@
-﻿namespace Assets.Codebase.Core.Infrastructure.StateMachines.Simple
+﻿namespace Codebase.Core.Infrastructure.StateMachines.Simple
 {
     public interface IState
     {

@@ -1,13 +1,14 @@
-﻿using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
+﻿using Codebase.App.Infrastructure.StatePayloads;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
 {
     public class MainMenuScene : ISceneState
     {
-        private readonly IStateMachineService _stateMachineService;
+        private readonly IStateMachineService<IScenePayload> _stateMachineService;
 
-        public MainMenuScene(IStateMachineService stateMachineService)
+        public MainMenuScene(IStateMachineService<IScenePayload> stateMachineService)
         {
             _stateMachineService = stateMachineService;
         }

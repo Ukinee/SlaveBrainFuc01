@@ -1,14 +1,30 @@
-﻿namespace Codebase.Game.Services
+﻿using Codebase.App.Infrastructure.StatePayloads;
+using Codebase.Core.Common.General.Utils;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
+using Codebase.Core.Services.PauseServices;
+
+namespace Codebase.Game.Services
 {
     public class GameService
     {
         private readonly GameStarter _gameStarter;
         private readonly GameEnder _gameEnder;
+        private readonly IStateMachineService<IScenePayload> _stateMachineService;
+        private readonly PauseService _pauseService;
 
-        public GameService(GameStarter gameStarter, GameEnder gameEnder)
+        
+        public GameService
+        (
+            PauseService pauseService,
+            GameStarter gameStarter,
+            GameEnder gameEnder,
+            IStateMachineService<IScenePayload> stateMachineService
+        )
         {
+            _pauseService = pauseService;
             _gameStarter = gameStarter;
             _gameEnder = gameEnder;
+            _stateMachineService = stateMachineService;
         }
 
         public void Start()
@@ -18,7 +34,14 @@
 
         public void End()
         {
+            if (_pauseService.IsPaused)
+            {
+                MaloyAlert.Warning("Unusual behavior: game ended while pause. Resuming game...");
+                _pauseService.Resume();
+            }
+            
             _gameEnder.End();
+            _stateMachineService.SetState(new MainMenuScenePayload());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Codebase.Core.Services.Common;
 
-namespace Assets.Codebase.Core.Infrastructure.StateMachines.Simple
+namespace Codebase.Core.Infrastructure.StateMachines.Simple
 {
     public sealed class StateMachine : IFixedUpdatable, IUpdatable, ILateUpdatable
     {

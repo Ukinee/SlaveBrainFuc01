@@ -1,16 +1,16 @@
-﻿using System.IO;
-using ApplicationCode.Core.Infrastructure.IdGenerators;
+﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using ApplicationCode.Core.Services.Cameras;
 using ApplicationCode.Core.Services.RaycastHitProviders;
 using Assets.Codebase.Core.Frameworks.EnitySystem.Repositories;
-using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.StateMachines.States;
+using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Balls.Inputs;
 using Codebase.Balls.Services.Implementations;
 using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
@@ -26,7 +26,6 @@ using Codebase.Structures.CQRS.Commands;
 using Codebase.Tanks.CQRS;
 using Codebase.Tanks.Model;
 using Codebase.Tanks.Services.Implementations;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.Builders.States
@@ -64,7 +63,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             _audioService = audioService;
         }
 
-        public ISceneState CreateSceneState(IStateMachineService stateMachineService)
+        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService)
         {
             #region InitFiles
 
@@ -172,7 +171,7 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool);
 
-            GameService gameService = new GameService(gameStarter, gameEnder);
+            GameService gameService = new GameService(pauseService, gameStarter, gameEnder, stateMachineService);
 
             return new GameplayScene
             (

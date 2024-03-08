@@ -1,4 +1,4 @@
-﻿using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
+﻿using Codebase.Core.Infrastructure.StateMachines.Simple;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
 {

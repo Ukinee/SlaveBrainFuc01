@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.App.Infrastructure.StateMachines.States;
+using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Infrastructure.Curtain;
@@ -11,7 +11,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Codebase.App.Infrastructure.StateMachines
 {
-    public class SceneStateMachineService : StateMachineServiceBase<ISceneState>
+    public class SceneStateMachineService : StateMachineServiceBase<ISceneState, IScenePayload>
     {
         private readonly SceneLoadService _sceneLoadService;
         private readonly ICurtain _curtain;
@@ -20,7 +20,7 @@ namespace Codebase.App.Infrastructure.StateMachines
         (
             SceneLoadService sceneLoadService,
             ICurtain curtain,
-            IDictionary<Type, Func<IStateMachineService, ISceneState>> stateFactories
+            IDictionary<Type, Func<IStateMachineService<IScenePayload>, ISceneState>> stateFactories
         ) : base(stateFactories)
         {
             _sceneLoadService = sceneLoadService;
@@ -29,7 +29,7 @@ namespace Codebase.App.Infrastructure.StateMachines
 
         public override void Init()
         {
-            SetState<InitialScene>();
+            SetState(new InitialScenePayload());
         }
 
         public override void Exit()
@@ -37,14 +37,14 @@ namespace Codebase.App.Infrastructure.StateMachines
             MaloyAlert.Message("Disposing game");
         }
 
-        protected override async UniTask OnBeforeStateChangeAsync<T>()
+        protected override async UniTask OnBeforeStateChangeAsync(IScenePayload payload)
         {
             _curtain.Show();
             await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
-            await _sceneLoadService.LoadSceneAsync(typeof(T).Name);
+            await _sceneLoadService.LoadSceneAsync(payload.SceneName);
         }
 
-        protected override async UniTask OnAfterStateChangeAsync<T>()
+        protected override async UniTask OnAfterStateChangeAsync(IScenePayload payload)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
             _curtain.Hide();

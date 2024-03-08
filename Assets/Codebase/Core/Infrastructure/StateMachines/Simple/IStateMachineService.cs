@@ -1,7 +1,7 @@
-﻿namespace Assets.Codebase.Core.Infrastructure.StateMachines.Simple
+﻿namespace Codebase.Core.Infrastructure.StateMachines.Simple
 {
-    public interface IStateMachineService
+    public interface IStateMachineService<in TPayload>
     {
-        public void SetState<T>();
+        public void SetState(TPayload payload);
     }
 }
