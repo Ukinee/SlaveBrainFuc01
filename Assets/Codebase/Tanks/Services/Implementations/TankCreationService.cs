@@ -2,9 +2,9 @@
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Tank.Services.Interfaces;
-using Codebase.Tank.View.Implementations;
 using Codebase.Tanks.Model;
 using Codebase.Tanks.Presentation.Implementations;
+using Codebase.Tanks.View.Implementations;
 
 namespace Codebase.Tanks.Services.Implementations
 {

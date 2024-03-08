@@ -37,7 +37,7 @@ namespace Codebase.Game.Services
             if (_pauseService.IsPaused)
             {
                 MaloyAlert.Warning("Unusual behavior: game ended while pause. Resuming game...");
-                _pauseService.Resume();
+                _pauseService.ApplicationResume();
             }
             
             _gameEnder.End();

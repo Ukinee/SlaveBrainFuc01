@@ -1,10 +1,9 @@
-﻿using System;
-using Codebase.Core.Frameworks.MVP.BaseClasses;
+﻿using Codebase.Core.Frameworks.MVP.BaseClasses;
 using Codebase.Tank.Presentation.Interfaces;
 using Codebase.Tank.View.Interfaces;
 using UnityEngine;
 
-namespace Codebase.Tank.View.Implementations
+namespace Codebase.Tanks.View.Implementations
 {
     public class TankView : ViewBase<ITankPositionPresenter>, ITankView
     {
@@ -15,7 +14,7 @@ namespace Codebase.Tank.View.Implementations
             _transform = transform;
         }
 
-        public void OnDestroy()
+        public void OnDisable()
         {
             Presenter?.Disable();
         }

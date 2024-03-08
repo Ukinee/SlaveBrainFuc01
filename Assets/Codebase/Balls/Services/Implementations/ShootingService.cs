@@ -9,11 +9,12 @@ namespace Codebase.Balls.Services.Implementations
 {
     public class ShootingService : IShootingService
     {
-        private readonly GetTankPositionQuery _tankPositionQuery;
-        private readonly BallPoolService _ballPoolService;
-        private readonly BallMover _ballMover;
+        private GetTankPositionQuery _tankPositionQuery;
+        private BallPoolService _ballPoolService;
+        private BallMover _ballMover;
 
         private int _ballsToShoot = BallConstants.DefaultAmountToShoot;
+        private bool _isDisposed;
 
         public bool IsShooting { get; private set; }
 
@@ -38,6 +39,9 @@ namespace Codebase.Balls.Services.Implementations
         {
             for (int i = 0; i < _ballsToShoot; i++)
             {
+                if(_isDisposed)
+                    break;
+                
                 Shoot(tankPosition, direction);
 
                 await UniTask.Delay(GameConstants.MillisecondsToShoot);
@@ -48,6 +52,15 @@ namespace Codebase.Balls.Services.Implementations
         {
             BallModel ball = _ballPoolService.Get(tankPosition, direction);
             _ballMover.Add(ball);
+        }
+
+        public void Dispose()
+        {
+            _tankPositionQuery = null;
+            _ballPoolService = null;
+            _ballMover = null;
+            
+            _isDisposed = true;
         }
     }
 }

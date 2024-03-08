@@ -169,7 +169,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             GameStarter gameStarter = new GameStarter
                 (setTankPositionCommand, createStructureCommand, setObstacleServiceCommand, gamePresets);
 
-            GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool);
+            GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
 
             GameService gameService = new GameService(pauseService, gameStarter, gameEnder, stateMachineService);
 

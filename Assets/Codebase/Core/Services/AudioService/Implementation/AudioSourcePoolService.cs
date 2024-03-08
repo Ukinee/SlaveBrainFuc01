@@ -33,6 +33,14 @@ namespace Codebase.Core.Services.AudioService.Implementation
             foreach (AudioSource source in _pool)
                 source.UnPause();
         }
+
+        public AudioSource Take()
+        {
+            AudioSource source = Get();
+            _pool.Remove(source);
+            
+            return source;
+        }
         
         public AudioSource Get()
         {

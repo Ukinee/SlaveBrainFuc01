@@ -1,6 +1,7 @@
 ﻿using System;
 using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.PoolTags;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Services.Pools;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ namespace Codebase.Balls.Services.Implementations
 
         protected override void OnBeforeReturn(BallView obj)
         {
+            $"{obj.gameObject.name} was returned to pool".Log();
             obj.gameObject.SetActive(false);
         }
 

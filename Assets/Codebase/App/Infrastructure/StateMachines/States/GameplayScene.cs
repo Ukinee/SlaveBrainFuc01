@@ -48,9 +48,9 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         {
             if(Input.GetKeyDown(KeyCode.Space))
                 if(_pauseService.IsPaused)
-                    _pauseService.Resume();
+                    _pauseService.ApplicationResume();
                 else
-                    _pauseService.Pause();
+                    _pauseService.ApplicationPause();
             
             if(Input.GetKeyDown(KeyCode.K))
                 _gameService.End();

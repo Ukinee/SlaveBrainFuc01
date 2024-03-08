@@ -18,7 +18,7 @@ namespace Codebase.Core.Services.PauseServices
         public bool GetStatus() =>
             IsPaused;
 
-        public void Pause()
+        public void ApplicationPause()
         {
             _audioService.Pause();
             _rememberedTimeScale = Time.timeScale;
@@ -26,11 +26,21 @@ namespace Codebase.Core.Services.PauseServices
             IsPaused = true;
         }
 
-        public void Resume()
+        public void ApplicationResume()
         {
             _audioService.Resume();
             IsPaused = false;
             Time.timeScale = _rememberedTimeScale;
+        }
+
+        public void GameplayPause()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void GameplayResume()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

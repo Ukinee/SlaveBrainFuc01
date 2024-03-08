@@ -1,0 +1,4 @@
+{
+	"name": "01_Forms.Presentations.Interfaces",
+	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:abe37c14e9e7b4643bc87c24dc038dc4" ]
+}

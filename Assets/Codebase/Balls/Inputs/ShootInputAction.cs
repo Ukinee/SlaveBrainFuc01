@@ -34,9 +34,9 @@ namespace Codebase.Balls.Inputs
 
         protected override void OnActionStart(object payload)
         {
-            if (IsBlocked)
+            if (IsBlocked || _raycastHitProvider.HasHit == false)
                 return;
-
+            
             _aimService.StartAim(_raycastHitProvider.HitPoint);
         }
 
