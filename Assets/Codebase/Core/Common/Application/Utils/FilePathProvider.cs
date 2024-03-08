@@ -8,6 +8,7 @@ namespace Codebase.Core.Common.Application.Utils
     {
         public FileData General = new FileData();
         public FileData Structures = new FileData();
+        public FileData Game = new FileData();
     }
 
     public class FileData

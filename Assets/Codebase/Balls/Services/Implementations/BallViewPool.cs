@@ -26,6 +26,14 @@ namespace Codebase.Balls.Services.Implementations
             return view;
         }
 
+        public override void ReleaseAll()
+        {
+            for (int i = WanderingObjects.Count - 1; i >= 0; i--)
+            {
+                WanderingObjects[i].Release();
+            }
+        }
+
         protected override void OnBeforeReturn(BallView obj)
         {
             obj.gameObject.SetActive(false);

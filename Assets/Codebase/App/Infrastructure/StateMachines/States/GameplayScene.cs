@@ -3,7 +3,7 @@ using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
-using Codebase.Structures.CQRS.Commands;
+using Codebase.Game.Services;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
@@ -13,8 +13,8 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         private readonly BallMover _ballMover;
         private readonly PauseService _pauseService;
         private readonly InputService _inputService;
+        private readonly GameService _gameService;
         private readonly ContextActionService _contextActionService;
-        private readonly CreateStructureCommand _createStructureCommand;
         private readonly IContextInputAction[] _inputActions;
 
         public GameplayScene
@@ -22,16 +22,16 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             BallMover ballMover,
             PauseService pauseService,
             InputService inputService,
+            GameService gameService,
             ContextActionService contextActionService,
-            CreateStructureCommand createStructureCommand,
             IContextInputAction[] inputActions
         )
         {
             _ballMover = ballMover;
             _pauseService = pauseService;
             _inputService = inputService;
+            _gameService = gameService;
             _contextActionService = contextActionService;
-            _createStructureCommand = createStructureCommand;
             _inputActions = inputActions;
         }
 
@@ -41,9 +41,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
                 _contextActionService.Register(inputAction);
             
             _inputService.Enable();
-            
-            _createStructureCommand.Handle("Tower", new Vector3(-3, 0, 7));
-            _createStructureCommand.Handle("Tower", new Vector3(3, 0, 7));
+            _gameService.Start();
         }
 
         public void Update(float deltaTime)
@@ -53,6 +51,9 @@ namespace Codebase.App.Infrastructure.StateMachines.States
                     _pauseService.Resume();
                 else
                     _pauseService.Pause();
+            
+            if(Input.GetKeyDown(KeyCode.K))
+                _gameService.End();
             
             _inputService.OnUpdate();
             _ballMover.Update(deltaTime);

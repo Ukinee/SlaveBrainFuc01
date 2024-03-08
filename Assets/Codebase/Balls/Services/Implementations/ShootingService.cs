@@ -15,7 +15,7 @@ namespace Codebase.Balls.Services.Implementations
 
         private int _ballsToShoot = BallConstants.DefaultAmountToShoot;
 
-        public bool IsBusy { get; private set; }
+        public bool IsShooting { get; private set; }
 
         public ShootingService(GetTankPositionQuery tankPositionQuery, BallPoolService ballPoolService, BallMover ballMover)
         {
@@ -23,33 +23,31 @@ namespace Codebase.Balls.Services.Implementations
             _ballPoolService = ballPoolService;
             _ballMover = ballMover;
         }
-        
-        public async void Shoot(Vector3 targetPosition)
+
+        public async UniTask Shoot(Vector3 targetPosition)
         {
             Vector3 tankPosition = _tankPositionQuery.Execute();
             Vector3 direction = targetPosition - tankPosition;
 
-            IsBusy = true;
+            IsShooting = true;
             await ShootTask(tankPosition, direction);
-            IsBusy = false;
+            IsShooting = false;
         }
-        
+
         private async UniTask ShootTask(Vector3 tankPosition, Vector3 direction)
         {
-            for (int i = 0; i < _ballsToShoot - 1; i++)
+            for (int i = 0; i < _ballsToShoot; i++)
             {
                 Shoot(tankPosition, direction);
 
                 await UniTask.Delay(GameConstants.MillisecondsToShoot);
             }
-
-            Shoot(tankPosition, direction);
         }
 
         private void Shoot(Vector3 tankPosition, Vector3 direction)
         {
-            BallModel lastBall = _ballPoolService.Get(tankPosition, direction);
-            _ballMover.Add(lastBall);
+            BallModel ball = _ballPoolService.Get(tankPosition, direction);
+            _ballMover.Add(ball);
         }
     }
 }

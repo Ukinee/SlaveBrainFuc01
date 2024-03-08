@@ -1,0 +1,1 @@
+{"GamePresetDatas":[{"Structures":[{"Id":"Tower","Position":{"x":-3.0,"y":0.0,"z":5.0}},{"Id":"Tower","Position":{"x":3.0,"y":0.0,"z":5.0}}],"ObstacleId":"Cube"},{"Structures":[{"Id":"Tower","Position":{"x":-3.0,"y":0.0,"z":5.0}},{"Id":"Tower","Position":{"x":3.0,"y":0.0,"z":5.0}},{"Id":"Tower","Position":{"x":0.0,"y":0.0,"z":5.0}}],"ObstacleId":"Cube"}]}

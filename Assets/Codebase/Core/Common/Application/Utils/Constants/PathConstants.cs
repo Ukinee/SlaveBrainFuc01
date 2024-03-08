@@ -27,5 +27,10 @@
             public const string SaveFileExtension = ".json";
             public const char FileExtensionSeparator = '.';
         }
+
+        public static class Game
+        {
+            public const string GamePresets = "GamePresets";
+        }
     }
 }

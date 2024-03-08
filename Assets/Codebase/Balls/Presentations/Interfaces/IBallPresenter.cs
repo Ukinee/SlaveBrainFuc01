@@ -9,5 +9,6 @@ namespace Codebase.Balls.Presentations.Interfaces
 
         public void Collide(Vector3 normal);
         public void OnDeactivatorCollision(Vector3 position);
+        void Dispose();
     }
 }

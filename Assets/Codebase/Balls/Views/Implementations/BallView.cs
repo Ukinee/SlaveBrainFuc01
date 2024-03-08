@@ -11,6 +11,7 @@ namespace Codebase.Balls.Views.Implementations
         [SerializeField] private BallCollisionHandler _ballCollisionHandler;
 
         private IPool<BallView> _pool;
+        private IBallPresenter _presenter;
 
         public void SetPosition(Vector3 position) =>
             transform.position = position;
@@ -20,11 +21,20 @@ namespace Codebase.Balls.Views.Implementations
 
         public void ReturnToPool()
         {
+            _presenter = null;
             _ballCollisionHandler.ResetPresenter();
             _pool.Release(this);
         }
 
-        public void Construct(IBallPresenter presenter) =>
+        public void Construct(IBallPresenter presenter)
+        {
+            _presenter = presenter;
             _ballCollisionHandler.Construct(presenter);
+        }
+
+        public void Release()
+        {
+            _presenter.Dispose();
+        }
     }
 }

@@ -15,6 +15,9 @@ namespace Codebase.Core.Services.PauseServices
         
         public bool IsPaused { get; private set; } = false;
 
+        public bool GetStatus() =>
+            IsPaused;
+
         public void Pause()
         {
             _audioService.Pause();

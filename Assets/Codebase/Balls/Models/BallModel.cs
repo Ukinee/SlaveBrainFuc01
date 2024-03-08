@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Codebase.Core.Frameworks.EnitySystem.General;
+using UnityEngine;
 
 namespace Codebase.Balls.Models
 {
     public class BallModel
     {
         public Vector3 Position { get; private set; }
+
         public Vector3 Direction { get; private set; }
 
         public event System.Action<Vector3> OnPositionChanged;

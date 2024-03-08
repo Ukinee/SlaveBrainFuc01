@@ -425,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 4865977371040648787}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalPosition: {x: 5.21, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -507,8 +507,8 @@ Transform:
   m_GameObject: {fileID: 4942159231355141001}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 5}
-  m_LocalScale: {x: 3, y: 1, z: 3.5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 6.07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5046430256859164052}
@@ -532,7 +532,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 1, z: 10}
+  m_Size: {x: 13.17, y: 1, z: 10}
   m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &5377109385373577828
 GameObject:
@@ -592,6 +592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938e83a57f9a4def8c1da79f87945cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deactivator: {fileID: 0}
   _mapData:
     List: []
   _tankLeftPosition: {fileID: 1406402630456325001}
@@ -823,7 +824,7 @@ Transform:
   m_GameObject: {fileID: 8787701049100685605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalPosition: {x: -5.21, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

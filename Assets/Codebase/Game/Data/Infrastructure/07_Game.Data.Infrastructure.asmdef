@@ -1,0 +1,4 @@
+{
+	"name": "07_Game.Data.Infrastructure",
+	"references":[ "GUID:0e23bf560bd707c41875d2d1c77a2d1b", "GUID:def724cdb56425648a5f496550bb2eb7", "GUID:c34303143d2fe944b8cc62b80a73d63f" ]
+}

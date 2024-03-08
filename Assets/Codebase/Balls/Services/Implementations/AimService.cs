@@ -2,7 +2,6 @@
 using Codebase.Balls.Views.Interfaces;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
-using Codebase.Core.Common.General.Utils;
 using Codebase.Tanks.CQRS;
 using UnityEngine;
 
@@ -41,29 +40,23 @@ namespace Codebase.Balls.Services.Implementations
             if (IsAiming == false)
                 return;
 
-            Vector3 tankPosition = _getTankPositionQuery.Execute().WithY(GameConstants.YOffset);
-            Vector3 direction = AimPosition - tankPosition;
+            Vector3 origin = _getTankPositionQuery.Execute().WithY(GameConstants.YOffset);
+            Vector3 direction = AimPosition - origin;
             direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
 
-            if (Physics.Raycast
-                (
-                    tankPosition,
-                    direction,
-                    out RaycastHit hit,
-                    float.MaxValue,
-                    SLayerMask
-                )
-                == false)
-                MaloyAlert.Error($"Raycast error in {nameof(AimService)}");
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, float.MaxValue, SLayerMask) == false)
+            {
+                EndAim(AimPosition);
+
+                return;
+            }
 
             AimPosition = hit.point;
-            _aimView.SetPoints(tankPosition, AimPosition);
+            _aimView.SetPoints(origin, AimPosition);
         }
 
         public void EndAim(Vector3 position)
         {
-            SetPosition(position);
-
             IsAiming = false;
             _aimView.Disable();
         }

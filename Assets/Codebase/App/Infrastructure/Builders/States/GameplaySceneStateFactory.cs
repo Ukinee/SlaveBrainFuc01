@@ -1,4 +1,5 @@
-﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
+﻿using System.IO;
+using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using ApplicationCode.Core.Services.Cameras;
 using ApplicationCode.Core.Services.RaycastHitProviders;
@@ -15,11 +16,17 @@ using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Cubes.Services.Implementations;
+using Codebase.Game.Data.Common;
+using Codebase.Game.Data.Infrastructure;
+using Codebase.Game.Services;
+using Codebase.Maps.Controllers.ServiceCommands;
 using Codebase.Maps.Views.Implementations;
 using Codebase.Structures.Controllers;
+using Codebase.Structures.CQRS.Commands;
 using Codebase.Tanks.CQRS;
 using Codebase.Tanks.Model;
 using Codebase.Tanks.Services.Implementations;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.Builders.States
@@ -59,6 +66,47 @@ namespace Codebase.App.Infrastructure.Builders.States
 
         public ISceneState CreateSceneState(IStateMachineService stateMachineService)
         {
+            #region InitFiles
+
+            // StructurePreset leftTowerStructurePreset = new StructurePreset("Tower", new Vector3(-3, 0, 5));
+            // StructurePreset rightTowerStructurePreset = new StructurePreset("Tower", new Vector3(3, 0, 5));
+            // StructurePreset middleTowerStructurePreset = new StructurePreset("Tower", new Vector3(0, 0, 5));
+            //
+            // GamePresetData twoTowersPreset = new GamePresetData
+            // (
+            //     new[]
+            //     {
+            //         leftTowerStructurePreset,
+            //         rightTowerStructurePreset,
+            //     },
+            //     "Cube"
+            // );
+            //
+            // GamePresetData threeTowersPreset = new GamePresetData
+            // (
+            //     new[]
+            //     {
+            //         leftTowerStructurePreset,
+            //         rightTowerStructurePreset,
+            //         middleTowerStructurePreset
+            //     },
+            //     "Cube"
+            // );
+            //
+            // GamePresetData[] gamePresetDatas = new GamePresetData[]
+            // {
+            //     twoTowersPreset,
+            //     threeTowersPreset
+            // };
+            //
+            // GamePresets testGamePresets = new GamePresets(gamePresetDatas);
+            //
+            // string jsonPath = Application.dataPath + "/Art/Resources/" + _filePathProvider.Game.Data[PathConstants.Game.GamePresets] + ".json";
+            // string json = JsonUtility.ToJson(testGamePresets);
+            // File.WriteAllText(jsonPath, json);
+            
+            #endregion
+
             PauseService pauseService = new PauseService(_audioService);
 
             CameraService cameraService = new CameraService();
@@ -74,10 +122,12 @@ namespace Codebase.App.Infrastructure.Builders.States
             );
 
             AimView aimView = _assetProvider.Instantiate<AimView>(_filePathProvider.General.Data[PathConstants.General.Aim]);
-            
+
             MapView mapView = Object.FindObjectOfType<MapView>()
                               ?? _assetProvider.Instantiate<MapView>
                                   (_filePathProvider.General.Data[PathConstants.General.Map]);
+
+            SetObstacleServiceCommand setObstacleServiceCommand = new SetObstacleServiceCommand(mapView);
 
             TankPositionCalculator tankPositionCalculator = new TankPositionCalculator
                 (mapView.TankLeftPosition, mapView.TankRightPosition, mapView.TankVerticalPosition);
@@ -90,7 +140,6 @@ namespace Codebase.App.Infrastructure.Builders.States
             TankPositionService tankPositionService = new TankPositionService
             (
                 pauseService,
-                tankPositionCalculator,
                 setTankPositionCommand,
                 getTankPositionQuery
             );
@@ -98,14 +147,12 @@ namespace Codebase.App.Infrastructure.Builders.States
             MoveService moveService = new MoveService();
             CollisionService collisionService = new CollisionService();
             BallMover ballMover = new BallMover(moveService);
-            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover, tankPositionService);
+            BallPoolService ballPoolService = new BallPoolService(_ballViewPool, collisionService, ballMover);
 
             InputService inputService = inputServiceFactory.Create();
 
-            
             ShootingService shootingService = new ShootingService(getTankPositionQuery, ballPoolService, ballMover);
             AimService aimService = new AimService(getTankPositionQuery, aimView);
-
 
             CreateStructureCommandFactory createStructureCommandFactory = new CreateStructureCommandFactory
             (
@@ -116,19 +163,27 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _cubeViewPool
             );
 
-            setTankPositionCommand.Handle(0.5f);
-            
+            CreateStructureCommand createStructureCommand = createStructureCommandFactory.Create();
+
+            GamePresets gamePresets = new GamePresetsLoader(_assetProvider, _filePathProvider).Load();
+
+            GameStarter gameStarter = new GameStarter
+                (setTankPositionCommand, createStructureCommand, setObstacleServiceCommand, gamePresets);
+
+            GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool);
+
+            GameService gameService = new GameService(gameStarter, gameEnder);
 
             return new GameplayScene
             (
                 ballMover,
                 pauseService,
                 inputService,
+                gameService,
                 _contextActionService,
-                createStructureCommandFactory.Create(),
                 new IContextInputAction[]
                 {
-                    new ShootInputAction(aimService, shootingService, raycastHitProvider),
+                    new ShootInputAction(aimService, shootingService, raycastHitProvider, tankPositionService),
                     new PositionInputActionWrapper(raycastHitProvider, aimService),
                 }
             );

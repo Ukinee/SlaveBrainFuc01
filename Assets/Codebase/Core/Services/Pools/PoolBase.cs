@@ -8,6 +8,8 @@ namespace Codebase.Core.Services.Pools
         private readonly Func<T> _factory;
         private readonly Queue<T> _pool = new Queue<T>();
         private readonly List<T> _wanderingObjects = new List<T>();
+        
+        protected IReadOnlyList<T> WanderingObjects => _wanderingObjects;
 
         protected PoolBase(Func<T> factory)
         {
@@ -21,11 +23,7 @@ namespace Codebase.Core.Services.Pools
             _pool.Enqueue(obj);
         }
 
-        public void ReleaseAll()
-        {
-            for (int i = _wanderingObjects.Count - 1; i >= 0; i--)
-                Release(_wanderingObjects[i]);
-        }
+        public abstract void ReleaseAll();
 
         protected T GetInternal()
         {

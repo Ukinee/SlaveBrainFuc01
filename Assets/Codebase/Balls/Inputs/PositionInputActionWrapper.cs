@@ -32,6 +32,8 @@ namespace Codebase.Balls.Inputs
 
             if (_raycastHitProvider.HasHit)
                 _aimService.SetPosition(_raycastHitProvider.HitPoint);
+            else
+                _aimService.EndAim(_raycastHitProvider.HitPoint);
         }
 
         protected override void OnActionEnd(Vector2 payload)

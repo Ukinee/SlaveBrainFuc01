@@ -33,6 +33,12 @@ namespace Codebase.Cubes.Services.Implementations
             obj.SetPool(this);
         }
 
+        public override void ReleaseAll()
+        {
+            for (int i = WanderingObjects.Count - 1; i >= 0; i--)
+                WanderingObjects[i].OnDeactivatorCollision();
+        }
+
         protected override void OnBeforeReturn(CubeView obj)
         {
             obj.Deactivate();

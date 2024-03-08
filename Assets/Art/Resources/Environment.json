@@ -15,5 +15,10 @@
       "Structure": "Structures/StructureView",
       "AmountView": "Structures/AmountView"
     }
+  },
+  "Game": {
+    "Data": {
+      "GamePresets": "Game/GamePresets"
+    }
   }
 }
