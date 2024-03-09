@@ -14,6 +14,7 @@ using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Infrastructure.Curtain;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
+using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.SceneLoadServices;
 using Codebase.Cubes.Services.Implementations;
@@ -40,7 +41,17 @@ namespace Codebase.App.General
             EntityRepository entityRepository = new EntityRepository();
 
             InitialSceneStateFactory initialSceneStateFactory = new InitialSceneStateFactory();
-            MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory();
+
+            AudioService audioService = new AudioServiceFactory().Create();
+
+            MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory
+            (
+                idGenerator,
+                entityRepository,
+                audioService,
+                assetProvider,
+                filePathProvider
+            );
 
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory
             (
@@ -51,7 +62,7 @@ namespace Codebase.App.General
                 idGenerator,
                 new BallViewPool(new BallViewFactory(assetProvider, filePathProvider).Create),
                 new CubeViewPool(new CubeViewFactory(assetProvider, filePathProvider).Create),
-                new AudioServiceFactory().Create()
+                audioService
             );
 
             var stateFactories = new Dictionary<Type, Func<IStateMachineService<IScenePayload>, ISceneState>>()

@@ -1,12 +1,12 @@
 {
   "General": {
     "Data": {
-      "Curtain": "Curtain",
-      "TankView": "TankView",
-      "BallView": "BallView",
-      "CubeView": "CubeView",
-      "Map": "Maps/Map",
-      "AimView": "AimView"
+      "Curtain": "General/Curtain",
+      "TankView": "General/TankView",
+      "BallView": "General/BallView",
+      "CubeView": "General/CubeView",
+      "AimView": "General/AimView",
+      "Map": "Maps/Map"
     }
   },
   "Structures": {
@@ -19,6 +19,15 @@
   "Game": {
     "Data": {
       "GamePresets": "Game/GamePresets"
+    }
+  },
+  "Forms": {
+    "Data": {
+      "InterfaceView" : "Forms/InterfaceView",
+      "MainMenuForm" : "Forms/MainMenu/MainMenuForm",
+      "MainMenuShopForm" :  "Forms/MainMenu/MainMenuShopForm" ,
+      "MainMenuSettingsForm" : "Forms/MainMenu/MainMenuSettingsForm",
+      "MainMenuLeaderboardForm" :  "Forms/MainMenu/MainMenuLeaderboardForm"
     }
   }
 }

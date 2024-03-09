@@ -1,21 +1,19 @@
-﻿using Codebase.App.Infrastructure.StatePayloads;
-using Codebase.Core.Infrastructure.StateMachines.Simple;
-using UnityEngine;
+﻿using Codebase.Forms.Factories;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
 {
     public class MainMenuScene : ISceneState
     {
-        private readonly IStateMachineService<IScenePayload> _stateMachineService;
+        private readonly MainMenuFactory _mainMenuFactory;
 
-        public MainMenuScene(IStateMachineService<IScenePayload> stateMachineService)
+        public MainMenuScene(MainMenuFactory mainMenuFactory)
         {
-            _stateMachineService = stateMachineService;
+            _mainMenuFactory = mainMenuFactory;
         }
         
         public void Enter()
         {
-            Debug.Log("Enter MainMenuSceneState");
+            _mainMenuFactory.Create();
         }
 
         public void Exit()

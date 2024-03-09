@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Codebase.Forms.Views.Implementations.MainMenu
 {
-    public class MainMenuLeaderboardView : FormViewBase<IMainMenuLeaderboardFormPresenter>
+    public class MainMenuShopFormView : FormViewBase<IMainMenuShopFormPresenter>
     {
         [SerializeField] private Button _backButton;
 
@@ -13,7 +13,7 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
         {
             _backButton.onClick.AddListener(OnBackButtonClicked);
         }
-
+        
         protected override void OnBeforeDisable()
         {
             _backButton.onClick.RemoveListener(OnBackButtonClicked);
@@ -21,7 +21,7 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
 
         private void OnBackButtonClicked()
         {
-            Presenter.OnBackClick();
+            Presenter.OnClickBack();
         }
     }
 }

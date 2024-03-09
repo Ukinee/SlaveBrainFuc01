@@ -1,12 +1,13 @@
 ﻿using Codebase.Core.Services.Common;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Presentations.Interfaces;
+using Codebase.Forms.Presentations.Interfaces.MainMenu;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
 
 namespace Codebase.Forms.Presentations.Implementations.MainMenu
 {
-    public class MainMenuSettingsFormPresenter : IFormPresenter
+    public class MainMenuSettingsFormPresenter : IMainMenuSettingsFormPresenter
     {
         private readonly IInterfaceService _interfaceService;
         private readonly IAudioService _audioService;

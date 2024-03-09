@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Codebase.Forms.Views.Implementations.MainMenu
 {
-    public class MainMenuSettingsView : FormViewBase<IMainMenuSettingsFormPresenter>, IMainMenuSettingsView
+    public class MainMenuSettingsFormView : FormViewBase<IMainMenuSettingsFormPresenter>, IMainMenuSettingsView
     {
         [SerializeField] private Button _soundMuteButton;
         [SerializeField] private Button _musicMuteButton;

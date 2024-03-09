@@ -3,6 +3,15 @@
     public static class PathConstants
     {
         public const string Environment = "Environment";
+
+        public static class Forms
+        {
+            public const string Interface = "InterfaceView";
+            public const string MainMenuForm = "MainMenuForm";
+            public const string MainMenuShopForm = "MainMenuShopForm";
+            public const string MainMenuSettingsForm = "MainMenuSettingsForm";
+            public const string MainMenuLeaderboardForm = "MainMenuLeaderboardForm";
+        }
         
         public static class Structures
         {
