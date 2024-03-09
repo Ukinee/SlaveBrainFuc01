@@ -11,7 +11,7 @@ namespace Codebase.Forms.Views.Implementations
         {
             Transform childTransform = ((MonoBehaviour)formView).transform;
             
-            childTransform.SetParent(_root);
+            childTransform.SetParent(_root, false);
         }
     }
 }

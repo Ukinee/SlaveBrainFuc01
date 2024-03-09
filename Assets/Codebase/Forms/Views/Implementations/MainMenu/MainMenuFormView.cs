@@ -1,9 +1,9 @@
-﻿using Codebase.Forms.Presentations.Interfaces;
+﻿using System;
 using Codebase.Forms.Presentations.Interfaces.MainMenu;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Codebase.Forms.Views.Implementations
+namespace Codebase.Forms.Views.Implementations.MainMenu
 {
     public class MainMenuFormView : FormViewBase<IMainMenuFormPresenter>
     {

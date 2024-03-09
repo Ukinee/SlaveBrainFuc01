@@ -10,18 +10,24 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
     {
         [SerializeField] private Button _soundMuteButton;
         [SerializeField] private Button _musicMuteButton;
+        [SerializeField] private Button _backButton;
 
         private void OnEnable()
         {
             _soundMuteButton.onClick.AddListener(OnSoundMuteButtonClicked);
             _musicMuteButton.onClick.AddListener(OnMusicMuteButtonClicked);
+            _backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
         protected override void OnBeforeDisable()
         {
             _soundMuteButton.onClick.RemoveListener(OnSoundMuteButtonClicked);
             _musicMuteButton.onClick.RemoveListener(OnMusicMuteButtonClicked);
+            _backButton.onClick.RemoveListener(OnBackButtonClicked);
         }
+
+        private void OnBackButtonClicked() =>
+            Presenter.OnClickBack();
 
         private void OnMusicMuteButtonClicked() =>
             Presenter.OnClickMusic();
