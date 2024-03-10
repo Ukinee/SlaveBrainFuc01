@@ -2,6 +2,7 @@
 {
     public static class PathConstants
     {
+        public const string DataKey = "SaveData";
         public const string Environment = "Environment";
 
         public static class Forms
@@ -12,14 +13,14 @@
             public const string MainMenuSettingsForm = "MainMenuSettingsForm";
             public const string MainMenuLeaderboardForm = "MainMenuLeaderboardForm";
         }
-        
+
         public static class Structures
         {
             public const string StructureDirectoryKey = "StructureDirectoryKey";
             public const string Structure = "Structure";
             public const string AmountView = "AmountView";
         }
-        
+
         public static class General
         {
             public const string Curtain = "Curtain";

@@ -68,7 +68,6 @@ namespace Codebase.Core.Services.AudioService.Implementation
                 return;
 
             IsSoundMuted = true;
-
             _audioSourcePoolService.Pause();
         }
 
@@ -78,7 +77,6 @@ namespace Codebase.Core.Services.AudioService.Implementation
                 return;
 
             IsSoundMuted = false;
-
             _audioSourcePoolService.Resume();
         }
 

@@ -7,26 +7,21 @@ namespace Codebase.Core.Frameworks.EnitySystem.CQRS
     {
         private readonly IEntityRepository _repository;
 
-        public EntityUseCaseBase(IEntityRepository repository)
+        protected EntityUseCaseBase(IEntityRepository repository)
         {
             _repository = repository;
         }
 
         protected T Get(int id)
         {
-            IEntity entity = _repository.Get(id);
-            
-            if(entity is not T typedEntity)
-                throw new Exception("Type error");
-            
-            return typedEntity;
+            return Get<T>(id);
         }
         
-        protected T2 Get<T2>(int id)
+        protected T1 Get<T1>(int id)
         {
             IEntity entity = _repository.Get(id);
             
-            if(entity is not T2 typedEntity)
+            if(entity is not T1 typedEntity)
                 throw new Exception("Type error");
             
             return typedEntity;
