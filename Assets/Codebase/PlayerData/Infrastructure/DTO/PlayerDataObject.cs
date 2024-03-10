@@ -1,16 +1,17 @@
 ﻿using System;
 using Codebase.Maps.Common;
+using UnityEngine.Serialization;
 
 namespace Codebase.PlayerData.Infrastructure.DTO
 {
     [Serializable]
     public class PlayerDataObject
     {
-        public PlayerDataObject(bool isFirstStart, int coins, int infiniteLevelsPassed, int[] passedLevels, string[] unlockedStructuresForInfiniteLevels, MapType[] unlockedMaps)
+        public PlayerDataObject(bool isFirstStart, int coins, int levelsPassed, int[] passedLevels, string[] unlockedStructuresForInfiniteLevels, MapType[] unlockedMaps)
         {
             IsFirstStart = isFirstStart;
             Coins = coins;
-            InfiniteLevelsPassed = infiniteLevelsPassed;
+            LevelsPassed = levelsPassed;
             PassedLevels = passedLevels;
             UnlockedStructuresForInfiniteLevels = unlockedStructuresForInfiniteLevels;
             UnlockedMaps = unlockedMaps;
@@ -29,7 +30,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
         public bool IsFirstStart;
 
         public int Coins;
-        public int InfiniteLevelsPassed;
+        public int LevelsPassed;
         public int[] PassedLevels;
         public string[] UnlockedStructuresForInfiniteLevels;
         public MapType[] UnlockedMaps;

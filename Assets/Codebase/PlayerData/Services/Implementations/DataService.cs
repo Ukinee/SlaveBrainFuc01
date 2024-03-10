@@ -7,7 +7,7 @@ using Unity.Plastic.Newtonsoft.Json;
 
 namespace Codebase.PlayerData.Services.Implementations
 {
-    public class DataService
+    public class DataService : IDataService
     {
         private readonly ISaveLoadService _saveLoadService;
         private readonly IPlayerIdProvider _playerIdProvider;

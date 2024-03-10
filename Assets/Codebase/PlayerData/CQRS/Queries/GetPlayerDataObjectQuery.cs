@@ -1,4 +1,5 @@
-﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
+﻿using System.Linq;
+using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.PlayerData.Infrastructure.DTO;
 using Codebase.PlayerData.Models;
@@ -19,10 +20,10 @@ namespace Codebase.PlayerData.CQRS.Queries
             (
                 false,
                 model.Coins.Value,
-                model.InfiniteLevelsPassed.Value,
-                model.PassedLevels.Value,
-                model.UnlockedStructures.Value,
-                model.UnlockedMaps.Value
+                model.LevelsPassed.Value,
+                model.PassedLevels.Value.ToArray(),
+                model.UnlockedStructures.Value.ToArray(),
+                model.UnlockedMaps.Value.ToArray()
             );
         }
     }

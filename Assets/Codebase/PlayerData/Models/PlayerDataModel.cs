@@ -1,4 +1,6 @@
-﻿using Codebase.Core.Common.General.LiveDatas;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.General;
 using Codebase.Maps.Common;
 
@@ -7,7 +9,7 @@ namespace Codebase.PlayerData.Models
     public class PlayerDataModel : BaseEntity
     {
         private LiveData<int> _coins;
-        private LiveData<int> _infiniteLevelsPassed;
+        private LiveData<int> _levelsPassed;
         private LiveData<int[]> _passedLevels;
         private LiveData<string[]> _unlockedStructures;
         private LiveData<MapType[]> _unlockedMaps;
@@ -23,28 +25,43 @@ namespace Codebase.PlayerData.Models
         ) : base(id)
         {
             _coins = new LiveData<int>(coins);
-            _infiniteLevelsPassed = new LiveData<int>(infiniteLevelsPassed);
+            _levelsPassed = new LiveData<int>(infiniteLevelsPassed);
             _passedLevels = new LiveData<int[]>(passedLevels);
             _unlockedStructures = new LiveData<string[]>(unlockedStructures);
             _unlockedMaps = new LiveData<MapType[]>(unlockedMaps);
         }
 
         public ILiveData<int> Coins => _coins;
-        public ILiveData<int> InfiniteLevelsPassed => _infiniteLevelsPassed;
-        public ILiveData<int[]> PassedLevels => _passedLevels;
-        public ILiveData<string[]> UnlockedStructures => _unlockedStructures;
-        public ILiveData<MapType[]> UnlockedMaps => _unlockedMaps;
+        public ILiveData<int> LevelsPassed => _levelsPassed;
+        public ILiveData<IReadOnlyList<int>> PassedLevels => _passedLevels;
+        public ILiveData<IReadOnlyList<string>> UnlockedStructures => _unlockedStructures;
+        public ILiveData<IReadOnlyList<MapType>> UnlockedMaps => _unlockedMaps;
+
+        public void SetCoins(int coins) =>
+            _coins.Value = coins;
+
+        public void AddLevelsPassed() =>
+            _levelsPassed.Value++;
+
+        public void AddPassedLevel(int passedLevel) =>
+            _passedLevels.Value = _passedLevels.Value.Concat(new int[] { passedLevel }).ToArray();
+
+        public void AddUnlockedStructure(string unlockedStructure) =>
+            _unlockedStructures.Value = _unlockedStructures.Value.Concat(new string[] { unlockedStructure }).ToArray();
+
+        public void AddUnlockedMap(MapType unlockedMap) =>
+            _unlockedMaps.Value = _unlockedMaps.Value.Concat(new MapType[] { unlockedMap }).ToArray();
 
         protected override void OnDispose()
         {
             _coins.Dispose();
-            _infiniteLevelsPassed.Dispose();
+            _levelsPassed.Dispose();
             _passedLevels.Dispose();
             _unlockedStructures.Dispose();
             _unlockedMaps.Dispose();
 
             _coins = null;
-            _infiniteLevelsPassed = null;
+            _levelsPassed = null;
             _passedLevels = null;
             _unlockedStructures = null;
             _unlockedMaps = null;
