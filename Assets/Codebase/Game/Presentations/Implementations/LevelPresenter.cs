@@ -9,6 +9,7 @@ namespace Codebase.Game.Presentations.Implementations
     public class LevelPresenter : ILevelPresenter
     {
         private int _id;
+        private string _levelId;
         private ILevelView _view;
         private ISelectedLevelService _selectedLevelService;
         private ILiveData<bool> _isSelected;
@@ -19,6 +20,7 @@ namespace Codebase.Game.Presentations.Implementations
             int id,
             GetLevelSelectionQuery getLevelSelectionQuery,
             GetLevelStateQuery getLevelStateQuery,
+            GetLevelIdQuery getLevelIdQuery,
             ILevelView view,
             ISelectedLevelService selectedLevelService
         )
@@ -28,6 +30,7 @@ namespace Codebase.Game.Presentations.Implementations
             _selectedLevelService = selectedLevelService;
             _isSelected = getLevelSelectionQuery.Handle(id);
             _isPassed = getLevelStateQuery.Handle(id);
+            _levelId = getLevelIdQuery.Handle(id);
         }
 
         public void Enable()

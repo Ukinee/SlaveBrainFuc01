@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 5, z: 12.91}
+  m_Size: {x: 1, y: 249.9, z: 107.18}
   m_Center: {x: 0.5, y: 0, z: 0}
 --- !u!114 &4790363796070410481
 MonoBehaviour:
@@ -594,6 +594,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deactivator: {fileID: 0}
   _mapData:
+    List: []
+  _obstacleData:
     List: []
   _tankLeftPosition: {fileID: 1406402630456325001}
   _tankRightPosition: {fileID: 6705149695209023478}

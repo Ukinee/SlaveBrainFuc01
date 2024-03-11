@@ -37,7 +37,7 @@ namespace Codebase.Balls.Services.Implementations
 
         protected override void OnBeforeReturn(BallView obj)
         {
-            $"{obj.gameObject.name} was returned to pool".Log();
+//            $"{obj.gameObject.name} was returned to pool".Log();
             obj.gameObject.SetActive(false);
         }
 

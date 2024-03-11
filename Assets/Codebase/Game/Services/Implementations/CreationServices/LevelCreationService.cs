@@ -22,6 +22,7 @@ namespace Codebase.Game.Services.Implementations.CreationServices
         private readonly ISelectedLevelService _selectedLevelService;
         private readonly GetLevelSelectionQuery _getLevelSelectionQuery;
         private readonly GetLevelStateQuery _getLevelStateQuery;
+        private readonly GetLevelIdQuery _getLevelIdQuery;
         private readonly string _assetPath;
 
         public LevelCreationService
@@ -42,6 +43,7 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.LevelView];
             _getLevelStateQuery = new GetLevelStateQuery(entityRepository);
             _getLevelSelectionQuery = new GetLevelSelectionQuery(entityRepository);
+            _getLevelIdQuery = new GetLevelIdQuery(entityRepository);
         }
 
         public int Create(string levelId, bool isPassed)
@@ -58,6 +60,7 @@ namespace Codebase.Game.Services.Implementations.CreationServices
                 id,
                 _getLevelSelectionQuery,
                 _getLevelStateQuery,
+                _getLevelIdQuery,
                 view,
                 _selectedLevelService
             );

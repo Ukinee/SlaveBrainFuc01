@@ -6,11 +6,11 @@ namespace Codebase.Cubes.Models
 {
     public class CubeModel : BaseEntity
     {
+        private readonly LiveData<CubeColor> _colorData = new LiveData<CubeColor>(CubeColor.Magenta);
+
         public CubeModel(int id) : base(id)
         {
         }
-
-        private readonly LiveData<CubeColor> _colorData = new LiveData<CubeColor>(CubeColor.Magenta);
 
         public ILiveData<CubeColor> Color => _colorData;
 

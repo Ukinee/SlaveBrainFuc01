@@ -14,7 +14,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         
         public void Enter()
         {
-            _stateMachineService.SetState(new MainMenuScenePayload());
+            _stateMachineService.SetState(new GameplayScenePayload());
         }
 
         public void Exit()
