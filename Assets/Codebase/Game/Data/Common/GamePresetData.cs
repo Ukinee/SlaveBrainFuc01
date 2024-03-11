@@ -7,26 +7,28 @@ namespace Codebase.Game.Data.Common
     [Serializable]
     public class GamePresetData
     {
-        public GamePresetData(StructurePreset[] structures, string obstacleId)
+        public GamePresetData(StructurePreset[] structures, string obstacleId, string gamePresetId)
         {
             Structures = structures;
             ObstacleId = obstacleId;
+            GamePresetId = gamePresetId;
         }
 
-        [JsonProperty] public StructurePreset[] Structures;
-        [JsonProperty] public string ObstacleId;
+        [JsonProperty] public string GamePresetId { get; private set; }
+        [JsonProperty] public StructurePreset[] Structures { get; private set; }
+        [JsonProperty] public string ObstacleId { get; private set; }
     }
 
     [Serializable]
     public class StructurePreset
     {
-        public StructurePreset(string id, Vector3 position)
+        public StructurePreset(string structureId, Vector3 position)
         {
-            Id = id;
+            StructureId = structureId;
             Position = position;
         }
 
-        public string Id;
-        public Vector3 Position;
+        public string StructureId {get; private set; }
+        public Vector3 Position {get; private set; }
     }
 }

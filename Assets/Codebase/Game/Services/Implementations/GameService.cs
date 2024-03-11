@@ -3,7 +3,7 @@ using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.PauseServices;
 
-namespace Codebase.Game.Services
+namespace Codebase.Game.Services.Implementations
 {
     public class GameService
     {

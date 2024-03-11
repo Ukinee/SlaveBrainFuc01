@@ -4,6 +4,7 @@ using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Game.Services;
+using Codebase.Game.Services.Implementations;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States

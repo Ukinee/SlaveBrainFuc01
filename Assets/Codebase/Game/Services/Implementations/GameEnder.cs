@@ -2,7 +2,7 @@
 using Codebase.Balls.Services.Interfaces;
 using Codebase.Cubes.Services.Implementations;
 
-namespace Codebase.Game.Services
+namespace Codebase.Game.Services.Implementations
 {
     public class GameEnder
     {

@@ -1,3 +1,4 @@
 {
-	"name": "08_PlayerData.Presentations.Implementations"
+	"name": "08_PlayerData.Presentations.Implementations",
+	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:3b07cdab0638e5a4e88305c86c0b084b", "GUID:b9a6492555c38f747983b5a899b64121", "GUID:6ae07fe0f95956f40ab8326cceb77802", "GUID:8cdd35f9e8ea5f54d8ecc93f1ff4dfe5" ]
 }

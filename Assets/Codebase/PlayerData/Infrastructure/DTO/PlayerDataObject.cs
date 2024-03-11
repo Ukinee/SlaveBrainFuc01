@@ -1,13 +1,21 @@
 ﻿using System;
 using Codebase.Maps.Common;
-using UnityEngine.Serialization;
+using Unity.Plastic.Newtonsoft.Json;
 
 namespace Codebase.PlayerData.Infrastructure.DTO
 {
     [Serializable]
     public class PlayerDataObject
     {
-        public PlayerDataObject(bool isFirstStart, int coins, int levelsPassed, int[] passedLevels, string[] unlockedStructuresForInfiniteLevels, MapType[] unlockedMaps)
+        public PlayerDataObject
+        (
+            bool isFirstStart,
+            int coins,
+            int levelsPassed,
+            string[] passedLevels,
+            string[] unlockedStructuresForInfiniteLevels,
+            MapType[] unlockedMaps
+        )
         {
             IsFirstStart = isFirstStart;
             Coins = coins;
@@ -22,17 +30,17 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             true,
             0,
             0,
-            Array.Empty<int>(),
+            Array.Empty<string>(),
             Array.Empty<string>(),
             new[] { MapType.Grass1 }
         );
 
-        public bool IsFirstStart;
+        [JsonProperty] public bool IsFirstStart { get; private set; }
 
-        public int Coins;
-        public int LevelsPassed;
-        public int[] PassedLevels;
-        public string[] UnlockedStructuresForInfiniteLevels;
-        public MapType[] UnlockedMaps;
+        [JsonProperty] public int Coins { get; private set; }
+        [JsonProperty] public int LevelsPassed { get; private set; }
+        [JsonProperty] public string[] PassedLevels { get; private set; }
+        [JsonProperty] public string[] UnlockedStructuresForInfiniteLevels { get; private set; }
+        [JsonProperty] public MapType[] UnlockedMaps { get; private set; }
     }
 }

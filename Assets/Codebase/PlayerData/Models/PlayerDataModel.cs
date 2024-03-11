@@ -10,7 +10,7 @@ namespace Codebase.PlayerData.Models
     {
         private LiveData<int> _coins;
         private LiveData<int> _levelsPassed;
-        private LiveData<int[]> _passedLevels;
+        private LiveData<string[]> _passedLevels;
         private LiveData<string[]> _unlockedStructures;
         private LiveData<MapType[]> _unlockedMaps;
 
@@ -19,21 +19,21 @@ namespace Codebase.PlayerData.Models
             int id,
             int coins,
             int infiniteLevelsPassed,
-            int[] passedLevels,
+            string[] passedLevels,
             string[] unlockedStructures,
             MapType[] unlockedMaps
         ) : base(id)
         {
             _coins = new LiveData<int>(coins);
             _levelsPassed = new LiveData<int>(infiniteLevelsPassed);
-            _passedLevels = new LiveData<int[]>(passedLevels);
+            _passedLevels = new LiveData<string[]>(passedLevels);
             _unlockedStructures = new LiveData<string[]>(unlockedStructures);
             _unlockedMaps = new LiveData<MapType[]>(unlockedMaps);
         }
 
         public ILiveData<int> Coins => _coins;
         public ILiveData<int> LevelsPassed => _levelsPassed;
-        public ILiveData<IReadOnlyList<int>> PassedLevels => _passedLevels;
+        public ILiveData<IReadOnlyList<string>> PassedLevels => _passedLevels;
         public ILiveData<IReadOnlyList<string>> UnlockedStructures => _unlockedStructures;
         public ILiveData<IReadOnlyList<MapType>> UnlockedMaps => _unlockedMaps;
 
@@ -43,8 +43,8 @@ namespace Codebase.PlayerData.Models
         public void AddLevelsPassed() =>
             _levelsPassed.Value++;
 
-        public void AddPassedLevel(int passedLevel) =>
-            _passedLevels.Value = _passedLevels.Value.Concat(new int[] { passedLevel }).ToArray();
+        public void AddPassedLevel(string passedLevel) =>
+            _passedLevels.Value = _passedLevels.Value.Concat(new string[] { passedLevel }).ToArray();
 
         public void AddUnlockedStructure(string unlockedStructure) =>
             _unlockedStructures.Value = _unlockedStructures.Value.Concat(new string[] { unlockedStructure }).ToArray();

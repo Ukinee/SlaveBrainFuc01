@@ -1,0 +1,4 @@
+{
+	"name": "07_Game.Models",
+	"references":[ "GUID:a1268674eedd82a498d25229d6514ad9", "GUID:7fe7e71072fd8b44888d977a5f612d42", "GUID:b9a6492555c38f747983b5a899b64121" ]
+}

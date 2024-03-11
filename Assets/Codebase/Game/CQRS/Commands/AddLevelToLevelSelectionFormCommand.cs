@@ -1,0 +1,16 @@
+﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
+using Codebase.Game.Models;
+
+namespace Codebase.Game.CQRS.Commands
+{
+    public class AddLevelToLevelSelectionFormCommand : EntityUseCaseBase<LevelSelectionFormModel>
+    {
+        protected AddLevelToLevelSelectionFormCommand(IEntityRepository repository) : base(repository)
+        {
+        }
+
+        public void Handle(int formId, int levelId) =>
+            Get(formId).AddLevel(levelId);
+    }
+}

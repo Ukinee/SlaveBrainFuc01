@@ -12,6 +12,8 @@
             public const string MainMenuShopForm = "MainMenuShopForm";
             public const string MainMenuSettingsForm = "MainMenuSettingsForm";
             public const string MainMenuLeaderboardForm = "MainMenuLeaderboardForm";
+            public const string LevelSelectingFormView = "LevelSelectingFormView";
+            public const string LevelView = "LevelView";
         }
 
         public static class Structures

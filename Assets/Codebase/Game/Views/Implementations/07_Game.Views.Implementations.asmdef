@@ -1,0 +1,4 @@
+{
+	"name": "07_Game.Views.Implementations",
+	"references":[ "GUID:4035c2865cd4da3499b325d8d321a258", "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:f0f99fed60dcba14590452724994f874", "GUID:b9a6492555c38f747983b5a899b64121", "GUID:0c62fef25069fb54cb148a2680df58a5" ]
+}

@@ -4,7 +4,7 @@ using Codebase.Structures.CQRS.Commands;
 using Codebase.Tanks.CQRS;
 using UnityEngine;
 
-namespace Codebase.Game.Services
+namespace Codebase.Game.Services.Implementations
 {
     public class GameStarter
     {
@@ -40,7 +40,7 @@ namespace Codebase.Game.Services
             GamePresetData gamePresetData = _gamePresets.GamePresetDatas[randomIndex];
 
             foreach (StructurePreset structurePreset in gamePresetData.Structures)
-                _createStructureCommand.Handle(structurePreset.Id, structurePreset.Position);
+                _createStructureCommand.Handle(structurePreset.StructureId, structurePreset.Position);
             
             _setObstacleServiceCommand.Set(gamePresetData.ObstacleId);
         }
