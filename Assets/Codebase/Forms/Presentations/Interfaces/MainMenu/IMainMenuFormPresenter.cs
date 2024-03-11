@@ -10,5 +10,6 @@ namespace Codebase.Forms.Presentations.Interfaces.MainMenu
         public void OnClickLeaderboard();
         public void OnClickShop();
         public void OnClickMapType(MapType mapType);
+        public void OnClickLevelSelection();
     }
 }

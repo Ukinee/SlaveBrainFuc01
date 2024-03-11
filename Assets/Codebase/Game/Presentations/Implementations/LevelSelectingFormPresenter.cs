@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using Codebase.Core.Common.General.Extensions.ListExtentions;
 using Codebase.Core.Common.General.LiveDatas;
-using Codebase.Core.Frameworks.MVP.Interfaces;
-using Codebase.Forms.Views.Interfaces;
+using Codebase.Forms.Common.FormTypes.MainMenu;
+using Codebase.Forms.Services.Implementations;
 using Codebase.Game.CQRS.Queries;
+using Codebase.Game.Presentations.Interfaces;
 using Codebase.Game.Services.Interfaces;
 using Codebase.Game.Views.Interfaces;
 
 namespace Codebase.Game.Presentations.Implementations
 {
-    public class LevelSelectingFormPresenter : IPresenter
+    public class LevelSelectingFormPresenter : ILevelSelectingFormPresenter
     {
         private ILevelViewRepository _levelViewRepository;
         private ILevelSelectingFormView _levelSelectingForm;
+        private readonly IInterfaceService _interfaceService;
         private ILiveData<IReadOnlyList<int>> _levelIds;
 
         private IReadOnlyList<int> _currentIds = Array.Empty<int>();
@@ -23,11 +25,13 @@ namespace Codebase.Game.Presentations.Implementations
             int id,
             GetLevelIdsQuery getLevelIdsQuery,
             ILevelViewRepository levelViewRepository,
-            ILevelSelectingFormView levelSelectingForm
+            ILevelSelectingFormView levelSelectingForm,
+            IInterfaceService interfaceService
         )
         {
             _levelViewRepository = levelViewRepository;
             _levelSelectingForm = levelSelectingForm;
+            _interfaceService = interfaceService;
             _levelIds = getLevelIdsQuery.Handle(id);
         }
 
@@ -39,6 +43,11 @@ namespace Codebase.Game.Presentations.Implementations
         public void Disable()
         {
             _levelIds.RemoveListener(OnLevelIdsChanged);
+        }
+
+        public void OnBackClicked()
+        {
+            _interfaceService.Hide(new LevelSelectorFormType());
         }
 
         private void OnLevelIdsChanged(IReadOnlyList<int> ids)

@@ -43,6 +43,11 @@ namespace Codebase.Forms.Presentations.Implementations.MainMenu
             _interfaceService.Show(new MainMenuShopFormType());
         }
 
+        public void OnClickLevelSelection()
+        {
+            _interfaceService.Show(new LevelSelectorFormType());
+        }
+
         public void OnClickMapType(MapType mapType)
         {
             $"{mapType} map type".Log();

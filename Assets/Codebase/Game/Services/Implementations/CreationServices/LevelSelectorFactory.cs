@@ -72,7 +72,8 @@ namespace Codebase.Game.Services.Implementations.CreationServices
                 id,
                 _getLevelIdsQuery,
                 _levelViewRepository,
-                view
+                view,
+                _interfaceService
             );
             
             _interfaceView.SetChild(view);

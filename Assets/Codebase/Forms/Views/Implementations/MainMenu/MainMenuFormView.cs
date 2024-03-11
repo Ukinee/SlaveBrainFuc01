@@ -14,6 +14,7 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _leaderboardButton;
         [SerializeField] private Button _shopButton;
+        [SerializeField] private Button _levelSelectionButton;
 
         private void OnEnable()
         {
@@ -21,6 +22,7 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
             _settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             _leaderboardButton.onClick.AddListener(OnLeaderboardButtonClicked);
             _shopButton.onClick.AddListener(OnShopButtonClicked);
+            _levelSelectionButton.onClick.AddListener(OnLevelSelectionButtonClicked);
         }
 
         private void OnDisable()
@@ -29,7 +31,11 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
             _settingsButton.onClick.RemoveListener(OnSettingsButtonClicked);
             _leaderboardButton.onClick.RemoveListener(OnLeaderboardButtonClicked);
             _shopButton.onClick.RemoveListener(OnShopButtonClicked);
+            _levelSelectionButton.onClick.RemoveListener(OnLevelSelectionButtonClicked);
         }
+
+        private void OnLevelSelectionButtonClicked() =>
+            Presenter.OnClickLevelSelection();
 
         public void Set(string value) =>
             _coinAmount.text = value;
