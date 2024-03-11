@@ -8,10 +8,14 @@ using Codebase.Core.Services.Common;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Factories.Forms;
 using Codebase.Forms.Models;
-using Codebase.Forms.Presentations.Implementations.MainMenu;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.Game.Services.Implementations.CreationServices;
+using Codebase.Game.Services.Implementations.Repositories;
+using Codebase.Game.Services.Interfaces;
+using Codebase.PlayerData.CQRS.Queries;
+using Codebase.PlayerData.Services.Interfaces;
 
 namespace Codebase.Forms.Factories
 {
@@ -20,32 +24,44 @@ namespace Codebase.Forms.Factories
         private readonly IIdGenerator _idGenerator;
         private readonly IEntityRepository _entityRepository;
         private readonly IInterfaceService _interfaceService;
+        private readonly LevelRepositoryController _levelRepositoryController;
         private readonly IInterfaceView _interfaceView;
         private readonly IAudioService _audioService;
+        private readonly ISelectedLevelService _selectedLevelService;
         private readonly AssetProvider _assetProvider;
         private readonly FilePathProvider _filePathProvider;
+        private GetPassedLevelsQuery _getPassedLevelsQuery;
+        private IPlayerIdProvider _playerIdProvider;
 
         public FormCreationServiceFactory
         (
             IIdGenerator idGenerator,
             IEntityRepository entityRepository,
             IInterfaceService interfaceService,
+            LevelRepositoryController levelRepositoryController,
             IInterfaceView interfaceView,
             IAudioService audioService,
+            ISelectedLevelService selectedLevelService,
             AssetProvider assetProvider,
-            FilePathProvider filePathProvider
+            FilePathProvider filePathProvider,
+            GetPassedLevelsQuery getPassedLevelsQuery,
+            IPlayerIdProvider playerIdProvider
         )
         {
             _idGenerator = idGenerator;
             _entityRepository = entityRepository;
             _interfaceService = interfaceService;
+            _levelRepositoryController = levelRepositoryController;
             _interfaceView = interfaceView;
             _audioService = audioService;
+            _selectedLevelService = selectedLevelService;
             _assetProvider = assetProvider;
             _filePathProvider = filePathProvider;
+            _getPassedLevelsQuery = getPassedLevelsQuery;
+            _playerIdProvider = playerIdProvider;
         }
 
-        public FormCreationService Create()
+        public FormCreationService Create(string[] levelIds)
         {
             MainMenuFormFactory mainMenuFormFactory = new MainMenuFormFactory
             (
@@ -53,7 +69,8 @@ namespace Codebase.Forms.Factories
                 _interfaceService,
                 _entityRepository,
                 _assetProvider,
-                _filePathProvider
+                _filePathProvider,
+                _playerIdProvider
             );
 
             MainMenuSettingsFormFactory settingsFormFactory = new MainMenuSettingsFormFactory
@@ -84,8 +101,44 @@ namespace Codebase.Forms.Factories
                 _filePathProvider
             );
 
+            #region LevelSelector
+
+            LevelSelectorFactory levelSelectorFactory = new LevelSelectorFactory
+            (
+                _assetProvider,
+                _filePathProvider,
+                _idGenerator,
+                _entityRepository,
+                _levelRepositoryController,
+                _interfaceService,
+                _interfaceView
+            );
+
+            LevelCreationService levelCreationService = new LevelCreationService
+            (
+                _idGenerator,
+                _assetProvider,
+                _filePathProvider,
+                _entityRepository,
+                _levelRepositoryController,
+                _selectedLevelService
+            );
+
+            MainMenuLevelSelectorCreationService mainMenuLevelSelectorCreationService =
+                new MainMenuLevelSelectorCreationService
+                (
+                    levelCreationService,
+                    levelSelectorFactory,
+                    _getPassedLevelsQuery,
+                    _entityRepository,
+                    levelIds
+                );
+
+            #endregion
+
             var factories = new Dictionary<Type, Func<Tuple<FormBase, IFormView>>>()
             {
+                [typeof(LevelSelectorFormType)] = mainMenuLevelSelectorCreationService.Create,
                 [typeof(MainMenuFormType)] = mainMenuFormFactory.Create,
                 [typeof(MainMenuSettingsFormType)] = settingsFormFactory.Create,
                 [typeof(MainMenuShopFormType)] = shopFormFactory.Create,

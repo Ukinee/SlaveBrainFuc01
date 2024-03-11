@@ -4,6 +4,6 @@ namespace Codebase.Game.Views.Interfaces
 {
     public interface ILevelSelectingFormView : IFormView
     {
-        public void SetParent(ILevelView levelView);
+        public void SetChild(ILevelView levelView);
     }
 }

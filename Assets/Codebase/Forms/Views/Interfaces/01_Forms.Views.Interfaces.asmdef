@@ -1,7 +1,7 @@
 {
     "name": "01_Forms.Views.Interfaces",
     "rootNamespace": "",
-    "references": [],
+    "references": ["GUID:4d8b431b249b69c4daccc5a5d3aee0f3"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

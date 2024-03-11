@@ -49,7 +49,7 @@ namespace Codebase.Game.Presentations.Implementations
             {
                 ILevelView view = _levelViewRepository.GetView(addedId);
 
-                _levelSelectingForm.SetParent(view);
+                _levelSelectingForm.SetChild(view);
             }
 
             foreach (int removedId in removed)

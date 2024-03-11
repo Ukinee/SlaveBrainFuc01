@@ -18,14 +18,14 @@ namespace Codebase.PlayerData.Models
         (
             int id,
             int coins,
-            int infiniteLevelsPassed,
+            int levelsPassed,
             string[] passedLevels,
             string[] unlockedStructures,
             MapType[] unlockedMaps
         ) : base(id)
         {
             _coins = new LiveData<int>(coins);
-            _levelsPassed = new LiveData<int>(infiniteLevelsPassed);
+            _levelsPassed = new LiveData<int>(levelsPassed);
             _passedLevels = new LiveData<string[]>(passedLevels);
             _unlockedStructures = new LiveData<string[]>(unlockedStructures);
             _unlockedMaps = new LiveData<MapType[]>(unlockedMaps);

@@ -1,10 +1,13 @@
-﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
+﻿using System;
+using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Forms.CQRS.Queries;
+using Codebase.Forms.Models;
 using Codebase.Forms.Presentations.Implementations;
+using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.CQRS.Queries;
 using Codebase.Game.Models;
@@ -14,7 +17,7 @@ using Codebase.Game.Views.Implementations;
 
 namespace Codebase.Game.Services.Implementations.CreationServices
 {
-    public class LevelSelectorCreationService
+    public class LevelSelectorFactory
     {
         private readonly AssetProvider _assetProvider;
         private readonly GetLevelIdsQuery _getLevelIdsQuery;
@@ -22,16 +25,18 @@ namespace Codebase.Game.Services.Implementations.CreationServices
         private readonly IIdGenerator _idGenerator;
         private readonly IEntityRepository _entityRepository;
         private readonly ILevelViewRepository _levelViewRepository;
+        private readonly IInterfaceService _interfaceService;
         private readonly IInterfaceView _interfaceView;
         private readonly string _assetPath;
 
-        public LevelSelectorCreationService
+        public LevelSelectorFactory
         (
             AssetProvider assetProvider,
             FilePathProvider filePathProvider,
             IIdGenerator idGenerator,
             IEntityRepository entityRepository,
             ILevelViewRepository levelViewRepository,
+            IInterfaceService interfaceService,
             IInterfaceView interfaceView
         )
         {
@@ -39,12 +44,13 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             _idGenerator = idGenerator;
             _entityRepository = entityRepository;
             _levelViewRepository = levelViewRepository;
+            _interfaceService = interfaceService;
             _interfaceView = interfaceView;
             _getLevelIdsQuery = new GetLevelIdsQuery(entityRepository);
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.LevelSelectingFormView];
         }
         
-        public int Create()
+        public Tuple<FormBase, IFormView> Create()
         {
             int id = _idGenerator.Generate();
 
@@ -72,8 +78,10 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             
             visibilityPresenter.Enable();
             levelSelectingFormPresenter.Enable();
-
-            return id;
+            
+            view.Construct(levelSelectingFormPresenter);
+            
+            return new Tuple<FormBase, IFormView>(model, view);
         }
     }
 }

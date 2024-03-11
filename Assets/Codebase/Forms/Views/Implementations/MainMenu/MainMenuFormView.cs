@@ -1,12 +1,15 @@
 ﻿using System;
 using Codebase.Forms.Presentations.Interfaces.MainMenu;
+using Codebase.PlayerData.Views.Interfaces;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Codebase.Forms.Views.Implementations.MainMenu
 {
-    public class MainMenuFormView : FormViewBase<IMainMenuFormPresenter>
+    public class MainMenuFormView : FormViewBase<IMainMenuFormPresenter>, ITextView
     {
+        [SerializeField] private TMP_Text _coinAmount;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _leaderboardButton;
@@ -28,6 +31,9 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
             _shopButton.onClick.RemoveListener(OnShopButtonClicked);
         }
 
+        public void Set(string value) =>
+            _coinAmount.text = value;
+
         private void OnStartButtonClicked() =>
             Presenter.OnClickStart();
 
@@ -39,5 +45,10 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
 
         private void OnShopButtonClicked() =>
             Presenter.OnClickShop();
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

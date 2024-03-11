@@ -14,6 +14,7 @@
             public const string MainMenuLeaderboardForm = "MainMenuLeaderboardForm";
             public const string LevelSelectingFormView = "LevelSelectingFormView";
             public const string LevelView = "LevelView";
+            public const string CoinView = "CoinView";
         }
 
         public static class Structures

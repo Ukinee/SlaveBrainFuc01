@@ -1,44 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
+using Codebase.Forms.Models;
+using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.CQRS.Commands;
 using Codebase.PlayerData.CQRS.Queries;
-using Codebase.PlayerData.Services.Interfaces;
 
 namespace Codebase.Game.Services.Implementations.CreationServices
 {
     public class MainMenuLevelSelectorCreationService
     {
         private readonly LevelCreationService _levelCreationService;
-        private readonly LevelSelectorCreationService _levelSelectorCreationService;
+        private readonly LevelSelectorFactory _levelSelectorFactory;
         private readonly GetPassedLevelsQuery _getPassedLevelsQuery;
+        private readonly string[] _levelIds;
         private readonly AddLevelToLevelSelectionFormCommand _addLevelToLevelSelectionFormCommand;
 
         public MainMenuLevelSelectorCreationService
         (
             LevelCreationService levelCreationService,
-            LevelSelectorCreationService levelSelectorCreationService,
+            LevelSelectorFactory levelSelectorFactory,
             GetPassedLevelsQuery getPassedLevelsQuery,
-            IEntityRepository entityRepository
+            IEntityRepository entityRepository,
+            string[] levelIds
         )
         {
             _levelCreationService = levelCreationService;
-            _levelSelectorCreationService = levelSelectorCreationService;
+            _levelSelectorFactory = levelSelectorFactory;
             _getPassedLevelsQuery = getPassedLevelsQuery;
+            _levelIds = levelIds;
             _addLevelToLevelSelectionFormCommand = new AddLevelToLevelSelectionFormCommand(entityRepository);
         }
 
-        public void Create(string[] levelIds)
+        public Tuple<FormBase, IFormView> Create()
         {
-            int selectorForm = _levelSelectorCreationService.Create();
+            Tuple<FormBase, IFormView> tuple = _levelSelectorFactory.Create();
+
+            int selectorFormId = tuple.Item1.Id;
             IReadOnlyList<string> passedLevels = _getPassedLevelsQuery.Handle();
 
-            foreach (string levelStringId in levelIds)
+            foreach (string levelStringId in _levelIds)
             {
                 int levelId = _levelCreationService.Create(levelStringId, passedLevels.Contains(levelStringId));
                 
-                _addLevelToLevelSelectionFormCommand.Handle(selectorForm, levelId);
+                _addLevelToLevelSelectionFormCommand.Handle(selectorFormId, levelId);
             }
+
+            return tuple;
         }
     }
 }

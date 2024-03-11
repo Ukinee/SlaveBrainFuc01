@@ -10,7 +10,7 @@ namespace Codebase.PlayerData.CQRS.Queries
     {
         private readonly IPlayerIdProvider _playerIdProvider;
 
-        protected GetPassedLevelsQuery(IPlayerIdProvider playerIdProvider, IEntityRepository repository) : base(repository)
+        public GetPassedLevelsQuery(IPlayerIdProvider playerIdProvider, IEntityRepository repository) : base(repository)
         {
             _playerIdProvider = playerIdProvider;
         }

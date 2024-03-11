@@ -12,6 +12,9 @@ using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Implementations;
 using Codebase.Forms.Views.Implementations.MainMenu;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.PlayerData.CQRS.Queries;
+using Codebase.PlayerData.Presentations.Implementations;
+using Codebase.PlayerData.Services.Interfaces;
 
 namespace Codebase.Forms.Factories.Forms
 {
@@ -23,6 +26,7 @@ namespace Codebase.Forms.Factories.Forms
         private readonly IEntityRepository _entityRepository;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
         private readonly string _path;
+        private IPlayerIdProvider _playerIdProvider;
 
         public MainMenuFormFactory
         (
@@ -30,15 +34,17 @@ namespace Codebase.Forms.Factories.Forms
             IInterfaceService interfaceService,
             IEntityRepository entityRepository,
             AssetProvider assetProvider,
-            FilePathProvider filePathProvider
+            FilePathProvider filePathProvider,
+            IPlayerIdProvider playerIdProvider
         )
         {
             _assetProvider = assetProvider;
+            _playerIdProvider = playerIdProvider;
             _idGenerator = idGenerator;
             _interfaceService = interfaceService;
             _entityRepository = entityRepository;
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
-            
+
             _path = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuForm];
         }
 
@@ -52,10 +58,15 @@ namespace Codebase.Forms.Factories.Forms
 
             MainMenuFormPresenter formPresenter = new MainMenuFormPresenter(_interfaceService);
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
-            
+
+            GetCoinAmountQuery getCoinAmountQuery = new GetCoinAmountQuery(_playerIdProvider, _entityRepository);
+
+            CoinAmountPresenter coinAmountPresenter = new CoinAmountPresenter(getCoinAmountQuery, view);
+
+            coinAmountPresenter.Enable();
             formVisibilityPresenter.Enable();
             view.Construct(formPresenter);
-            
+
             return new Tuple<FormBase, IFormView>(model, view);
         }
     }

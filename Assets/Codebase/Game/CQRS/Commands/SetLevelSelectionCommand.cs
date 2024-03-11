@@ -6,7 +6,7 @@ namespace Codebase.Game.CQRS.Commands
 {
     public class SetLevelSelectionCommand : EntityUseCaseBase<LevelModel>
     {
-        protected SetLevelSelectionCommand(IEntityRepository repository) : base(repository)
+        public SetLevelSelectionCommand(IEntityRepository repository) : base(repository)
         {
         }
 
