@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Codebase.Core.Common.General.Extensions.ListExtentions;
 using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.MVP.Interfaces;
+using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.CQRS.Queries;
 using Codebase.Game.Services.Interfaces;
 using Codebase.Game.Views.Interfaces;

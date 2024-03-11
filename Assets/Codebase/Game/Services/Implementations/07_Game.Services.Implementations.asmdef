@@ -1,5 +1,5 @@
 {
-    "name": "07_Game.Services.Model",
+    "name": "07_Game.Services.Implementations",
     "rootNamespace": "",
     "references": [
         "GUID:a571f63913fd0f94a9f867deda8864c1",
@@ -31,7 +31,12 @@
         "GUID:4892d625d2520254fa7dacb7a4af3c31",
         "GUID:94e81f475a0717144aecd7c3047e2f1d",
         "GUID:e9ce0bce0da0a7640b0e06e42e525369",
-        "GUID:e0f642f568ad4d44cb385d8daa51d75c"
+        "GUID:e0f642f568ad4d44cb385d8daa51d75c",
+        "GUID:0c62fef25069fb54cb148a2680df58a5",
+        "GUID:c5eb05227a90bb042b2d6d33068063e8",
+        "GUID:a1268674eedd82a498d25229d6514ad9",
+        "GUID:e3f147591c3f2ee4fafacd72ac338c50",
+        "GUID:3b07cdab0638e5a4e88305c86c0b084b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

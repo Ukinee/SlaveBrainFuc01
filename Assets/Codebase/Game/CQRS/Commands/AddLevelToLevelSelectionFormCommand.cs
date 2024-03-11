@@ -6,7 +6,7 @@ namespace Codebase.Game.CQRS.Commands
 {
     public class AddLevelToLevelSelectionFormCommand : EntityUseCaseBase<LevelSelectionFormModel>
     {
-        protected AddLevelToLevelSelectionFormCommand(IEntityRepository repository) : base(repository)
+        public AddLevelToLevelSelectionFormCommand(IEntityRepository repository) : base(repository)
         {
         }
 

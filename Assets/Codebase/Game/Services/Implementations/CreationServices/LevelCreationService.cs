@@ -3,6 +3,7 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.MVP.BaseClasses;
 using Codebase.Game.CQRS.Queries;
 using Codebase.Game.Models;
 using Codebase.Game.Presentations.Implementations;
