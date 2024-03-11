@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032d624d48784779ab27163e0db3eee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _content: {fileID: 2625551236433415597}
+  <Content>k__BackingField: {fileID: 2625551236433415597}
   _soundMuteButton: {fileID: 3290168743077602798}
   _musicMuteButton: {fileID: 3923623249440436567}
   _backButton: {fileID: 4731150862509160358}

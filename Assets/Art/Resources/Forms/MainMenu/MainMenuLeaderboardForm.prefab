@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6898b6e96e834897bbb426fc48908519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _content: {fileID: 1670703632209409899}
+  <Content>k__BackingField: {fileID: 1670703632209409899}
   _backButton: {fileID: 1965281014851589920}
 --- !u!1 &6018557126049106326
 GameObject:

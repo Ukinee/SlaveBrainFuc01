@@ -2,12 +2,13 @@
 using Codebase.Core.Frameworks.MVP.Interfaces;
 using Codebase.Forms.Views.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Codebase.Forms.Views.Implementations
 {
     public class FormViewBase<T> : ViewBase<T>, IFormView where T : IPresenter
     {
-        [SerializeField] private GameObject _content;
+        [field: SerializeField] protected GameObject Content { get; private set; }
 
         private void OnDisable()
         {
@@ -16,7 +17,7 @@ namespace Codebase.Forms.Views.Implementations
         }
 
         public void SetVisibility(bool isVisible) =>
-            _content.SetActive(isVisible);
+            Content.SetActive(isVisible);
 
         protected virtual void OnBeforeDisable()
         {

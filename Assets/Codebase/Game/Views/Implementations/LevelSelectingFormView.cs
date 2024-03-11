@@ -14,7 +14,7 @@ namespace Codebase.Game.Views.Implementations
 
         public void SetChild(ILevelView levelView)
         {
-            ((MonoBehaviour)levelView).transform.SetParent(transform);
+            ((MonoBehaviour)levelView).transform.SetParent(Content.transform);
         }
     }
 }

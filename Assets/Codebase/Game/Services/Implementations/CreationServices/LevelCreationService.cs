@@ -51,7 +51,7 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             LevelModel model = new LevelModel(id, levelId);
             _entityRepository.Register(model);
 
-            LevelView view = _assetProvider.Get<LevelView>(_assetPath);
+            LevelView view = _assetProvider.Instantiate<LevelView>(_assetPath);
 
             LevelPresenter presenter = new LevelPresenter
             (
@@ -64,6 +64,7 @@ namespace Codebase.Game.Services.Implementations.CreationServices
 
             _levelRepositoryController.Register(model, view);
 
+            view.Construct(presenter);
             model.SetPassed(isPassed);
             presenter.Enable();
 

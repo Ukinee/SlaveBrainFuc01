@@ -47,6 +47,7 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             _interfaceService = interfaceService;
             _interfaceView = interfaceView;
             _getLevelIdsQuery = new GetLevelIdsQuery(entityRepository);
+            _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.LevelSelectingFormView];
         }
         
@@ -54,10 +55,10 @@ namespace Codebase.Game.Services.Implementations.CreationServices
         {
             int id = _idGenerator.Generate();
 
-            LevelSelectionFormModel model = new LevelSelectionFormModel(false, id);
+            LevelSelectionFormModel model = new LevelSelectionFormModel(true, id); //todo: debug tru
             _entityRepository.Register(model);
             
-            LevelSelectingFormView view = _assetProvider.Get<LevelSelectingFormView>(_assetPath);
+            LevelSelectingFormView view = _assetProvider.Instantiate<LevelSelectingFormView>(_assetPath);
 
             FormVisibilityPresenter visibilityPresenter = new FormVisibilityPresenter
             (
