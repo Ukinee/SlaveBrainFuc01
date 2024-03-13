@@ -44,20 +44,14 @@ namespace Codebase.App.Infrastructure.Builders.States
             _filePathProvider = filePathProvider;
         }
 
-        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService)
+        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload)
         {
             #region Configs
 
             string[] availableLevelIds = new[]
             {
-                "Level_1",
-                "Level_2",
-                "Level_3",
-                "Level_4",
-                "Level_5",
-                "Level_6",
-                "Level_7",
-                "Level_8",
+                "Test Two Towers",
+                "Test Three Towers",
             };
 
             #endregion
@@ -89,10 +83,8 @@ namespace Codebase.App.Infrastructure.Builders.States
             playerIdProvider.Set(playerId);
 
             SetLevelSelectionCommand setLevelSelectionCommand = new SetLevelSelectionCommand(_entityRepository);
-            
             LevelRepositoryController levelRepositoryController = new LevelRepositoryController();
             SelectedLevelService selectedLevelService = new SelectedLevelService(setLevelSelectionCommand);
-            
             GetPassedLevelsQuery getPassedLevelsQuery = new GetPassedLevelsQuery(playerIdProvider, _entityRepository);
 
             FormCreationServiceFactory formCreationServiceFactory = new FormCreationServiceFactory
@@ -107,7 +99,8 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _assetProvider,
                 _filePathProvider,
                 getPassedLevelsQuery,
-                playerIdProvider
+                playerIdProvider,
+                stateMachineService
             );
 
             FormCreationService formCreationService = formCreationServiceFactory.Create(availableLevelIds);

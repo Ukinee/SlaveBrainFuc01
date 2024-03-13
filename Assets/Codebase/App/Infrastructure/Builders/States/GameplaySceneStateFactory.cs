@@ -64,8 +64,12 @@ namespace Codebase.App.Infrastructure.Builders.States
             _audioService = audioService;
         }
 
-        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService)
+        public ISceneState CreateSceneState
+            (IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload)
         {
+            if (scenePayload is not GameplayScenePayload gameplayScenePayload)
+                throw new System.Exception("GameplayScenePayload is null");
+
             #region InitFiles
 
             // StructurePreset leftTowerStructurePreset = new StructurePreset("Tower", new Vector3(-3, 0, 5));
@@ -104,7 +108,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             // string jsonPath = Application.dataPath + "/Art/Resources/" + _filePathProvider.Game.Data[PathConstants.Game.GamePresets] + ".json";
             // string json = JsonUtility.ToJson(testGamePresets);
             // File.WriteAllText(jsonPath, json);
-            
+
             #endregion
 
             PauseService pauseService = new PauseService(_audioService);
@@ -168,7 +172,13 @@ namespace Codebase.App.Infrastructure.Builders.States
             GamePresets gamePresets = new GamePresetsLoader(_assetProvider, _filePathProvider).Load();
 
             GameStarter gameStarter = new GameStarter
-                (setTankPositionCommand, createStructureCommand, setObstacleServiceCommand, gamePresets);
+            (
+                setTankPositionCommand,
+                createStructureCommand,
+                setObstacleServiceCommand,
+                gamePresets,
+                mapView
+            );
 
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
 
@@ -180,6 +190,8 @@ namespace Codebase.App.Infrastructure.Builders.States
                 pauseService,
                 inputService,
                 gameService,
+                gameplayScenePayload.LevelId,
+                gameplayScenePayload.MapType,
                 _contextActionService,
                 new IContextInputAction[]
                 {

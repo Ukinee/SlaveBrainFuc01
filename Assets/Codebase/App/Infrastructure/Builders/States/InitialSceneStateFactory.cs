@@ -6,7 +6,7 @@ namespace Codebase.App.Infrastructure.Builders.States
 {
     public class InitialSceneStateFactory : ISceneStateFactory
     {
-        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService)
+        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload)
         {
             return new InitialScene(stateMachineService);
         }

@@ -1,5 +1,4 @@
 ﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
-using Codebase.Core.Frameworks.MVP.Interfaces;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Presentations.Interfaces.MainMenu;
 using Codebase.Forms.Services.Implementations;
@@ -21,10 +20,6 @@ namespace Codebase.Forms.Presentations.Implementations.MainMenu
         }
 
         public void Disable()
-        {
-        }
-
-        public void OnClickStart()
         {
         }
 

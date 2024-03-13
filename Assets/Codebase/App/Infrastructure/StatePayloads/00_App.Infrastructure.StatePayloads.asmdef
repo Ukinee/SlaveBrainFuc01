@@ -1,3 +1,4 @@
 {
-	"name": "00_App.Infrastructure.StatePayloads"
+	"name": "00_App.Infrastructure.StatePayloads",
+	"references":[ "GUID:abe37c14e9e7b4643bc87c24dc038dc4" ]
 }

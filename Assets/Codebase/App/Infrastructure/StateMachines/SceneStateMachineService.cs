@@ -20,7 +20,7 @@ namespace Codebase.App.Infrastructure.StateMachines
         (
             SceneLoadService sceneLoadService,
             ICurtain curtain,
-            IDictionary<Type, Func<IStateMachineService<IScenePayload>, ISceneState>> stateFactories
+            IDictionary<Type, Func<IStateMachineService<IScenePayload>, IScenePayload, ISceneState>> stateFactories
         ) : base(stateFactories)
         {
             _sceneLoadService = sceneLoadService;

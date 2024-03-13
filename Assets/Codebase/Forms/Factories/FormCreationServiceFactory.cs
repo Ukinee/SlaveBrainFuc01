@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
+using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.Application.Utils;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.Common;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Factories.Forms;
@@ -32,6 +34,7 @@ namespace Codebase.Forms.Factories
         private readonly FilePathProvider _filePathProvider;
         private GetPassedLevelsQuery _getPassedLevelsQuery;
         private IPlayerIdProvider _playerIdProvider;
+        private IStateMachineService<IScenePayload> _stateMachineService;
 
         public FormCreationServiceFactory
         (
@@ -45,7 +48,8 @@ namespace Codebase.Forms.Factories
             AssetProvider assetProvider,
             FilePathProvider filePathProvider,
             GetPassedLevelsQuery getPassedLevelsQuery,
-            IPlayerIdProvider playerIdProvider
+            IPlayerIdProvider playerIdProvider,
+            IStateMachineService<IScenePayload> stateMachineService
         )
         {
             _idGenerator = idGenerator;
@@ -59,6 +63,7 @@ namespace Codebase.Forms.Factories
             _filePathProvider = filePathProvider;
             _getPassedLevelsQuery = getPassedLevelsQuery;
             _playerIdProvider = playerIdProvider;
+            _stateMachineService = stateMachineService;
         }
 
         public FormCreationService Create(string[] levelIds)
@@ -111,7 +116,9 @@ namespace Codebase.Forms.Factories
                 _entityRepository,
                 _levelRepositoryController,
                 _interfaceService,
-                _interfaceView
+                _interfaceView,
+                _selectedLevelService,
+                _stateMachineService
             );
 
             LevelCreationService levelCreationService = new LevelCreationService

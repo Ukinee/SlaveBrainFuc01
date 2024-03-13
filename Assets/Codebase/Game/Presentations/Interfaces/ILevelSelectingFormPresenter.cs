@@ -4,6 +4,7 @@ namespace Codebase.Game.Presentations.Interfaces
 {
     public interface ILevelSelectingFormPresenter : IPresenter
     {
+        public void OnStartClicked();
         public void OnBackClicked();
     }
 }

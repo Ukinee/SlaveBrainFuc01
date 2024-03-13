@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Types;
 using Codebase.Maps.Common;
 using Codebase.Maps.Views.Interfaces;
@@ -17,8 +16,6 @@ namespace Codebase.Maps.Views.Implementations
         [Serializable]
         class ObstacleData : SerializableDictionary<string, GameObject> { }
 
-        [SerializeField] private Deactivator _deactivator;
-        
         [SerializeField] private MapData _mapData;
         [SerializeField] private ObstacleData _obstacleData;
         

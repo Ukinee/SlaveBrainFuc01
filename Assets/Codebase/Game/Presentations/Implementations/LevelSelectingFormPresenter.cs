@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.General.Extensions.ListExtentions;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Common.General.LiveDatas;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Game.CQRS.Queries;
 using Codebase.Game.Presentations.Interfaces;
 using Codebase.Game.Services.Interfaces;
 using Codebase.Game.Views.Interfaces;
+using Codebase.Maps.Common;
 
 namespace Codebase.Game.Presentations.Implementations
 {
     public class LevelSelectingFormPresenter : ILevelSelectingFormPresenter
     {
+        private readonly GetLevelIdQuery _getLevelIdQuery;
         private ILevelViewRepository _levelViewRepository;
         private ILevelSelectingFormView _levelSelectingForm;
-        private readonly IInterfaceService _interfaceService;
+        private IInterfaceService _interfaceService;
+        private ISelectedLevelService _selectedLevelService;
+        private IStateMachineService<IScenePayload> _sceneStateMachine;
         private ILiveData<IReadOnlyList<int>> _levelIds;
 
         private IReadOnlyList<int> _currentIds = Array.Empty<int>();
@@ -24,14 +31,20 @@ namespace Codebase.Game.Presentations.Implementations
         (
             int id,
             GetLevelIdsQuery getLevelIdsQuery,
+            GetLevelIdQuery getLevelIdQuery,
             ILevelViewRepository levelViewRepository,
             ILevelSelectingFormView levelSelectingForm,
-            IInterfaceService interfaceService
+            IInterfaceService interfaceService,
+            ISelectedLevelService selectedLevelService,
+            IStateMachineService<IScenePayload> sceneStateMachine
         )
         {
+            _getLevelIdQuery = getLevelIdQuery;
             _levelViewRepository = levelViewRepository;
             _levelSelectingForm = levelSelectingForm;
             _interfaceService = interfaceService;
+            _selectedLevelService = selectedLevelService;
+            _sceneStateMachine = sceneStateMachine;
             _levelIds = getLevelIdsQuery.Handle(id);
         }
 
@@ -43,6 +56,12 @@ namespace Codebase.Game.Presentations.Implementations
         public void Disable()
         {
             _levelIds.RemoveListener(OnLevelIdsChanged);
+        }
+
+        public void OnStartClicked()
+        {
+            _sceneStateMachine.SetState
+                (new GameplayScenePayload(_getLevelIdQuery.Handle(_selectedLevelService.CurrentId), MapType.Grass1));
         }
 
         public void OnBackClicked()

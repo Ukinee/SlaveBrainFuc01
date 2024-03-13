@@ -5,6 +5,7 @@ using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Game.Services;
 using Codebase.Game.Services.Implementations;
+using Codebase.Maps.Common;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.StateMachines.States
@@ -15,6 +16,8 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         private readonly PauseService _pauseService;
         private readonly InputService _inputService;
         private readonly GameService _gameService;
+        private readonly string _levelId;
+        private readonly MapType _mapType;
         private readonly ContextActionService _contextActionService;
         private readonly IContextInputAction[] _inputActions;
 
@@ -24,6 +27,8 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             PauseService pauseService,
             InputService inputService,
             GameService gameService,
+            string levelId,
+            MapType mapType,
             ContextActionService contextActionService,
             IContextInputAction[] inputActions
         )
@@ -32,6 +37,8 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             _pauseService = pauseService;
             _inputService = inputService;
             _gameService = gameService;
+            _levelId = levelId;
+            _mapType = mapType;
             _contextActionService = contextActionService;
             _inputActions = inputActions;
         }
@@ -42,7 +49,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
                 _contextActionService.Register(inputAction);
             
             _inputService.Enable();
-            _gameService.Start();
+            _gameService.Start(_levelId, _mapType);
         }
 
         public void Update(float deltaTime)

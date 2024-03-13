@@ -65,7 +65,7 @@ namespace Codebase.App.General
                 audioService
             );
 
-            var stateFactories = new Dictionary<Type, Func<IStateMachineService<IScenePayload>, ISceneState>>()
+            var stateFactories = new Dictionary<Type, Func<IStateMachineService<IScenePayload>, IScenePayload, ISceneState>>()
             {
                 [typeof(MainMenuScenePayload)] = mainMenuSceneFactory.CreateSceneState,
                 [typeof(InitialScenePayload)] = initialSceneStateFactory.CreateSceneState,

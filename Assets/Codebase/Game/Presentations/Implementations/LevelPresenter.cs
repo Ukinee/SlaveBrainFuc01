@@ -37,6 +37,7 @@ namespace Codebase.Game.Presentations.Implementations
         {
             _isSelected.AddListener(OnIsSelectedChanged);
             _isPassed.AddListener(OnIsPassedChanged);
+            _view.SetLevelName(_levelId); //todo : translate
         }
 
         public void Disable()

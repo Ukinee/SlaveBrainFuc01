@@ -6,6 +6,6 @@ namespace Codebase.App.Infrastructure.Builders.States
 {
     public interface ISceneStateFactory
     {
-        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService);
+        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload);
     }
 }

@@ -2,6 +2,8 @@
 using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.PauseServices;
+using Codebase.Maps.Common;
+using Codebase.Maps.Views.Interfaces;
 
 namespace Codebase.Game.Services.Implementations
 {
@@ -27,9 +29,9 @@ namespace Codebase.Game.Services.Implementations
             _stateMachineService = stateMachineService;
         }
 
-        public void Start()
+        public void Start(string levelId, MapType mapType)
         {
-            _gameStarter.Start();
+            _gameStarter.Start(levelId, mapType);
         }
 
         public void End()

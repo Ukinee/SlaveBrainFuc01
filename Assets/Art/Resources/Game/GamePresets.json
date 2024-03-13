@@ -1,7 +1,7 @@
 {
   "GamePresetDatas": [
     {
-      "GamePresetId": "Test Two Towers", 
+      "LevelId": "Test Two Towers", 
       "Structures": [
         {
           "StructureId": "Tower",
@@ -23,7 +23,7 @@
       "ObstacleId": "Cube"
     },
     {
-      "GamePresetId": "Test Three Towers",
+      "LevelId": "Test Three Towers",
       "Structures": [
         {
           "StructureId": "Tower",

@@ -2,8 +2,10 @@
 using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
+using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Forms.CQRS.Queries;
 using Codebase.Forms.Models;
 using Codebase.Forms.Presentations.Implementations;
@@ -21,12 +23,15 @@ namespace Codebase.Game.Services.Implementations.CreationServices
     {
         private readonly AssetProvider _assetProvider;
         private readonly GetLevelIdsQuery _getLevelIdsQuery;
+        private readonly GetLevelIdQuery _getLevelIdQuery;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
         private readonly IIdGenerator _idGenerator;
         private readonly IEntityRepository _entityRepository;
         private readonly ILevelViewRepository _levelViewRepository;
         private readonly IInterfaceService _interfaceService;
         private readonly IInterfaceView _interfaceView;
+        private readonly ISelectedLevelService _selectedLevelService;
+        private readonly IStateMachineService<IScenePayload> _stateMachineService;
         private readonly string _assetPath;
 
         public LevelSelectorFactory
@@ -37,7 +42,9 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             IEntityRepository entityRepository,
             ILevelViewRepository levelViewRepository,
             IInterfaceService interfaceService,
-            IInterfaceView interfaceView
+            IInterfaceView interfaceView,
+            ISelectedLevelService selectedLevelService,
+            IStateMachineService<IScenePayload> stateMachineService
         )
         {
             _assetProvider = assetProvider;
@@ -46,8 +53,11 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             _levelViewRepository = levelViewRepository;
             _interfaceService = interfaceService;
             _interfaceView = interfaceView;
+            _selectedLevelService = selectedLevelService;
+            _stateMachineService = stateMachineService;
             _getLevelIdsQuery = new GetLevelIdsQuery(entityRepository);
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
+            _getLevelIdQuery = new GetLevelIdQuery(entityRepository);
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.LevelSelectingFormView];
         }
         
@@ -71,9 +81,12 @@ namespace Codebase.Game.Services.Implementations.CreationServices
             (
                 id,
                 _getLevelIdsQuery,
+                _getLevelIdQuery,
                 _levelViewRepository,
                 view,
-                _interfaceService
+                _interfaceService,
+                _selectedLevelService,
+                _stateMachineService
             );
             
             _interfaceView.SetChild(view);

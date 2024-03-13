@@ -5,19 +5,20 @@ using Cysharp.Threading.Tasks;
 
 namespace Codebase.Core.Infrastructure.StateMachines.Simple
 {
-    public abstract class StateMachineServiceBase<TState, TPayload> : IUpdatable, ILateUpdatable, IFixedUpdatable, IStateMachineService<TPayload>
+    public abstract class StateMachineServiceBase<TState, TPayload> : IUpdatable, ILateUpdatable, IFixedUpdatable,
+        IStateMachineService<TPayload>
         where TState : IState
     {
         private readonly StateMachine _stateMachine;
-        private readonly Dictionary<Type, Func<IStateMachineService<TPayload>, TState>> _stateFactories;
+        private readonly Dictionary<Type, Func<IStateMachineService<TPayload>, TPayload, TState>> _stateFactories;
 
         private bool _isChangingState;
         private Action _delayedStateChange;
 
-        protected StateMachineServiceBase(IDictionary<Type, Func<IStateMachineService<TPayload>, TState>> states)
+        protected StateMachineServiceBase(IDictionary<Type, Func<IStateMachineService<TPayload>, TPayload, TState>> states)
         {
             _stateMachine = new StateMachine();
-            _stateFactories = new Dictionary<Type, Func<IStateMachineService<TPayload>, TState>>(states);
+            _stateFactories = new Dictionary<Type, Func<IStateMachineService<TPayload>, TPayload, TState>>(states);
         }
 
         public abstract void Init();
@@ -34,24 +35,25 @@ namespace Codebase.Core.Infrastructure.StateMachines.Simple
 
         public async void SetState(TPayload payload)
         {
-            if(_isChangingState)
+            if (_isChangingState)
             {
                 _delayedStateChange = () => SetState(payload);
+
                 return;
             }
-            
+
             _delayedStateChange = null;
             _isChangingState = true;
-            
+
             await OnBeforeStateChangeAsync(payload);
-            _stateMachine.SetCurrentState(_stateFactories[payload.GetType()].Invoke(this));
+            _stateMachine.SetCurrentState(_stateFactories[payload.GetType()].Invoke(this, payload));
             await OnAfterStateChangeAsync(payload);
-            
+
             _isChangingState = false;
             _delayedStateChange?.Invoke();
         }
 
-        protected abstract UniTask OnBeforeStateChangeAsync(TPayload payload); 
+        protected abstract UniTask OnBeforeStateChangeAsync(TPayload payload);
         protected abstract UniTask OnAfterStateChangeAsync(TPayload payload);
     }
 }
