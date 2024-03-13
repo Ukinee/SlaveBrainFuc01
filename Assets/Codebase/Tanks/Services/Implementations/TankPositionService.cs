@@ -48,8 +48,6 @@ namespace Codebase.Tanks.Services.Implementations
                 await UniTask.WaitWhile(_pauseService.GetStatus);
                 await UniTask.Yield();
             }
-
-            "Position set".Log();
         }
     }
 }

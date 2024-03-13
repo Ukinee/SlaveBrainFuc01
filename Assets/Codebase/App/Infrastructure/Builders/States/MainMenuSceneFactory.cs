@@ -17,6 +17,7 @@ using Codebase.Game.Services.Implementations;
 using Codebase.Game.Services.Implementations.Repositories;
 using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Implementations;
+using Codebase.PlayerData.Services.Interfaces;
 
 namespace Codebase.App.Infrastructure.Builders.States
 {
@@ -27,6 +28,7 @@ namespace Codebase.App.Infrastructure.Builders.States
         private readonly IAudioService _audioService;
         private readonly AssetProvider _assetProvider;
         private readonly FilePathProvider _filePathProvider;
+        private IPlayerIdProvider _playerIdProvider;
 
         public MainMenuSceneFactory
         (
@@ -34,7 +36,8 @@ namespace Codebase.App.Infrastructure.Builders.States
             IEntityRepository entityRepository,
             IAudioService audioService,
             AssetProvider assetProvider,
-            FilePathProvider filePathProvider
+            FilePathProvider filePathProvider,
+            IPlayerIdProvider playerIdProvider
         )
         {
             _idGenerator = idGenerator;
@@ -42,9 +45,11 @@ namespace Codebase.App.Infrastructure.Builders.States
             _audioService = audioService;
             _assetProvider = assetProvider;
             _filePathProvider = filePathProvider;
+            _playerIdProvider = playerIdProvider;
         }
 
-        public ISceneState CreateSceneState(IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload)
+        public ISceneState CreateSceneState
+            (IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload)
         {
             #region Configs
 
@@ -62,30 +67,10 @@ namespace Codebase.App.Infrastructure.Builders.States
             string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
             InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
 
-            #region DataService
-
-            PlayerIdProvider playerIdProvider = new PlayerIdProvider();
-            PlayerPrefsSaveLoadService playerPrefsSaveLoadService = new PlayerPrefsSaveLoadService();
-            GetPlayerDataObjectQuery getPlayerDataObjectQuery = new GetPlayerDataObjectQuery(_entityRepository);
-            
-            DataService dataService = new DataService(playerPrefsSaveLoadService, playerIdProvider, getPlayerDataObjectQuery);
-
-            #endregion
-            
-            PlayerCreationService playerCreationService = new PlayerCreationService
-            (
-                _idGenerator,
-                _entityRepository,
-                dataService
-            );
-
-            int playerId = playerCreationService.Create();
-            playerIdProvider.Set(playerId);
-
             SetLevelSelectionCommand setLevelSelectionCommand = new SetLevelSelectionCommand(_entityRepository);
             LevelRepositoryController levelRepositoryController = new LevelRepositoryController();
             SelectedLevelService selectedLevelService = new SelectedLevelService(setLevelSelectionCommand);
-            GetPassedLevelsQuery getPassedLevelsQuery = new GetPassedLevelsQuery(playerIdProvider, _entityRepository);
+            GetPassedLevelsQuery getPassedLevelsQuery = new GetPassedLevelsQuery(_playerIdProvider, _entityRepository);
 
             FormCreationServiceFactory formCreationServiceFactory = new FormCreationServiceFactory
             (
@@ -99,7 +84,7 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _assetProvider,
                 _filePathProvider,
                 getPassedLevelsQuery,
-                playerIdProvider,
+                _playerIdProvider,
                 stateMachineService
             );
 

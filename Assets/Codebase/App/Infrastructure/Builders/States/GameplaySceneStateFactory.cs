@@ -23,6 +23,9 @@ using Codebase.Game.Services;
 using Codebase.Game.Services.Implementations;
 using Codebase.Maps.Controllers.ServiceCommands;
 using Codebase.Maps.Views.Implementations;
+using Codebase.PlayerData.CQRS.Commands;
+using Codebase.PlayerData.Services.Implementations;
+using Codebase.PlayerData.Services.Interfaces;
 using Codebase.Structures.Controllers;
 using Codebase.Structures.CQRS.Commands;
 using Codebase.Tanks.CQRS;
@@ -42,6 +45,8 @@ namespace Codebase.App.Infrastructure.Builders.States
         private readonly BallViewPool _ballViewPool;
         private readonly CubeViewPool _cubeViewPool;
         private readonly AudioService _audioService;
+        private IPlayerIdProvider _playerIdProvider;
+        private readonly DataService _dataService;
 
         public GameplaySceneStateFactory
         (
@@ -52,7 +57,9 @@ namespace Codebase.App.Infrastructure.Builders.States
             IdGenerator idGenerator,
             BallViewPool ballViewPool,
             CubeViewPool cubeViewPool,
-            AudioService audioService
+            AudioService audioService,
+            IPlayerIdProvider playerIdProvider,
+            DataService dataService
         )
         {
             _entityRepository = entityRepository;
@@ -63,6 +70,8 @@ namespace Codebase.App.Infrastructure.Builders.States
             _ballViewPool = ballViewPool;
             _cubeViewPool = cubeViewPool;
             _audioService = audioService;
+            _playerIdProvider = playerIdProvider;
+            _dataService = dataService;
         }
 
         public ISceneState CreateSceneState
@@ -187,14 +196,17 @@ namespace Codebase.App.Infrastructure.Builders.States
             );
 
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
+            AddPassedLevelCommand addPassedLevelCommand = new AddPassedLevelCommand(_playerIdProvider, _entityRepository);
 
             GameService gameService = new GameService
             (
                 pauseService,
                 gameStarter,
                 gameEnder,
+                addPassedLevelCommand,
                 cubeRepositoryController,
-                stateMachineService
+                stateMachineService,
+                _dataService
             );
 
             return new GameplayScene

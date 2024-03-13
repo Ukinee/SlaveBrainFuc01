@@ -17,7 +17,7 @@ namespace Codebase.Game.Views.Implementations
         {
             _backButton.onClick.AddListener(OnBackClicked);
             _startButton.onClick.AddListener(OnStartClicked);
-            Presenter.Enable();
+            Presenter?.Enable();
         }
 
         protected override void OnBeforeDisable()

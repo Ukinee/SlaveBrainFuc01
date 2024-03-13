@@ -40,17 +40,26 @@ namespace Codebase.PlayerData.Models
         public void SetCoins(int coins) =>
             _coins.Value = coins;
 
-        public void AddLevelsPassed() =>
+        public void AddLevelsAmountPassed() =>
             _levelsPassed.Value++;
 
-        public void AddPassedLevel(string passedLevel) =>
-            _passedLevels.Value = _passedLevels.Value.Concat(new string[] { passedLevel }).ToArray();
+        public void AddPassedLevel(string passedLevel)
+        {
+            if (_passedLevels.Value.Contains(passedLevel) == false)
+                _passedLevels.Value = _passedLevels.Value.Concat(new string[] { passedLevel }).ToArray();
+        }
 
-        public void AddUnlockedStructure(string unlockedStructure) =>
-            _unlockedStructures.Value = _unlockedStructures.Value.Concat(new string[] { unlockedStructure }).ToArray();
+        public void AddUnlockedStructure(string unlockedStructure)
+        {
+            if (_unlockedStructures.Value.Contains(unlockedStructure) == false)
+                _unlockedStructures.Value = _unlockedStructures.Value.Concat(new string[] { unlockedStructure }).ToArray();
+        }
 
-        public void AddUnlockedMap(MapType unlockedMap) =>
-            _unlockedMaps.Value = _unlockedMaps.Value.Concat(new MapType[] { unlockedMap }).ToArray();
+        public void AddUnlockedMap(MapType unlockedMap)
+        {
+            if (_unlockedMaps.Value.Contains(unlockedMap) == false)
+                _unlockedMaps.Value = _unlockedMaps.Value.Concat(new MapType[] { unlockedMap }).ToArray();
+        }
 
         protected override void OnDispose()
         {

@@ -18,6 +18,8 @@ using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.SceneLoadServices;
 using Codebase.Cubes.Services.Implementations;
+using Codebase.PlayerData.CQRS.Queries;
+using Codebase.PlayerData.Services.Implementations;
 using UnityEngine;
 
 namespace Codebase.App.General
@@ -43,6 +45,28 @@ namespace Codebase.App.General
             InitialSceneStateFactory initialSceneStateFactory = new InitialSceneStateFactory();
 
             AudioService audioService = new AudioServiceFactory().Create();
+            
+            
+            #region Player
+
+            PlayerIdProvider playerIdProvider = new PlayerIdProvider();
+            PlayerPrefsSaveLoadService playerPrefsSaveLoadService = new PlayerPrefsSaveLoadService();
+            GetPlayerDataObjectQuery getPlayerDataObjectQuery = new GetPlayerDataObjectQuery(entityRepository);
+
+            DataService dataService = new DataService
+                (playerPrefsSaveLoadService, playerIdProvider, getPlayerDataObjectQuery);
+
+            PlayerCreationService playerCreationService = new PlayerCreationService
+            (
+                idGenerator,
+                entityRepository,
+                dataService
+            );
+
+            int playerId = playerCreationService.Create();
+            playerIdProvider.Set(playerId);
+
+            #endregion
 
             MainMenuSceneFactory mainMenuSceneFactory = new MainMenuSceneFactory
             (
@@ -50,7 +74,8 @@ namespace Codebase.App.General
                 entityRepository,
                 audioService,
                 assetProvider,
-                filePathProvider
+                filePathProvider,
+                playerIdProvider
             );
 
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory
@@ -62,7 +87,9 @@ namespace Codebase.App.General
                 idGenerator,
                 new BallViewPool(new BallViewFactory(assetProvider, filePathProvider).Create),
                 new CubeViewPool(new CubeViewFactory(assetProvider, filePathProvider).Create),
-                audioService
+                audioService,
+                playerIdProvider,
+                dataService
             );
 
             var stateFactories = new Dictionary<Type, Func<IStateMachineService<IScenePayload>, IScenePayload, ISceneState>>()

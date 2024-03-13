@@ -5,6 +5,9 @@ using Codebase.Core.Services.PauseServices;
 using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Maps.Common;
 using Codebase.Maps.Views.Interfaces;
+using Codebase.PlayerData.CQRS.Commands;
+using Codebase.PlayerData.Services.Interfaces;
+using Cysharp.Threading.Tasks;
 
 namespace Codebase.Game.Services.Implementations
 {
@@ -12,8 +15,10 @@ namespace Codebase.Game.Services.Implementations
     {
         private readonly GameStarter _gameStarter;
         private readonly GameEnder _gameEnder;
+        private readonly AddPassedLevelCommand _addPassedLevelCommand;
         private readonly CubeRepositoryController _cubeRepositoryController;
         private readonly IStateMachineService<IScenePayload> _stateMachineService;
+        private readonly IDataService _dataService;
         private readonly PauseService _pauseService;
 
         private string _levelId;
@@ -23,15 +28,19 @@ namespace Codebase.Game.Services.Implementations
             PauseService pauseService,
             GameStarter gameStarter,
             GameEnder gameEnder,
+            AddPassedLevelCommand addPassedLevelCommand,
             CubeRepositoryController cubeRepositoryController,
-            IStateMachineService<IScenePayload> stateMachineService
+            IStateMachineService<IScenePayload> stateMachineService,
+            IDataService dataService
         )
         {
             _pauseService = pauseService;
             _gameStarter = gameStarter;
             _gameEnder = gameEnder;
+            _addPassedLevelCommand = addPassedLevelCommand;
             _cubeRepositoryController = cubeRepositoryController;
             _stateMachineService = stateMachineService;
+            _dataService = dataService;
         }
 
         public void Start(string levelId, MapType mapType)
@@ -45,7 +54,7 @@ namespace Codebase.Game.Services.Implementations
             _gameStarter.Start(levelId, mapType);
         }
 
-        public void End()
+        public async void End()
         {
             _cubeRepositoryController.OnCubeAmountChanged -= OnCubeAmountChanged;
 
@@ -57,9 +66,13 @@ namespace Codebase.Game.Services.Implementations
 
             if (_cubeRepositoryController.Count == 0)
             {
+                _addPassedLevelCommand.Handle(_levelId);
                 //todo: handling prize logic
             }
-
+            
+            await UniTask.Delay(1000); //todo: to menu with OK button
+            
+            _dataService.Save();
             _gameEnder.End();
             _stateMachineService.SetState(new MainMenuScenePayload());
         }
