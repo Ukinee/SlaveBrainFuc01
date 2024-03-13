@@ -16,7 +16,8 @@ namespace Codebase.Game.Services.Implementations
         private readonly IStateMachineService<IScenePayload> _stateMachineService;
         private readonly PauseService _pauseService;
 
-        
+        private string _levelId;
+
         public GameService
         (
             PauseService pauseService,
@@ -35,6 +36,11 @@ namespace Codebase.Game.Services.Implementations
 
         public void Start(string levelId, MapType mapType)
         {
+            if (string.IsNullOrEmpty(_levelId) == false)
+                throw new System.Exception("GameService: level id already set.");
+            
+            _levelId = levelId;
+
             _cubeRepositoryController.OnCubeAmountChanged += OnCubeAmountChanged;
             _gameStarter.Start(levelId, mapType);
         }
@@ -42,18 +48,18 @@ namespace Codebase.Game.Services.Implementations
         public void End()
         {
             _cubeRepositoryController.OnCubeAmountChanged -= OnCubeAmountChanged;
-            
+
             if (_pauseService.IsPaused)
             {
                 MaloyAlert.Warning("Unusual behavior: game ended while pause.");
                 _pauseService.ApplicationResume();
             }
-            
-            if(_cubeRepositoryController.Count == 0)
+
+            if (_cubeRepositoryController.Count == 0)
             {
                 //todo: handling prize logic
             }
-            
+
             _gameEnder.End();
             _stateMachineService.SetState(new MainMenuScenePayload());
         }
@@ -62,7 +68,7 @@ namespace Codebase.Game.Services.Implementations
         {
             if (amount != 0)
                 return;
-            
+
             End();
         }
     }

@@ -188,7 +188,14 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
 
-            GameService gameService = new GameService(pauseService, gameStarter, gameEnder, cubeRepositoryController, stateMachineService);
+            GameService gameService = new GameService
+            (
+                pauseService,
+                gameStarter,
+                gameEnder,
+                cubeRepositoryController,
+                stateMachineService
+            );
 
             return new GameplayScene
             (

@@ -46,6 +46,7 @@ namespace Codebase.App.Infrastructure.StateMachines
 
         protected override async UniTask OnAfterStateChangeAsync(IScenePayload payload)
         {
+            GC.Collect();
             await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
             _curtain.Hide();
         }
