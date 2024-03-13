@@ -1,4 +1,5 @@
-﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+﻿using System;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Cubes.Models;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Cubes.Views.Implementations;
@@ -15,11 +16,15 @@ namespace Codebase.Cubes.Repositories.Implementations
             _cubeViewRepository = cubeViewRepository;
         }
 
+        public int Count => _cubeModelRepository.Count;
+        public event Action<int> OnCubeAmountChanged;
+
         public void Register(CubeModel model, CubeView view)
         {
             _cubeModelRepository.Register(model.Id, model);
             _cubeViewRepository.Register(model.Id, view);
 
+            OnCubeAmountChanged?.Invoke(Count);
             model.Disposed += Remove;
         }
 
@@ -32,7 +37,7 @@ namespace Codebase.Cubes.Repositories.Implementations
             
             _cubeModelRepository.Remove(cubeId);
             _cubeViewRepository.Remove(cubeId);
-            $"{_cubeModelRepository.Count} cubes left".Log();
+            OnCubeAmountChanged?.Invoke(Count);
         }
     }
 }

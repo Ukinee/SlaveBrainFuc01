@@ -17,6 +17,8 @@ namespace Codebase.Structures.Controllers
         private IIdGenerator _idGenerator;
         private IEntityRepository _entityRepository;
         private CubeViewPool _cubeViewPool;
+        private CubeRepositoryController _cubeRepositoryController;
+        private readonly CubeViewRepository _cubeViewRepository;
 
         public CreateStructureCommandFactory
         (
@@ -24,7 +26,9 @@ namespace Codebase.Structures.Controllers
             FilePathProvider filePathProvider,
             IIdGenerator idGenerator,
             IEntityRepository entityRepository,
-            CubeViewPool cubeViewPool
+            CubeViewPool cubeViewPool,
+            CubeRepositoryController cubeRepositoryController,
+            CubeViewRepository cubeViewRepository 
         )
         {
             _assetProvider = assetProvider;
@@ -32,13 +36,12 @@ namespace Codebase.Structures.Controllers
             _idGenerator = idGenerator;
             _entityRepository = entityRepository;
             _cubeViewPool = cubeViewPool;
+            _cubeRepositoryController = cubeRepositoryController;
+            _cubeViewRepository = cubeViewRepository;
         }
 
         public CreateStructureCommand Create()
         {
-            CubeViewRepository cubeViewRepository = new CubeViewRepository();
-
-            CubeRepositoryController cubeRepositoryController = new CubeRepositoryController(cubeViewRepository);
 
             StructureReader structureReader = new StructureReader(_assetProvider, _filePathProvider);
             StructureViewFactory structureViewFactory = new StructureViewFactory(_assetProvider, _filePathProvider);
@@ -46,7 +49,7 @@ namespace Codebase.Structures.Controllers
             RemoveCubeFromStructureCommand removeCubeFromStructureCommand =
                 new RemoveCubeFromStructureCommand(_entityRepository);
 
-            StructureFactory structureFactory = new StructureFactory(_idGenerator, cubeViewRepository, structureViewFactory);
+            StructureFactory structureFactory = new StructureFactory(_idGenerator, _cubeViewRepository, structureViewFactory);
             StructureService structureService = new StructureService(structureFactory);
 
             CubeCreationService cubeCreationService = new CubeCreationService
@@ -55,7 +58,7 @@ namespace Codebase.Structures.Controllers
                 _entityRepository,
                 _cubeViewPool,
                 structureService,
-                cubeRepositoryController,
+                _cubeRepositoryController,
                 removeCubeFromStructureCommand
             );
 
@@ -65,7 +68,6 @@ namespace Codebase.Structures.Controllers
                 structureReader,
                 structureFactory
             );
-
 
             return new CreateStructureCommand(structureService, structureCreationService);
         }

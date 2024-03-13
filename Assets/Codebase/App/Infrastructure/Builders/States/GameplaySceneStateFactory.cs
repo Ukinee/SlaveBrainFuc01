@@ -15,6 +15,7 @@ using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
+using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Game.Data.Common;
 using Codebase.Game.Data.Infrastructure;
@@ -158,13 +159,18 @@ namespace Codebase.App.Infrastructure.Builders.States
             ShootingService shootingService = new ShootingService(getTankPositionQuery, ballPoolService, ballMover);
             AimService aimService = new AimService(getTankPositionQuery, aimView);
 
+            CubeViewRepository cubeViewRepository = new CubeViewRepository();
+            CubeRepositoryController cubeRepositoryController = new CubeRepositoryController(cubeViewRepository);
+
             CreateStructureCommandFactory createStructureCommandFactory = new CreateStructureCommandFactory
             (
                 _assetProvider,
                 _filePathProvider,
                 _idGenerator,
                 _entityRepository,
-                _cubeViewPool
+                _cubeViewPool,
+                cubeRepositoryController,
+                cubeViewRepository
             );
 
             CreateStructureCommand createStructureCommand = createStructureCommandFactory.Create();
@@ -182,7 +188,7 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
 
-            GameService gameService = new GameService(pauseService, gameStarter, gameEnder, stateMachineService);
+            GameService gameService = new GameService(pauseService, gameStarter, gameEnder, cubeRepositoryController, stateMachineService);
 
             return new GameplayScene
             (

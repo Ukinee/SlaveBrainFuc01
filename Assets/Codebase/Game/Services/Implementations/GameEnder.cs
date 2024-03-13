@@ -1,5 +1,6 @@
 ﻿using Codebase.Balls.Services.Implementations;
 using Codebase.Balls.Services.Interfaces;
+using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
 
 namespace Codebase.Game.Services.Implementations
@@ -10,7 +11,12 @@ namespace Codebase.Game.Services.Implementations
         private readonly CubeViewPool _cubeViewPool;
         private readonly IShootingService _shootingService;
 
-        public GameEnder(BallViewPool ballViewPool, CubeViewPool cubeViewPool, IShootingService shootingService)
+        public GameEnder
+        (
+            BallViewPool ballViewPool,
+            CubeViewPool cubeViewPool,
+            IShootingService shootingService
+        )
         {
             _ballViewPool = ballViewPool;
             _cubeViewPool = cubeViewPool;
