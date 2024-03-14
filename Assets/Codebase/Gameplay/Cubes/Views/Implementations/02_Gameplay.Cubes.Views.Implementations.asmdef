@@ -1,0 +1,22 @@
+{
+    "name": "02_Gameplay.Cubes.Views.Implementations",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c5eb05227a90bb042b2d6d33068063e8",
+        "GUID:c23cd84cb5ea7444ba6808a1b0de9a1a",
+        "GUID:3ad3e5a3a809735438d99d7607870ddc",
+        "GUID:c34303143d2fe944b8cc62b80a73d63f",
+        "GUID:cd13f2cbbf10a4542ae21ae405d37838",
+        "GUID:b9a6492555c38f747983b5a899b64121",
+        "GUID:215d129b9fac921409fe3c5da363bf4b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

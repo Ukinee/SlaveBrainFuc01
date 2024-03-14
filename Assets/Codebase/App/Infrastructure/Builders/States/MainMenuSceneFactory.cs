@@ -13,7 +13,6 @@ using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Forms.Services.Interfaces;
 using Codebase.Forms.Views.Implementations;
 using Codebase.Game.CQRS.Commands;
-using Codebase.Game.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.PlayerData.CQRS.Queries;
@@ -72,7 +71,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             SelectedLevelService selectedLevelService = new SelectedLevelService(setLevelSelectionCommand);
             GetPassedLevelsQuery getPassedLevelsQuery = new GetPassedLevelsQuery(_playerIdProvider, _entityRepository);
 
-            FormCreationServiceFactory formCreationServiceFactory = new FormCreationServiceFactory
+            MainMenuFormCreationServiceFactory mainMenuFormCreationServiceFactory = new MainMenuFormCreationServiceFactory
             (
                 _idGenerator,
                 _entityRepository,
@@ -88,7 +87,7 @@ namespace Codebase.App.Infrastructure.Builders.States
                 stateMachineService
             );
 
-            FormCreationService formCreationService = formCreationServiceFactory.Create(availableLevelIds);
+            FormCreationService formCreationService = mainMenuFormCreationServiceFactory.Create(availableLevelIds);
 
             MainMenuFactory mainMenuFactory = new MainMenuFactory(formCreationService);
 

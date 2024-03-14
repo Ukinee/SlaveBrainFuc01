@@ -1,0 +1,16 @@
+{
+    "name": "02_Gameplay.Structures.Infrastructure.Services.Interfaces",
+    "rootNamespace": "",
+    "references": [
+        "GUID:14ae29cd91a03f542bb61ca8220d8890"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

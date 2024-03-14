@@ -1,0 +1,18 @@
+{
+    "name": "02_Gameplay.Cubes.Models",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c34303143d2fe944b8cc62b80a73d63f",
+        "GUID:b9a6492555c38f747983b5a899b64121",
+        "GUID:7fe7e71072fd8b44888d977a5f612d42"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

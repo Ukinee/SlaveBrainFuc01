@@ -1,4 +1,6 @@
-﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
+﻿using System;
+using System.Collections.Generic;
+using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using ApplicationCode.Core.Services.Cameras;
 using ApplicationCode.Core.Services.RaycastHitProviders;
@@ -17,6 +19,13 @@ using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
+using Codebase.Forms.Common.FormTypes.Gameplay;
+using Codebase.Forms.CQRS;
+using Codebase.Forms.Models;
+using Codebase.Forms.Services.Implementations.Factories;
+using Codebase.Forms.Services.Interfaces;
+using Codebase.Forms.Views.Implementations;
+using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.Data.Common;
 using Codebase.Game.Data.Infrastructure;
 using Codebase.Game.Services;
@@ -32,6 +41,7 @@ using Codebase.Tanks.CQRS;
 using Codebase.Tanks.Model;
 using Codebase.Tanks.Services.Implementations;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Codebase.App.Infrastructure.Builders.States
 {
@@ -208,6 +218,27 @@ namespace Codebase.App.Infrastructure.Builders.States
                 stateMachineService,
                 _dataService
             );
+
+            #region Interface
+
+            SetFormVisibilityCommand setFormVisibilityCommand = new SetFormVisibilityCommand(_entityRepository);
+            
+            string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
+            InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
+            InterfaceService interfaceService = new InterfaceService(setFormVisibilityCommand);
+            
+            
+            
+            var factories = new Dictionary<Type, Func<Tuple<FormBase, IFormView>>>()
+            {
+                [typeof(GameplayInterfaceFormType)] =,
+                [typeof(GameplayPauseFormType)] =,
+                [typeof(GameplayWinFormType)] =
+            };
+
+            FormCreationService formCreationService = new FormCreationService(interfaceView, interfaceService, factories);
+
+            #endregion
 
             return new GameplayScene
             (

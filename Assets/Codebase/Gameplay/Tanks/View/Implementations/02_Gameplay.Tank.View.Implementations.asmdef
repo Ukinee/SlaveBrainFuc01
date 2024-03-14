@@ -1,0 +1,18 @@
+{
+    "name": "02_Gameplay.Tank.View.Implementations",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c5eb05227a90bb042b2d6d33068063e8",
+        "GUID:3a4d695f763cbf447a88a2d4586c5f67",
+        "GUID:fd0d4eab569228640801d8583bd84924"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

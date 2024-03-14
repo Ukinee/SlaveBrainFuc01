@@ -1,0 +1,16 @@
+{
+    "name": "02_Gameplay.Structures.Presentations.Interfaces",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f6adeb0db4e809c44803851881ca8b48"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
