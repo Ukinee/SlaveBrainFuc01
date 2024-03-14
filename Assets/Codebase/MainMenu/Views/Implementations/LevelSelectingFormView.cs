@@ -4,7 +4,7 @@ using Codebase.Game.Views.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Codebase.Game.Views.Implementations
+namespace Codebase.MainMenu.Views.Implementations
 {
     public class LevelSelectingFormView : FormViewBase<ILevelSelectingFormPresenter>, ILevelSelectingFormView
     {

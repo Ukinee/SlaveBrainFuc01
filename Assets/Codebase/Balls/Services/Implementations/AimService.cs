@@ -40,7 +40,7 @@ namespace Codebase.Balls.Services.Implementations
             if (IsAiming == false)
                 return;
 
-            Vector3 origin = _getTankPositionQuery.Execute().WithY(GameConstants.YOffset);
+            Vector3 origin = _getTankPositionQuery.Handle().WithY(GameConstants.YOffset);
             Vector3 direction = AimPosition - origin;
             direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
 

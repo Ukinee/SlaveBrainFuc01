@@ -14,9 +14,9 @@ using Codebase.Forms.Services.Interfaces;
 using Codebase.Forms.Views.Implementations;
 using Codebase.Game.CQRS.Commands;
 using Codebase.Game.Services.Implementations;
-using Codebase.Game.Services.Implementations.Repositories;
+using Codebase.MainMenu.Services.Implementations;
+using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.PlayerData.CQRS.Queries;
-using Codebase.PlayerData.Services.Implementations;
 using Codebase.PlayerData.Services.Interfaces;
 
 namespace Codebase.App.Infrastructure.Builders.States
@@ -53,7 +53,7 @@ namespace Codebase.App.Infrastructure.Builders.States
         {
             #region Configs
 
-            string[] availableLevelIds = new[]
+            string[] availableLevelIds =
             {
                 "Test Two Towers",
                 "Test Three Towers",

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Codebase.Game.Views.Implementations
+namespace Codebase.MainMenu.Views.Implementations
 {
     public class LevelView : ViewBase<ILevelPresenter>, ILevelView
     {

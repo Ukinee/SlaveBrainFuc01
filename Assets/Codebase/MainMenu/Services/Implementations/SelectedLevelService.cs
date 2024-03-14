@@ -1,7 +1,7 @@
 ﻿using Codebase.Game.CQRS.Commands;
-using Codebase.Game.Services.Interfaces;
+using Codebase.MainMenu.Services.Interfaces;
 
-namespace Codebase.Game.Services.Implementations
+namespace Codebase.MainMenu.Services.Implementations
 {
     public class SelectedLevelService : ISelectedLevelService
     {

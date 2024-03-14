@@ -15,12 +15,12 @@ namespace Codebase.Tanks.CQRS
             _tankPositionCalculator = tankPositionCalculator;
         }
 
-        public Vector3 Execute()
+        public Vector3 Handle()
         {
             return _tankPositionCalculator.CalculatePosition(_tank.Position);
         }
 
-        public float ExecuteRaw()
+        public float HandleRaw()
         {
             return _tank.Position;
         }

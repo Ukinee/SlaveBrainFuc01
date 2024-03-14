@@ -1,4 +1,4 @@
-﻿namespace Codebase.Game.Services.Interfaces
+﻿namespace Codebase.MainMenu.Services.Interfaces
 {
     public interface ISelectedLevelService
     {

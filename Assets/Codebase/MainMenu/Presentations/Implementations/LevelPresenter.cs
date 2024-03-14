@@ -1,10 +1,10 @@
 ﻿using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Game.CQRS.Queries;
 using Codebase.Game.Presentations.Interfaces;
-using Codebase.Game.Services.Interfaces;
 using Codebase.Game.Views.Interfaces;
+using Codebase.MainMenu.Services.Interfaces;
 
-namespace Codebase.Game.Presentations.Implementations
+namespace Codebase.MainMenu.Presentations.Implementations
 {
     public class LevelPresenter : ILevelPresenter
     {

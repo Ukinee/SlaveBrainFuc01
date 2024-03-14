@@ -38,7 +38,7 @@ namespace Codebase.Tanks.Services.Implementations
 
         private async UniTask SetPositionRaw(float targetPosition)
         {
-            float tankPosition = _getTankPositionQuery.ExecuteRaw();
+            float tankPosition = _getTankPositionQuery.HandleRaw();
 
             while (Math.Abs(tankPosition - targetPosition) > 0.01f)
             {

@@ -1,8 +1,8 @@
 ﻿using Codebase.Game.Models;
-using Codebase.Game.Services.Interfaces;
 using Codebase.Game.Views.Interfaces;
+using Codebase.MainMenu.Services.Interfaces;
 
-namespace Codebase.Game.Services.Implementations.Repositories
+namespace Codebase.MainMenu.Services.Implementations.Repositories
 {
     public class LevelRepositoryController : ILevelViewRepository
     {

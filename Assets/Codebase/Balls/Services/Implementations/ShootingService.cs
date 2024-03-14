@@ -27,7 +27,7 @@ namespace Codebase.Balls.Services.Implementations
 
         public async UniTask Shoot(Vector3 targetPosition)
         {
-            Vector3 tankPosition = _tankPositionQuery.Execute();
+            Vector3 tankPosition = _tankPositionQuery.Handle();
             Vector3 direction = targetPosition - tankPosition;
 
             IsShooting = true;

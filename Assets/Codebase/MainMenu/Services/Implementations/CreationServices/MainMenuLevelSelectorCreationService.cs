@@ -7,7 +7,7 @@ using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.CQRS.Commands;
 using Codebase.PlayerData.CQRS.Queries;
 
-namespace Codebase.Game.Services.Implementations.CreationServices
+namespace Codebase.MainMenu.Services.Implementations.CreationServices
 {
     public class MainMenuLevelSelectorCreationService
     {
