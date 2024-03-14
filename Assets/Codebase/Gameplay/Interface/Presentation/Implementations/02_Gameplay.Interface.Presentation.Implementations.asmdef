@@ -1,3 +1,4 @@
 {
-	"name": "02_Gameplay.Interface.Presentation.Implementations"
+	"name": "02_Gameplay.Interface.Presentation.Implementations",
+	"references":[ "GUID:72988af1425965f4fae249fd1fd0f263", "GUID:81baf34d934bec045aa96ea869d7b3c4", "GUID:4e512da11a1a77d4aa1b1a413230edd0", "GUID:1882f379332620944a916d0e0458c6af", "GUID:fb4dfbf1a94d1b74589df6ec747c46ea", "GUID:341ab43c5fbe99940b84f393e8b2f905", "GUID:0790887872e3a314f8953e99ea5ae5c9", "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:f6185d537dd419a45974a737f0c39c3d" ]
 }

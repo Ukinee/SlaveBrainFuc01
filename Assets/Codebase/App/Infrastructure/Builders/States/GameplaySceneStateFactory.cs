@@ -28,8 +28,9 @@ using Codebase.Forms.Views.Implementations;
 using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.Data.Common;
 using Codebase.Game.Data.Infrastructure;
-using Codebase.Game.Services;
 using Codebase.Game.Services.Implementations;
+using Codebase.Gameplay.Interface.Services.Implementations;
+using Codebase.Gameplay.Interface.Services.Implementations.CreationServices;
 using Codebase.Maps.Controllers.ServiceCommands;
 using Codebase.Maps.Views.Implementations;
 using Codebase.PlayerData.CQRS.Commands;
@@ -88,48 +89,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             (IStateMachineService<IScenePayload> stateMachineService, IScenePayload scenePayload)
         {
             if (scenePayload is not GameplayScenePayload gameplayScenePayload)
-                throw new System.Exception("GameplayScenePayload is null");
-
-            #region InitFiles
-
-            // StructurePreset leftTowerStructurePreset = new StructurePreset("Tower", new Vector3(-3, 0, 5));
-            // StructurePreset rightTowerStructurePreset = new StructurePreset("Tower", new Vector3(3, 0, 5));
-            // StructurePreset middleTowerStructurePreset = new StructurePreset("Tower", new Vector3(0, 0, 5));
-            //
-            // GamePresetData twoTowersPreset = new GamePresetData
-            // (
-            //     new[]
-            //     {
-            //         leftTowerStructurePreset,
-            //         rightTowerStructurePreset,
-            //     },
-            //     "Cube"
-            // );
-            //
-            // GamePresetData threeTowersPreset = new GamePresetData
-            // (
-            //     new[]
-            //     {
-            //         leftTowerStructurePreset,
-            //         rightTowerStructurePreset,
-            //         middleTowerStructurePreset
-            //     },
-            //     "Cube"
-            // );
-            //
-            // GamePresetData[] gamePresetDatas = new GamePresetData[]
-            // {
-            //     twoTowersPreset,
-            //     threeTowersPreset
-            // };
-            //
-            // GamePresets testGamePresets = new GamePresets(gamePresetDatas);
-            //
-            // string jsonPath = Application.dataPath + "/Art/Resources/" + _filePathProvider.Game.Data[PathConstants.Game.GamePresets] + ".json";
-            // string json = JsonUtility.ToJson(testGamePresets);
-            // File.WriteAllText(jsonPath, json);
-
-            #endregion
+                throw new Exception("GameplayScenePayload is null");
 
             PauseService pauseService = new PauseService(_audioService);
 
@@ -208,6 +168,16 @@ namespace Codebase.App.Infrastructure.Builders.States
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
             AddPassedLevelCommand addPassedLevelCommand = new AddPassedLevelCommand(_playerIdProvider, _entityRepository);
 
+            WinFormService winFormService = new WinFormService();
+
+            #region Interface
+
+            SetFormVisibilityCommand setFormVisibilityCommand = new SetFormVisibilityCommand(_entityRepository);
+
+            string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
+            InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
+            InterfaceService interfaceService = new InterfaceService(setFormVisibilityCommand);
+
             GameService gameService = new GameService
             (
                 pauseService,
@@ -215,25 +185,54 @@ namespace Codebase.App.Infrastructure.Builders.States
                 gameEnder,
                 addPassedLevelCommand,
                 cubeRepositoryController,
+                interfaceService,
+                winFormService,
                 stateMachineService,
                 _dataService
             );
 
-            #region Interface
+            GameplayWinFormCreationService winCreationService = new GameplayWinFormCreationService
+            (
+                _idGenerator,
+                _entityRepository,
+                _assetProvider,
+                interfaceService,
+                _audioService,
+                _filePathProvider,
+                pauseService,
+                gameService,
+                winFormService
+            );
 
-            SetFormVisibilityCommand setFormVisibilityCommand = new SetFormVisibilityCommand(_entityRepository);
-            
-            string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
-            InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
-            InterfaceService interfaceService = new InterfaceService(setFormVisibilityCommand);
-            
-            
-            
+            GameplayPauseFormCreationService pauseCreationService = new GameplayPauseFormCreationService
+            (
+                _idGenerator,
+                _entityRepository,
+                _assetProvider,
+                interfaceService,
+                _audioService,
+                _filePathProvider,
+                pauseService,
+                gameService
+            );
+
+            GameplayInterfaceFormCreationService interfaceCreationService = new GameplayInterfaceFormCreationService
+            (
+                _idGenerator,
+                _entityRepository,
+                _assetProvider,
+                interfaceService,
+                _audioService,
+                _filePathProvider,
+                pauseService,
+                gameService
+            );
+
             var factories = new Dictionary<Type, Func<Tuple<FormBase, IFormView>>>()
             {
-                [typeof(GameplayInterfaceFormType)] =,
-                [typeof(GameplayPauseFormType)] =,
-                [typeof(GameplayWinFormType)] =
+                [typeof(GameplayInterfaceFormType)] = interfaceCreationService.Create,
+                [typeof(GameplayPauseFormType)] = pauseCreationService.Create,
+                [typeof(GameplayWinFormType)] = winCreationService.Create,
             };
 
             FormCreationService formCreationService = new FormCreationService(interfaceView, interfaceService, factories);
@@ -246,12 +245,20 @@ namespace Codebase.App.Infrastructure.Builders.States
                 pauseService,
                 inputService,
                 gameService,
+                formCreationService,
                 gameplayScenePayload.LevelId,
                 gameplayScenePayload.MapType,
                 _contextActionService,
                 new IContextInputAction[]
                 {
-                    new ShootInputAction(aimService, shootingService, raycastHitProvider, tankPositionService),
+                    new ShootInputAction
+                    (
+                        aimService,
+                        shootingService,
+                        raycastHitProvider,
+                        tankPositionService,
+                        cursorOverUiProvider
+                    ),
                     new PositionInputActionWrapper(raycastHitProvider, aimService),
                 }
             );

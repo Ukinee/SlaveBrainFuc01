@@ -59,8 +59,11 @@ namespace Codebase.MainMenu.Presentations.Implementations
 
         public void OnStartClicked()
         {
+            if (_selectedLevelService.CurrentId == -1)
+                return;
+
             _sceneStateMachine.SetState
-                (new GameplayScenePayload(_getLevelIdQuery.Handle(_selectedLevelService.CurrentId), MapType.Grass1));
+                (new GameplayScenePayload(_getLevelIdQuery.Handle(_selectedLevelService.CurrentId), MapType.Grass1)); // todo: hardcoded value
         }
 
         public void OnBackClicked()

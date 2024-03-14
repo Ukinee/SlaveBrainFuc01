@@ -6,7 +6,6 @@ namespace Codebase.Cubes.Views.Implementations
 {
     public class CubeActivator : MonoBehaviour
     {
-        [SerializeField] CubeView _cubeView;
         [SerializeField] private Collider _collider;
         [SerializeField] private LayerMask _activatedLayers;
 
@@ -34,6 +33,7 @@ namespace Codebase.Cubes.Views.Implementations
             _collider.excludeLayers -= _activatedLayers;
             _isActive = false;
             Destroy(_rigidBody);
+            transform.rotation = Quaternion.identity;
         }
     }
 }

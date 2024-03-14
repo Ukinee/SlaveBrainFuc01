@@ -3,6 +3,8 @@ using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.General;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Core.Services.PauseServices;
+using Codebase.Forms.Common.FormTypes.Gameplay;
+using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Game.Services;
 using Codebase.Game.Services.Implementations;
 using Codebase.Maps.Common;
@@ -16,6 +18,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         private readonly PauseService _pauseService;
         private readonly InputService _inputService;
         private readonly GameService _gameService;
+        private readonly FormCreationService _formCreationService;
         private readonly string _levelId;
         private readonly MapType _mapType;
         private readonly ContextActionService _contextActionService;
@@ -27,6 +30,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             PauseService pauseService,
             InputService inputService,
             GameService gameService,
+            FormCreationService formCreationService,
             string levelId,
             MapType mapType,
             ContextActionService contextActionService,
@@ -37,6 +41,7 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             _pauseService = pauseService;
             _inputService = inputService;
             _gameService = gameService;
+            _formCreationService = formCreationService;
             _levelId = levelId;
             _mapType = mapType;
             _contextActionService = contextActionService;
@@ -48,6 +53,10 @@ namespace Codebase.App.Infrastructure.StateMachines.States
             foreach (IContextInputAction inputAction in _inputActions)
                 _contextActionService.Register(inputAction);
             
+            _formCreationService.Create(new GameplayInterfaceFormType());
+            _formCreationService.Create(new GameplayPauseFormType());
+            _formCreationService.Create(new GameplayWinFormType());
+            
             _inputService.Enable();
             _gameService.Start(_levelId, _mapType);
         }
@@ -56,9 +65,9 @@ namespace Codebase.App.Infrastructure.StateMachines.States
         {
             if(Input.GetKeyDown(KeyCode.Space))
                 if(_pauseService.IsPaused)
-                    _pauseService.ApplicationResume();
+                    _pauseService.ResumeApplication();
                 else
-                    _pauseService.ApplicationPause();
+                    _pauseService.PauseApplication();
             
             if(Input.GetKeyDown(KeyCode.K))
                 _gameService.End();

@@ -1,3 +1,4 @@
 {
-	"name": "02_Gameplay.Interface.Views.Implementations"
+	"name": "02_Gameplay.Interface.Views.Implementations",
+	"references":[ "GUID:0c62fef25069fb54cb148a2680df58a5", "GUID:0790887872e3a314f8953e99ea5ae5c9", "GUID:341ab43c5fbe99940b84f393e8b2f905", "GUID:c5eb05227a90bb042b2d6d33068063e8", "GUID:b9a6492555c38f747983b5a899b64121" ]
 }

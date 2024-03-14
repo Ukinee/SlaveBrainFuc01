@@ -39,7 +39,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             _entityRepository = entityRepository;
             _levelRepositoryController = levelRepositoryController;
             _selectedLevelService = selectedLevelService;
-            _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.LevelView];
+            _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuLevelView];
             _getLevelStateQuery = new GetLevelStateQuery(entityRepository);
             _getLevelSelectionQuery = new GetLevelSelectionQuery(entityRepository);
             _getLevelIdQuery = new GetLevelIdQuery(entityRepository);

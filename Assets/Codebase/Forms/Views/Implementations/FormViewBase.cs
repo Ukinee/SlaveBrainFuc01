@@ -2,7 +2,6 @@
 using Codebase.Core.Frameworks.MVP.Interfaces;
 using Codebase.Forms.Views.Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Codebase.Forms.Views.Implementations
 {

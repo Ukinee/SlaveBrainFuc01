@@ -1,8 +1,13 @@
-﻿using Codebase.App.Infrastructure.StatePayloads;
+﻿using System.Threading.Tasks;
+using Codebase.App.Infrastructure.StatePayloads;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Cubes.Repositories.Implementations;
+using Codebase.Forms.Common.FormTypes.Gameplay;
+using Codebase.Forms.Services.Implementations;
+using Codebase.Gameplay.Interface.Services.Interfaces;
 using Codebase.Maps.Common;
 using Codebase.Maps.Views.Interfaces;
 using Codebase.PlayerData.CQRS.Commands;
@@ -17,6 +22,8 @@ namespace Codebase.Game.Services.Implementations
         private readonly GameEnder _gameEnder;
         private readonly AddPassedLevelCommand _addPassedLevelCommand;
         private readonly CubeRepositoryController _cubeRepositoryController;
+        private readonly IInterfaceService _interfaceService;
+        private readonly IWinFormService _winFormService;
         private readonly IStateMachineService<IScenePayload> _stateMachineService;
         private readonly IDataService _dataService;
         private readonly PauseService _pauseService;
@@ -30,6 +37,8 @@ namespace Codebase.Game.Services.Implementations
             GameEnder gameEnder,
             AddPassedLevelCommand addPassedLevelCommand,
             CubeRepositoryController cubeRepositoryController,
+            IInterfaceService interfaceService,
+            IWinFormService winFormService,
             IStateMachineService<IScenePayload> stateMachineService,
             IDataService dataService
         )
@@ -39,6 +48,8 @@ namespace Codebase.Game.Services.Implementations
             _gameEnder = gameEnder;
             _addPassedLevelCommand = addPassedLevelCommand;
             _cubeRepositoryController = cubeRepositoryController;
+            _interfaceService = interfaceService;
+            _winFormService = winFormService;
             _stateMachineService = stateMachineService;
             _dataService = dataService;
         }
@@ -47,34 +58,37 @@ namespace Codebase.Game.Services.Implementations
         {
             if (string.IsNullOrEmpty(_levelId) == false)
                 throw new System.Exception("GameService: level id already set.");
-            
+
             _levelId = levelId;
 
             _cubeRepositoryController.OnCubeAmountChanged += OnCubeAmountChanged;
             _gameStarter.Start(levelId, mapType);
         }
 
-        public async void End()
+        public void End()
         {
             _cubeRepositoryController.OnCubeAmountChanged -= OnCubeAmountChanged;
+            _dataService.Save();
+            _gameEnder.End();
 
             if (_pauseService.IsPaused)
             {
-                MaloyAlert.Warning("Unusual behavior: game ended while pause.");
-                _pauseService.ApplicationResume();
+                "Unusual behavior. Unpause application".Log();
+                _pauseService.ResumeApplication();
             }
 
-            if (_cubeRepositoryController.Count == 0)
-            {
-                _addPassedLevelCommand.Handle(_levelId);
-                //todo: handling prize logic
-            }
-            
-            await UniTask.Delay(1000); //todo: to menu with OK button
-            
-            _dataService.Save();
-            _gameEnder.End();
             _stateMachineService.SetState(new MainMenuScenePayload());
+        }
+
+        private async void EndAsWin()
+        {
+            _addPassedLevelCommand.Handle(_levelId);
+
+            await Task.Delay(1000); //todo : hardcoded value
+            _interfaceService.Show(new GameplayWinFormType());
+            await UniTask.WaitUntil(_winFormService.GetContinueClicked);
+
+            End();
         }
 
         private void OnCubeAmountChanged(int amount)
@@ -82,7 +96,7 @@ namespace Codebase.Game.Services.Implementations
             if (amount != 0)
                 return;
 
-            End();
+            EndAsWin();
         }
     }
 }

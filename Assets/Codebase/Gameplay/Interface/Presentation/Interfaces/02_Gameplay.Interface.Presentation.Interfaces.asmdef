@@ -1,3 +1,4 @@
 {
-	"name": "02_Gameplay.Interface.Presentation.Interfaces"
+	"name": "02_Gameplay.Interface.Presentation.Interfaces",
+	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8" ]
 }

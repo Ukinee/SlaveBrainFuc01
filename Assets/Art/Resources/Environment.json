@@ -23,13 +23,16 @@
   },
   "Forms": {
     "Data": {
-      "InterfaceView" : "Forms/InterfaceView",
-      "MainMenuForm" : "Forms/MainMenu/MainMenuForm",
-      "MainMenuShopForm" :  "Forms/MainMenu/MainMenuShopForm" ,
-      "MainMenuSettingsForm" : "Forms/MainMenu/MainMenuSettingsForm",
-      "MainMenuLeaderboardForm" :  "Forms/MainMenu/MainMenuLeaderboardForm",
-      "LevelSelectingFormView" :  "Forms/MainMenu/LevelSelectingFormView",
-      "LevelView" :  "Forms/MainMenu/LevelView"
+      "InterfaceView": "Forms/InterfaceView",
+      "MainMenuForm": "Forms/MainMenu/MainMenuForm",
+      "MainMenuShopForm": "Forms/MainMenu/MainMenuShopForm",
+      "MainMenuSettingsForm": "Forms/MainMenu/MainMenuSettingsForm",
+      "MainMenuLeaderboardForm": "Forms/MainMenu/MainMenuLeaderboardForm",
+      "LevelSelectingFormView": "Forms/MainMenu/LevelSelectingFormView",
+      "LevelView": "Forms/MainMenu/LevelView",
+      "GameplayForm": "Forms/Gameplay/GameplayForm",
+      "GameplayWinForm": "Forms/Gameplay/GameplayWinForm",
+      "GameplayPauseForm": "Forms/Gameplay/GameplayPauseForm"
     }
   }
 }

@@ -12,8 +12,13 @@
             public const string MainMenuShopForm = "MainMenuShopForm";
             public const string MainMenuSettingsForm = "MainMenuSettingsForm";
             public const string MainMenuLeaderboardForm = "MainMenuLeaderboardForm";
-            public const string LevelSelectingFormView = "LevelSelectingFormView";
-            public const string LevelView = "LevelView";
+            public const string MainMenuLevelSelectingFormView = "LevelSelectingFormView";
+            public const string MainMenuLevelView = "LevelView";
+            
+            public const string GameplayForm = "GameplayForm";
+            public const string GameplayWinForm = "GameplayWinForm";
+            public const string GameplayPauseForm = "GameplayPauseForm";
+            
             public const string CoinView = "CoinView";
         }
 

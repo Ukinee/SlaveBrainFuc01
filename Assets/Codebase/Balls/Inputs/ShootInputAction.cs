@@ -3,6 +3,7 @@ using ApplicationCode.Core.Services.NewInputSystem.Common;
 using Codebase.Balls.Services.Interfaces;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.Infrastructure;
+using Codebase.Core.Services.NewInputSystem.Interfaces;
 using Codebase.Tank.Services.Interfaces;
 using Cysharp.Threading.Tasks;
 
@@ -14,13 +15,15 @@ namespace Codebase.Balls.Inputs
         private readonly IShootingService _shootService;
         private readonly IRaycastHitProvider _raycastHitProvider;
         private readonly ITankPositionService _tankPositionService;
+        private readonly IIsCursorOverUiProvider _isCursorOverUiProvider;
 
         public ShootInputAction
         (
             IAimService aimService,
             IShootingService shootService,
             IRaycastHitProvider raycastHitProvider,
-            ITankPositionService tankPositionService
+            ITankPositionService tankPositionService,
+            IIsCursorOverUiProvider isCursorOverUiProvider
         )
             : base(InputConstants.Gameplay.Shoot)
         {
@@ -28,13 +31,14 @@ namespace Codebase.Balls.Inputs
             _shootService = shootService;
             _raycastHitProvider = raycastHitProvider;
             _tankPositionService = tankPositionService;
+            _isCursorOverUiProvider = isCursorOverUiProvider;
         }
 
         private bool IsBlocked => _tankPositionService.IsMoving || _shootService.IsShooting;
 
         protected override void OnActionStart(object payload)
         {
-            if (IsBlocked || _raycastHitProvider.HasHit == false)
+            if (IsBlocked || _isCursorOverUiProvider.IsCursorOverUi || _raycastHitProvider.HasHit == false)
                 return;
             
             _aimService.StartAim(_raycastHitProvider.HitPoint);

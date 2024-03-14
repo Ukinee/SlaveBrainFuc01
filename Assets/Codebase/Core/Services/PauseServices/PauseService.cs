@@ -12,13 +12,13 @@ namespace Codebase.Core.Services.PauseServices
         {
             _audioService = audioService;
         }
-        
+
         public bool IsPaused { get; private set; } = false;
 
         public bool GetStatus() =>
             IsPaused;
 
-        public void ApplicationPause()
+        public void PauseApplication()
         {
             _audioService.Pause();
             _rememberedTimeScale = Time.timeScale;
@@ -26,21 +26,21 @@ namespace Codebase.Core.Services.PauseServices
             IsPaused = true;
         }
 
-        public void ApplicationResume()
+        public void ResumeApplication()
         {
             _audioService.Resume();
             IsPaused = false;
             Time.timeScale = _rememberedTimeScale;
         }
 
-        public void GameplayPause()
+        public void PauseGame()
         {
-            throw new System.NotImplementedException();
+            PauseApplication();
         }
 
-        public void GameplayResume()
+        public void ResumeGame()
         {
-            throw new System.NotImplementedException();
+            ResumeApplication(); // todo : temporary
         }
     }
 }

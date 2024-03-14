@@ -58,7 +58,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             _getLevelIdsQuery = new GetLevelIdsQuery(entityRepository);
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
             _getLevelIdQuery = new GetLevelIdQuery(entityRepository);
-            _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.LevelSelectingFormView];
+            _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuLevelSelectingFormView];
         }
         
         public Tuple<FormBase, IFormView> Create()
