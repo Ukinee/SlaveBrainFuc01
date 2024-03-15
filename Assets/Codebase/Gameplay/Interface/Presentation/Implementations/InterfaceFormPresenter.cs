@@ -21,6 +21,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
 
         public void Enable()
         {
+            string[] options = { };
         }
 
         public void Disable()

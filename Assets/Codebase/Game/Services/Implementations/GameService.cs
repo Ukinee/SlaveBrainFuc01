@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Common.General.Utils;
@@ -9,7 +12,6 @@ using Codebase.Forms.Common.FormTypes.Gameplay;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Gameplay.Interface.Services.Interfaces;
 using Codebase.Maps.Common;
-using Codebase.Maps.Views.Interfaces;
 using Codebase.PlayerData.CQRS.Commands;
 using Codebase.PlayerData.Services.Interfaces;
 using Cysharp.Threading.Tasks;
@@ -29,6 +31,9 @@ namespace Codebase.Game.Services.Implementations
         private readonly PauseService _pauseService;
 
         private string _levelId;
+
+        private CancellationTokenSource _cancellationTokenSource;
+        private UniTask _currentTask = UniTask.CompletedTask;
 
         public GameService
         (
@@ -77,18 +82,29 @@ namespace Codebase.Game.Services.Implementations
                 _pauseService.ResumeApplication();
             }
 
+            if (_currentTask.Status == UniTaskStatus.Pending)
+                _cancellationTokenSource.Cancel();
+
             _stateMachineService.SetState(new MainMenuScenePayload());
         }
-
-        private async void EndAsWin()
+        
+        private async UniTask EndAsWin(CancellationToken cancellationToken = default)
         {
-            _addPassedLevelCommand.Handle(_levelId);
+            try
+            {
+                _addPassedLevelCommand.Handle(_levelId);
 
-            await Task.Delay(1000); //todo : hardcoded value
-            _interfaceService.Show(new GameplayWinFormType());
-            await UniTask.WaitUntil(_winFormService.GetContinueClicked);
+                await UniTask.Delay(1000, cancellationToken: cancellationToken); //todo : hardcoded value
 
-            End();
+                _interfaceService.Show(new GameplayWinFormType());
+                await UniTask.WaitUntil(_winFormService.GetContinueClicked, cancellationToken: cancellationToken);
+
+                End();
+            }
+            catch (OperationCanceledException e)
+            {
+                e.Message.Log();
+            }
         }
 
         private void OnCubeAmountChanged(int amount)
@@ -96,7 +112,8 @@ namespace Codebase.Game.Services.Implementations
             if (amount != 0)
                 return;
 
-            EndAsWin();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _currentTask = EndAsWin(_cancellationTokenSource.Token);
         }
     }
 }

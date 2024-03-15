@@ -6,10 +6,8 @@ namespace Codebase.Gameplay.Interface.Services.Implementations
     {
         public bool IsContinueClicked { get; private set; }
 
-        public void OnContinueClick()
-        {
+        public void OnContinueClick() =>
             IsContinueClicked = true;
-        }
 
         public bool GetContinueClicked() =>
             IsContinueClicked;

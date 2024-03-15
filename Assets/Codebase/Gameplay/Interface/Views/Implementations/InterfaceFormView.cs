@@ -1,5 +1,4 @@
-﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
-using Codebase.Forms.Views.Implementations;
+﻿using Codebase.Forms.Views.Implementations;
 using Codebase.Gameplay.Interface.Presentation.Interfaces;
 using Codebase.Gameplay.Interface.Views.Interfaces;
 using UnityEngine;

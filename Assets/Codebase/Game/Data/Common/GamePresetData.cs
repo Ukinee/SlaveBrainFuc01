@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Codebase.Game.Data.Common
 {
     [Serializable]
-    public class GamePresetData
+    public class GamePresetData 
     {
         public GamePresetData(StructurePreset[] structures, string obstacleId, string levelId)
         {
