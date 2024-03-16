@@ -1,4 +1,4 @@
-﻿using Codebase.Game.CQRS.Commands;
+﻿using Codebase.MainMenu.CQRS.Commands;
 using Codebase.MainMenu.Services.Interfaces;
 
 namespace Codebase.MainMenu.Services.Implementations

@@ -2,7 +2,8 @@
     "name": "09_MainMenu.Views.Interfaces",
     "rootNamespace": "",
     "references": [
-        "GUID:e0f642f568ad4d44cb385d8daa51d75c"
+        "GUID:e0f642f568ad4d44cb385d8daa51d75c",
+        "GUID:abe37c14e9e7b4643bc87c24dc038dc4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

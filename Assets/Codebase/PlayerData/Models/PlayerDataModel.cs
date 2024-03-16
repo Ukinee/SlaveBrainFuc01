@@ -19,11 +19,13 @@ namespace Codebase.PlayerData.Models
             int id,
             int coins,
             int levelsPassed,
+            MapType selectedMap,
             string[] passedLevels,
             string[] unlockedStructures,
             MapType[] unlockedMaps
         ) : base(id)
         {
+            SelectedMap = selectedMap;
             _coins = new LiveData<int>(coins);
             _levelsPassed = new LiveData<int>(levelsPassed);
             _passedLevels = new LiveData<string[]>(passedLevels);
@@ -31,12 +33,16 @@ namespace Codebase.PlayerData.Models
             _unlockedMaps = new LiveData<MapType[]>(unlockedMaps);
         }
 
+        public MapType SelectedMap { get; private set;  }
         public ILiveData<int> Coins => _coins;
         public ILiveData<int> LevelsPassed => _levelsPassed;
         public ILiveData<IReadOnlyList<string>> PassedLevels => _passedLevels;
         public ILiveData<IReadOnlyList<string>> UnlockedStructures => _unlockedStructures;
         public ILiveData<IReadOnlyList<MapType>> UnlockedMaps => _unlockedMaps;
 
+        public void SetSelectedMap(MapType selectedMap) =>
+            SelectedMap = selectedMap;
+        
         public void SetCoins(int coins) =>
             _coins.Value = coins;
 

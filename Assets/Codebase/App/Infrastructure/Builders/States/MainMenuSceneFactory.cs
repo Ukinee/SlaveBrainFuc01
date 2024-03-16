@@ -11,12 +11,16 @@ using Codebase.Forms.CQRS;
 using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Forms.Services.Interfaces;
 using Codebase.Forms.Views.Implementations;
-using Codebase.Game.CQRS.Commands;
+using Codebase.MainMenu.CQRS.Commands;
+using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Factories;
 using Codebase.MainMenu.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations.Repositories;
+using Codebase.Maps.Common;
+using Codebase.PlayerData.CQRS.Commands;
 using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Interfaces;
+using UnityEngine;
 
 namespace Codebase.App.Infrastructure.Builders.States
 {
@@ -57,6 +61,15 @@ namespace Codebase.App.Infrastructure.Builders.States
                 "Test Two Towers",
                 "Test Three Towers",
             };
+            
+            MapType[] mapTypes =
+            {
+                MapType.Grass1,
+                MapType.Desert1,
+                MapType.Desert2,
+                MapType.Jungle1,
+                MapType.Snow1,
+            };
 
             #endregion
 
@@ -70,6 +83,14 @@ namespace Codebase.App.Infrastructure.Builders.States
             LevelRepositoryController levelRepositoryController = new LevelRepositoryController();
             SelectedLevelService selectedLevelService = new SelectedLevelService(setLevelSelectionCommand);
             GetPassedLevelsQuery getPassedLevelsQuery = new GetPassedLevelsQuery(_playerIdProvider, _entityRepository);
+            GetPlayerSelectedMapQuery getPlayerInitialMapTypeQuery = new GetPlayerSelectedMapQuery(_playerIdProvider, _entityRepository);
+
+            SetPlayerSelectedMapCommand playerSelectedMapCommand = new SetPlayerSelectedMapCommand(_playerIdProvider, _entityRepository);
+            SetMapSelectionCommand setMapSelectionCommand = new SetMapSelectionCommand(_entityRepository);
+            GetMapTypeQuery getMapTypeQuery = new GetMapTypeQuery(_entityRepository);
+            
+            SelectedMapService selectedMapService = new SelectedMapService(setMapSelectionCommand, getMapTypeQuery, playerSelectedMapCommand);
+            MapRepositoryController mapRepositoryController = new MapRepositoryController();
 
             MainMenuFormCreationServiceFactory mainMenuFormCreationServiceFactory = new MainMenuFormCreationServiceFactory
             (
@@ -77,17 +98,20 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _entityRepository,
                 interfaceService,
                 levelRepositoryController,
+                mapRepositoryController,
                 interfaceView,
                 _audioService,
                 selectedLevelService,
                 _assetProvider,
                 _filePathProvider,
                 getPassedLevelsQuery,
+                getPlayerInitialMapTypeQuery,
+                selectedMapService,
                 _playerIdProvider,
                 stateMachineService
             );
 
-            FormCreationService formCreationService = mainMenuFormCreationServiceFactory.Create(availableLevelIds);
+            FormCreationService formCreationService = mainMenuFormCreationServiceFactory.Create(availableLevelIds, mapTypes);
 
             MainMenuFactory mainMenuFactory = new MainMenuFactory(formCreationService);
 

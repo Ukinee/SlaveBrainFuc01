@@ -21,6 +21,7 @@ namespace Codebase.PlayerData.CQRS.Queries
                 false,
                 model.Coins.Value,
                 model.LevelsPassed.Value,
+                model.SelectedMap,
                 model.PassedLevels.Value.ToArray(),
                 model.UnlockedStructures.Value.ToArray(),
                 model.UnlockedMaps.Value.ToArray()

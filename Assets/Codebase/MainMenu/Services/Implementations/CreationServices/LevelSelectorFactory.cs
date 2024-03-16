@@ -24,16 +24,16 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
     {
         private readonly AssetProvider _assetProvider;
         private readonly GetLevelIdsQuery _getLevelIdsQuery;
-        private readonly GetLevelIdQuery _getLevelIdQuery;
+        private readonly GetMapIdsQuery _getMapIdsQuery;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
         private readonly IIdGenerator _idGenerator;
         private readonly IEntityRepository _entityRepository;
         private readonly ILevelViewRepository _levelViewRepository;
+        private readonly IMapViewRepository _mapViewRepository;
         private readonly IInterfaceService _interfaceService;
         private readonly IInterfaceView _interfaceView;
-        private readonly ISelectedLevelService _selectedLevelService;
-        private readonly IStateMachineService<IScenePayload> _stateMachineService;
         private readonly string _assetPath;
+        private IMainMenuLevelChanger _mainMenuLevelChanger;
 
         public LevelSelectorFactory
         (
@@ -42,23 +42,23 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             IIdGenerator idGenerator,
             IEntityRepository entityRepository,
             ILevelViewRepository levelViewRepository,
+            IMapViewRepository mapViewRepository,
             IInterfaceService interfaceService,
             IInterfaceView interfaceView,
-            ISelectedLevelService selectedLevelService,
-            IStateMachineService<IScenePayload> stateMachineService
+            IMainMenuLevelChanger mainMenuLevelChanger
         )
         {
             _assetProvider = assetProvider;
             _idGenerator = idGenerator;
             _entityRepository = entityRepository;
             _levelViewRepository = levelViewRepository;
+            _mapViewRepository = mapViewRepository;
             _interfaceService = interfaceService;
             _interfaceView = interfaceView;
-            _selectedLevelService = selectedLevelService;
-            _stateMachineService = stateMachineService;
+            _mainMenuLevelChanger = mainMenuLevelChanger;
             _getLevelIdsQuery = new GetLevelIdsQuery(entityRepository);
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
-            _getLevelIdQuery = new GetLevelIdQuery(entityRepository);
+            _getMapIdsQuery = new GetMapIdsQuery(entityRepository);
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuLevelSelectingFormView];
         }
         
@@ -66,7 +66,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
         {
             int id = _idGenerator.Generate();
 
-            MainMenuLevelSelectionFormModel model = new MainMenuLevelSelectionFormModel(true, id); //todo: debug tru
+            MainMenuLevelSelectorFormModel model = new MainMenuLevelSelectorFormModel(true, id); //todo: debug tru
             _entityRepository.Register(model);
             
             LevelSelectorFormView view = _assetProvider.Instantiate<LevelSelectorFormView>(_assetPath);
@@ -78,25 +78,25 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
                 view
             );
 
-            LevelSelectingFormPresenter levelSelectingFormPresenter = new LevelSelectingFormPresenter
+            LevelSelectorFormPresenter levelSelectorFormPresenter = new LevelSelectorFormPresenter
             (
                 id,
                 new DisposeCommand(_entityRepository),
                 _getLevelIdsQuery,
-                _getLevelIdQuery,
+                _getMapIdsQuery,
                 _levelViewRepository,
+                _mapViewRepository,
                 view,
                 _interfaceService,
-                _selectedLevelService,
-                _stateMachineService
+                _mainMenuLevelChanger
             );
             
             _interfaceView.SetChild(view);
             
             visibilityPresenter.Enable();
-            levelSelectingFormPresenter.Enable();
+            levelSelectorFormPresenter.Enable();
             
-            view.Construct(levelSelectingFormPresenter);
+            view.Construct(levelSelectorFormPresenter);
             
             return new Tuple<FormBase, IFormView>(model, view);
         }

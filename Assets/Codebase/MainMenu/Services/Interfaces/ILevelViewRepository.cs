@@ -1,4 +1,4 @@
-﻿using Codebase.Game.Views.Interfaces;
+﻿using Codebase.MainMenu.Views.Interfaces;
 
 namespace Codebase.MainMenu.Services.Interfaces
 {

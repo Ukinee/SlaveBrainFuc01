@@ -30,6 +30,7 @@
       "MainMenuLeaderboardForm": "Forms/MainMenu/MainMenuLeaderboardForm",
       "LevelSelectingFormView": "Forms/MainMenu/LevelSelectingFormView",
       "LevelView": "Forms/MainMenu/LevelView",
+      "MainMenuMapView": "Forms/MainMenu/MainMenuMapView",
       "GameplayForm": "Forms/Gameplay/GameplayForm",
       "GameplayWinForm": "Forms/Gameplay/GameplayWinForm",
       "GameplayPauseForm": "Forms/Gameplay/GameplayPauseForm"

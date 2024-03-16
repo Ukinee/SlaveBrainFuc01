@@ -6,7 +6,7 @@ using Codebase.MainMenu.Models;
 
 namespace Codebase.MainMenu.CQRS.Queries
 {
-    public class GetLevelIdsQuery : EntityUseCaseBase<MainMenuLevelSelectionFormModel>
+    public class GetLevelIdsQuery : EntityUseCaseBase<MainMenuLevelSelectorFormModel>
     {
         public GetLevelIdsQuery(IEntityRepository repository) : base(repository)
         {

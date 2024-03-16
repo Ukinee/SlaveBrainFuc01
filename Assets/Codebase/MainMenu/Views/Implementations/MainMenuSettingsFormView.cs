@@ -2,6 +2,7 @@
 using Codebase.Forms.Views.Implementations;
 using Codebase.Forms.Views.Interfaces;
 using Codebase.MainMenu.Presentations.Interfaces;
+using Codebase.MainMenu.Views.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 

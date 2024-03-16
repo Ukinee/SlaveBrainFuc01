@@ -1,9 +1,10 @@
 ﻿using Codebase.Forms.Views.Interfaces;
 
-namespace Codebase.Game.Views.Interfaces
+namespace Codebase.MainMenu.Views.Interfaces
 {
     public interface ILevelSelectingFormView : IFormView
     {
-        public void SetChild(ILevelView levelView);
+        public void AddLevel(ILevelView view);
+        public void AddMap(IMainMenuMapView view);
     }
 }

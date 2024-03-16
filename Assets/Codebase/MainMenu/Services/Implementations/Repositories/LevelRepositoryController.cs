@@ -1,6 +1,6 @@
-﻿using Codebase.Game.Views.Interfaces;
-using Codebase.MainMenu.Models;
+﻿using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Services.Interfaces;
+using Codebase.MainMenu.Views.Interfaces;
 
 namespace Codebase.MainMenu.Services.Implementations.Repositories
 {
@@ -19,7 +19,7 @@ namespace Codebase.MainMenu.Services.Implementations.Repositories
             model.Disposed += Remove;
         }
 
-        public void Remove(int id)
+        private void Remove(int id)
         {
             LevelModel model = _levelModelRepository.Get(id);
             model.Disposed -= Remove;

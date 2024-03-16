@@ -1,10 +1,9 @@
-﻿namespace Codebase.Game.Views.Interfaces
+﻿namespace Codebase.MainMenu.Views.Interfaces
 {
-    public interface ILevelView
+    public interface ILevelView : ILevelSelectorPartView
     {
         public void SetSelected(bool isSelected);
         public void SetPassed(bool isPassed);
-        public void UnParent();
         public void SetLevelName(string levelId);
     }
 }

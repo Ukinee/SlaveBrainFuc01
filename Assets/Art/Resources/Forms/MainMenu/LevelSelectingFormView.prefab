@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2417519121107372034}
   - component: {fileID: 1532611700726962132}
+  - component: {fileID: 999756845980860557}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -177,6 +178,30 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &999756845980860557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137576216058375181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 1
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &3778499914735806057
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,6 +389,7 @@ MonoBehaviour:
   _backButton: {fileID: 3491348717553277953}
   _startButton: {fileID: 7030478440043336651}
   _levelContents: {fileID: 9178448164590911964}
+  _mapContents: {fileID: 3137576216058375181}
 --- !u!1 &4108183098642678140
 GameObject:
   m_ObjectHideFlags: 0

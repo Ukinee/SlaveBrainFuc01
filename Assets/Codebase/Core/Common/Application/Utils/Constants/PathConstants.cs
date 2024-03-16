@@ -14,6 +14,7 @@
             public const string MainMenuLeaderboardForm = "MainMenuLeaderboardForm";
             public const string MainMenuLevelSelectingFormView = "LevelSelectingFormView";
             public const string MainMenuLevelView = "LevelView";
+            public const string MainMenuMapView = "MainMenuMapView";
             
             public const string GameplayForm = "GameplayForm";
             public const string GameplayWinForm = "GameplayWinForm";

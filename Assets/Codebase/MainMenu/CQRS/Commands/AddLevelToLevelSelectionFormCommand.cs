@@ -2,9 +2,9 @@
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.Models;
 
-namespace Codebase.Game.CQRS.Commands
+namespace Codebase.MainMenu.CQRS.Commands
 {
-    public class AddLevelToLevelSelectionFormCommand : EntityUseCaseBase<MainMenuLevelSelectionFormModel>
+    public class AddLevelToLevelSelectionFormCommand : EntityUseCaseBase<MainMenuLevelSelectorFormModel>
     {
         public AddLevelToLevelSelectionFormCommand(IEntityRepository repository) : base(repository)
         {

@@ -1,8 +1,8 @@
 ﻿using System;
 using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Frameworks.MVP.BaseClasses;
-using Codebase.Game.Views.Interfaces;
 using Codebase.MainMenu.Presentations.Interfaces;
+using Codebase.MainMenu.Views.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

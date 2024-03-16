@@ -1,7 +1,7 @@
 ﻿using System;
 using Codebase.Forms.Views.Implementations;
-using Codebase.Game.Views.Interfaces;
 using Codebase.MainMenu.Presentations.Interfaces;
+using Codebase.MainMenu.Views.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +13,7 @@ namespace Codebase.MainMenu.Views.Implementations
         [SerializeField] private Button _startButton;
         
         [SerializeField] private GameObject _levelContents;
+        [SerializeField] private GameObject _mapContents;
         
         private void OnEnable()
         {
@@ -32,9 +33,8 @@ namespace Codebase.MainMenu.Views.Implementations
             Presenter.OnViewDispose();
         }
 
-        public void SetChild(ILevelView levelView)
+        public void SetChild(ILevelSelectorPartView view)
         {
-            ((MonoBehaviour)levelView).transform.SetParent(_levelContents.transform);
         }
 
         private void OnStartClicked()
@@ -45,6 +45,16 @@ namespace Codebase.MainMenu.Views.Implementations
         private void OnBackClicked()
         {
             Presenter.OnBackClicked();
+        }
+
+        public void AddLevel(ILevelView view)
+        {
+            ((MonoBehaviour)view).transform.SetParent(_levelContents.transform);
+        }
+
+        public void AddMap(IMainMenuMapView view)
+        {
+            ((MonoBehaviour)view).transform.SetParent(_mapContents.transform);
         }
     }
 }

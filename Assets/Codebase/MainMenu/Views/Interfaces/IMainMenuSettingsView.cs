@@ -1,4 +1,4 @@
-﻿namespace Codebase.Forms.Views.Interfaces
+﻿namespace Codebase.MainMenu.Views.Interfaces
 {
     public interface IMainMenuSettingsView
     {

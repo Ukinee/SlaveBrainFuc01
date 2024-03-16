@@ -4,6 +4,7 @@ using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
 using Codebase.MainMenu.Presentations.Interfaces;
+using Codebase.MainMenu.Views.Interfaces;
 
 namespace Codebase.MainMenu.Presentations.Implementations
 {

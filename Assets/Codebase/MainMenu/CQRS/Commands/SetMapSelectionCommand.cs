@@ -2,11 +2,11 @@
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.Models;
 
-namespace Codebase.Game.CQRS.Commands
+namespace Codebase.MainMenu.CQRS.Commands
 {
-    public class SetLevelSelectionCommand : EntityUseCaseBase<LevelModel>
+    public class SetMapSelectionCommand: EntityUseCaseBase<MainMenuMapModel>
     {
-        public SetLevelSelectionCommand(IEntityRepository repository) : base(repository)
+        public SetMapSelectionCommand(IEntityRepository repository) : base(repository)
         {
         }
 

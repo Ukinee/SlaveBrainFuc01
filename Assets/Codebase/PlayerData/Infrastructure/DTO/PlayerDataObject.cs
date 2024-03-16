@@ -12,6 +12,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             bool isFirstStart,
             int coins,
             int levelsPassed,
+            MapType selectedMap,
             string[] passedLevels,
             string[] unlockedStructuresForInfiniteLevels,
             MapType[] unlockedMaps
@@ -20,6 +21,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             IsFirstStart = isFirstStart;
             Coins = coins;
             LevelsPassed = levelsPassed;
+            SelectedMap = selectedMap;
             PassedLevels = passedLevels;
             UnlockedStructuresForInfiniteLevels = unlockedStructuresForInfiniteLevels;
             UnlockedMaps = unlockedMaps;
@@ -30,6 +32,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             true,
             0,
             0,
+            MapType.Grass1,
             Array.Empty<string>(),
             Array.Empty<string>(),
             new[] { MapType.Grass1 }
@@ -42,5 +45,6 @@ namespace Codebase.PlayerData.Infrastructure.DTO
         [JsonProperty] public string[] PassedLevels { get; private set; }
         [JsonProperty] public string[] UnlockedStructuresForInfiniteLevels { get; private set; }
         [JsonProperty] public MapType[] UnlockedMaps { get; private set; }
+        [JsonProperty] public MapType SelectedMap { get; private set; }
     }
 }

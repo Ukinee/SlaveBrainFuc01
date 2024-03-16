@@ -2,7 +2,7 @@
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.Models;
 
-namespace Codebase.Game.CQRS.Commands
+namespace Codebase.MainMenu.CQRS.Commands
 {
     public class PassLevelCommand : EntityUseCaseBase<LevelModel>
     {

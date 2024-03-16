@@ -1,16 +1,8 @@
 ﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
-using ApplicationCode.Core.Services.AssetProviders;
-using Codebase.Core.Common.Application.Utils;
-using Codebase.Core.Common.Application.Utils.Constants;
-using Codebase.Core.Frameworks.EnitySystem.General;
-using Codebase.Forms.Views.Interfaces;
-using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Infrastructure.DTO;
 using Codebase.PlayerData.Models;
-using Codebase.PlayerData.Presentations.Implementations;
 using Codebase.PlayerData.Services.Interfaces;
-using Codebase.PlayerData.Views.Implementations;
 
 namespace Codebase.PlayerData.Services.Implementations
 {
@@ -42,6 +34,7 @@ namespace Codebase.PlayerData.Services.Implementations
                 id,
                 dataObject.Coins,
                 dataObject.LevelsPassed,
+                dataObject.SelectedMap,
                 dataObject.PassedLevels,
                 dataObject.UnlockedStructuresForInfiniteLevels,
                 dataObject.UnlockedMaps

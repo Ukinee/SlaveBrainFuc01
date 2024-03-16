@@ -1,9 +1,9 @@
 ﻿using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
-using Codebase.Game.Views.Interfaces;
 using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Presentations.Interfaces;
 using Codebase.MainMenu.Services.Interfaces;
+using Codebase.MainMenu.Views.Interfaces;
 
 namespace Codebase.MainMenu.Presentations.Implementations
 {

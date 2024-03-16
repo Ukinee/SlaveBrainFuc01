@@ -12,9 +12,12 @@ using Codebase.Forms.Models;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.CQRS.Queries;
+using Codebase.MainMenu.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations.CreationServices;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.MainMenu.Services.Interfaces;
+using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Interfaces;
 
@@ -26,12 +29,15 @@ namespace Codebase.MainMenu.Factories
         private readonly IEntityRepository _entityRepository;
         private readonly IInterfaceService _interfaceService;
         private readonly LevelRepositoryController _levelRepositoryController;
+        private readonly MapRepositoryController _mapRepositoryController;
         private readonly IInterfaceView _interfaceView;
         private readonly IAudioService _audioService;
         private readonly ISelectedLevelService _selectedLevelService;
         private readonly AssetProvider _assetProvider;
         private readonly FilePathProvider _filePathProvider;
         private GetPassedLevelsQuery _getPassedLevelsQuery;
+        private readonly GetPlayerSelectedMapQuery _getPlayerSelectedMapQuery;
+        private readonly SelectedMapService _selectedMapService;
         private IPlayerIdProvider _playerIdProvider;
         private IStateMachineService<IScenePayload> _stateMachineService;
 
@@ -41,12 +47,15 @@ namespace Codebase.MainMenu.Factories
             IEntityRepository entityRepository,
             IInterfaceService interfaceService,
             LevelRepositoryController levelRepositoryController,
+            MapRepositoryController mapRepositoryController,
             IInterfaceView interfaceView,
             IAudioService audioService,
             ISelectedLevelService selectedLevelService,
             AssetProvider assetProvider,
             FilePathProvider filePathProvider,
             GetPassedLevelsQuery getPassedLevelsQuery,
+            GetPlayerSelectedMapQuery getPlayerSelectedMapQuery,
+            SelectedMapService selectedMapService,
             IPlayerIdProvider playerIdProvider,
             IStateMachineService<IScenePayload> stateMachineService
         )
@@ -55,17 +64,20 @@ namespace Codebase.MainMenu.Factories
             _entityRepository = entityRepository;
             _interfaceService = interfaceService;
             _levelRepositoryController = levelRepositoryController;
+            _mapRepositoryController = mapRepositoryController;
             _interfaceView = interfaceView;
             _audioService = audioService;
             _selectedLevelService = selectedLevelService;
             _assetProvider = assetProvider;
             _filePathProvider = filePathProvider;
             _getPassedLevelsQuery = getPassedLevelsQuery;
+            _getPlayerSelectedMapQuery = getPlayerSelectedMapQuery;
+            _selectedMapService = selectedMapService;
             _playerIdProvider = playerIdProvider;
             _stateMachineService = stateMachineService;
         }
 
-        public FormCreationService Create(string[] levelIds)
+        public FormCreationService Create(string[] levelIds, MapType[] mapTypes)
         {
             MainMenuFormFactory mainMenuFormFactory = new MainMenuFormFactory
             (
@@ -107,6 +119,14 @@ namespace Codebase.MainMenu.Factories
 
             #region LevelSelector
 
+            MainMenuLevelChanger mainMenuLevelChanger = new MainMenuLevelChanger
+            (
+                new GetLevelIdQuery(_entityRepository),
+                _selectedLevelService,
+                _selectedMapService,
+                _stateMachineService
+            );
+
             LevelSelectorFactory levelSelectorFactory = new LevelSelectorFactory
             (
                 _assetProvider,
@@ -114,10 +134,10 @@ namespace Codebase.MainMenu.Factories
                 _idGenerator,
                 _entityRepository,
                 _levelRepositoryController,
+                _mapRepositoryController,
                 _interfaceService,
                 _interfaceView,
-                _selectedLevelService,
-                _stateMachineService
+                mainMenuLevelChanger
             );
 
             LevelCreationService levelCreationService = new LevelCreationService
@@ -130,14 +150,28 @@ namespace Codebase.MainMenu.Factories
                 _selectedLevelService
             );
 
+            MainMenuMapCreationService mainMenuMapCreationService = new MainMenuMapCreationService
+            (
+                _idGenerator,
+                _assetProvider,
+                _entityRepository,
+                _mapRepositoryController,
+                _selectedMapService,
+                _filePathProvider
+            );
+
             MainMenuLevelSelectorCreationService mainMenuLevelSelectorCreationService =
                 new MainMenuLevelSelectorCreationService
                 (
                     levelCreationService,
                     levelSelectorFactory,
                     _getPassedLevelsQuery,
+                    _getPlayerSelectedMapQuery,
+                    mainMenuMapCreationService,
                     _entityRepository,
-                    levelIds
+                    levelIds,
+                    mapTypes,
+                    _selectedMapService
                 );
 
             #endregion
