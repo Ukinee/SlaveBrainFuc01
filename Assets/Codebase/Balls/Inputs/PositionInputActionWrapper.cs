@@ -1,6 +1,6 @@
 ﻿using ApplicationCode.Core.Services.NewInputSystem.Common;
-using ApplicationCode.Core.Services.RaycastHitProviders;
 using Codebase.Core.Services.NewInputSystem.Infrastructure;
+using Codebase.Core.Services.RaycastHitProviders;
 using Codebase.Gameplay.Shooting.Services.Interfaces;
 using UnityEngine;
 

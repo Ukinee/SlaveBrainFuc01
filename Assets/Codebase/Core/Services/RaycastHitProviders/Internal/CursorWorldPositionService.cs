@@ -3,7 +3,7 @@ using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Common.General.Utils;
 using UnityEngine;
 
-namespace ApplicationCode.Core.Services.CursorWorldPositions
+namespace Codebase.Core.Services.RaycastHitProviders.Internal
 {
     internal class CursorWorldPositionService
     {

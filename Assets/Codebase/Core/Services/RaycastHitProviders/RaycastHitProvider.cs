@@ -1,10 +1,9 @@
 ﻿using ApplicationCode.Core.Services.Cameras;
-using ApplicationCode.Core.Services.CursorWorldPositions;
-using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Services.Common;
+using Codebase.Core.Services.RaycastHitProviders.Internal;
 using UnityEngine;
 
-namespace ApplicationCode.Core.Services.RaycastHitProviders
+namespace Codebase.Core.Services.RaycastHitProviders
 {
     public class RaycastHitProvider : IRaycastHitProvider
     {
