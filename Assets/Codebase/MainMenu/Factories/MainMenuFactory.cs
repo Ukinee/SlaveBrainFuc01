@@ -1,7 +1,7 @@
 ﻿using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Services.Implementations.Factories;
 
-namespace Codebase.Forms.Factories
+namespace Codebase.MainMenu.Factories
 {
     public class MainMenuFactory
     {

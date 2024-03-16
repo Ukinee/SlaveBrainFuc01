@@ -1,7 +1,7 @@
 ﻿using Codebase.Core.Frameworks.MVP.Interfaces;
 using Codebase.Maps.Common;
 
-namespace Codebase.Forms.Presentations.Interfaces.MainMenu
+namespace Codebase.MainMenu.Presentations.Interfaces
 {
     public interface IMainMenuFormPresenter : IPresenter
     {

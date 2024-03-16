@@ -1,7 +1,7 @@
 ﻿using System;
 using Codebase.Forms.Views.Implementations;
-using Codebase.Game.Presentations.Interfaces;
 using Codebase.Game.Views.Interfaces;
+using Codebase.MainMenu.Presentations.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,11 +1,11 @@
-﻿using System;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
-using Codebase.Forms.Presentations.Interfaces.MainMenu;
+﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+using Codebase.Forms.Views.Implementations;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.Presentations.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Codebase.Forms.Views.Implementations.MainMenu
+namespace Codebase.MainMenu.Views.Implementations
 {
     public class MainMenuSettingsFormView : FormViewBase<IMainMenuSettingsFormPresenter>, IMainMenuSettingsView
     {

@@ -1,4 +1,18 @@
 {
-	"name": "07_Game.Presentations.Interfaces",
-	"references":[ "GUID:c5eb05227a90bb042b2d6d33068063e8" ]
+    "name": "09_MainMenu.Presentations.Interfaces",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c5eb05227a90bb042b2d6d33068063e8",
+        "GUID:abe37c14e9e7b4643bc87c24dc038dc4",
+        "GUID:865d7c4aedc3e5645a1aec722040ccc2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

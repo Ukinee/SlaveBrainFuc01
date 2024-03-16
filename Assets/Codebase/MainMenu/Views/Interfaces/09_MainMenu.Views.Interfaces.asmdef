@@ -1,4 +1,16 @@
 {
-	"name": "07_Game.Views.Interfaces",
-	"references":[ "GUID:e0f642f568ad4d44cb385d8daa51d75c" ]
+    "name": "09_MainMenu.Views.Interfaces",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e0f642f568ad4d44cb385d8daa51d75c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

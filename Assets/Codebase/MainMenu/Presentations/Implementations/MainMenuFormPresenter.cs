@@ -1,11 +1,11 @@
 ﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Forms.Common.FormTypes.MainMenu;
-using Codebase.Forms.Presentations.Interfaces.MainMenu;
 using Codebase.Forms.Services.Implementations;
+using Codebase.MainMenu.Presentations.Interfaces;
 using Codebase.Maps.Common;
 
-namespace Codebase.Forms.Presentations.Implementations.MainMenu
+namespace Codebase.MainMenu.Presentations.Implementations
 {
     public class MainMenuFormPresenter : IMainMenuFormPresenter
     {
@@ -42,7 +42,7 @@ namespace Codebase.Forms.Presentations.Implementations.MainMenu
         {
             _interfaceService.Show(new MainMenuShopFormType());
         }
-
+        
         public void OnClickLevelSelection()
         {
             _interfaceService.Show(new LevelSelectorFormType());

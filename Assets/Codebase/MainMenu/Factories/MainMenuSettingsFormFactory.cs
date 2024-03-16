@@ -5,30 +5,33 @@ using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
+using Codebase.Core.Services.Common;
 using Codebase.Forms.CQRS.Queries;
 using Codebase.Forms.Models;
 using Codebase.Forms.Presentations.Implementations;
-using Codebase.Forms.Presentations.Implementations.MainMenu;
 using Codebase.Forms.Services.Implementations;
-using Codebase.Forms.Views.Implementations.MainMenu;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.Presentations.Implementations;
+using Codebase.MainMenu.Views.Implementations;
 
-namespace Codebase.Forms.Factories.Forms
+namespace Codebase.MainMenu.Factories
 {
-    public class MainMenuShopFormFactory
+    public class MainMenuSettingsFormFactory
     {
         private readonly IIdGenerator _idGenerator;
         private readonly IInterfaceService _interfaceService;
         private readonly IEntityRepository _entityRepository;
+        private readonly IAudioService _audioService;
         private readonly AssetProvider _assetProvider;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
         private readonly string _path;
 
-        public MainMenuShopFormFactory
+        public MainMenuSettingsFormFactory
         (
             IIdGenerator idGenerator,
             IInterfaceService interfaceService,
             IEntityRepository entityRepository,
+            IAudioService audioService,
             AssetProvider assetProvider,
             FilePathProvider filePathProvider
         )
@@ -36,26 +39,25 @@ namespace Codebase.Forms.Factories.Forms
             _idGenerator = idGenerator;
             _interfaceService = interfaceService;
             _entityRepository = entityRepository;
+            _audioService = audioService;
             _assetProvider = assetProvider;
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
-            _path = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuShopForm];
+            _path = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuSettingsForm];
         }
 
         public Tuple<FormBase, IFormView> Create()
         {
             int id = _idGenerator.Generate();
 
-            MainMenuShopFormView view = _assetProvider.Instantiate<MainMenuShopFormView>(_path);
+            MainMenuSettingsFormView view = _assetProvider.Instantiate<MainMenuSettingsFormView>(_path);
             SimpleForm model = new SimpleForm(false, id);
             _entityRepository.Register(model);
-
-            MainMenuShopFormPresenter formPresenter = new MainMenuShopFormPresenter
-                (id, _interfaceService, new DisposeCommand(_entityRepository));
-
+            
+            MainMenuSettingsFormPresenter presenter = new MainMenuSettingsFormPresenter(id, _interfaceService, _audioService, view, new DisposeCommand(_entityRepository));
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
             formVisibilityPresenter.Enable();
-            view.Construct(formPresenter);
+            view.Construct(presenter);
 
             return new Tuple<FormBase, IFormView>(model, view);
         }

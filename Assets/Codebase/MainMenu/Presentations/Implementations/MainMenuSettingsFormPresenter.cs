@@ -1,12 +1,11 @@
 ﻿using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Services.Common;
 using Codebase.Forms.Common.FormTypes.MainMenu;
-using Codebase.Forms.Presentations.Interfaces;
-using Codebase.Forms.Presentations.Interfaces.MainMenu;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.Presentations.Interfaces;
 
-namespace Codebase.Forms.Presentations.Implementations.MainMenu
+namespace Codebase.MainMenu.Presentations.Implementations
 {
     public class MainMenuSettingsFormPresenter : IMainMenuSettingsFormPresenter
     {

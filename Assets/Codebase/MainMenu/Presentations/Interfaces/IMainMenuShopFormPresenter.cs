@@ -1,6 +1,6 @@
 ﻿using Codebase.Core.Frameworks.MVP.Interfaces;
 
-namespace Codebase.Forms.Presentations.Interfaces.MainMenu
+namespace Codebase.MainMenu.Presentations.Interfaces
 {
     public interface IMainMenuShopFormPresenter : IPresenter
     {

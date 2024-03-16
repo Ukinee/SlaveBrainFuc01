@@ -1,11 +1,11 @@
-﻿using System;
-using Codebase.Forms.Presentations.Interfaces.MainMenu;
+﻿using Codebase.Forms.Views.Implementations;
+using Codebase.MainMenu.Presentations.Interfaces;
 using Codebase.PlayerData.Views.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Codebase.Forms.Views.Implementations.MainMenu
+namespace Codebase.MainMenu.Views.Implementations
 {
     public class MainMenuFormView : FormViewBase<IMainMenuFormPresenter>, ITextView
     {

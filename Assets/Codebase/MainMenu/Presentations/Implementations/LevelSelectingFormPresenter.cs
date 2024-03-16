@@ -8,8 +8,8 @@ using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Game.CQRS.Queries;
-using Codebase.Game.Presentations.Interfaces;
 using Codebase.Game.Views.Interfaces;
+using Codebase.MainMenu.Presentations.Interfaces;
 using Codebase.MainMenu.Services.Interfaces;
 using Codebase.Maps.Common;
 

@@ -8,7 +8,6 @@ using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.Common;
 using Codebase.Forms.Common.FormTypes.MainMenu;
-using Codebase.Forms.Factories.Forms;
 using Codebase.Forms.Models;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Services.Implementations.Factories;
@@ -19,7 +18,7 @@ using Codebase.MainMenu.Services.Interfaces;
 using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Interfaces;
 
-namespace Codebase.Forms.Factories
+namespace Codebase.MainMenu.Factories
 {
     public class MainMenuFormCreationServiceFactory
     {

@@ -1,6 +1,6 @@
 ﻿using Codebase.Core.Frameworks.MVP.Interfaces;
 
-namespace Codebase.Game.Presentations.Interfaces
+namespace Codebase.MainMenu.Presentations.Interfaces
 {
     public interface ILevelPresenter : IPresenter
     {

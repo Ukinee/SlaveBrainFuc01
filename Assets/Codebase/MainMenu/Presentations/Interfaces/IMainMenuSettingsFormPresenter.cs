@@ -1,4 +1,6 @@
-﻿namespace Codebase.Forms.Presentations.Interfaces.MainMenu
+﻿using Codebase.Forms.Presentations.Interfaces;
+
+namespace Codebase.MainMenu.Presentations.Interfaces
 {
     public interface IMainMenuSettingsFormPresenter : IFormPresenter
     {
