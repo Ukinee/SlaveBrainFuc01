@@ -4,6 +4,7 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Forms.CQRS.Queries;
@@ -63,25 +64,27 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 
             PauseFormPresenter pauseFormPresenter = new PauseFormPresenter
             (
+                id,
                 _pauseService,
                 _gameService,
                 _audioService,
                 _interfaceService,
-                pauseFormView
+                pauseFormView,
+                new DisposeCommand(_entityRepository)
             );
-            
+
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter
             (
                 id,
                 _getFormVisibilityQuery,
                 pauseFormView
             );
-            
+
             pauseFormView.Construct(pauseFormPresenter);
-            
+
             pauseFormPresenter.Enable();
             formVisibilityPresenter.Enable();
-            
+
             return new Tuple<FormBase, IFormView>(simpleForm, pauseFormView);
         }
     }

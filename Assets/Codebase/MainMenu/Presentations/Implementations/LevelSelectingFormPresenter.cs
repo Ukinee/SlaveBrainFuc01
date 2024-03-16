@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.General.Extensions.ListExtentions;
 using Codebase.Core.Common.General.LiveDatas;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Services.Implementations;
@@ -16,7 +17,9 @@ namespace Codebase.MainMenu.Presentations.Implementations
 {
     public class LevelSelectingFormPresenter : ILevelSelectingFormPresenter
     {
-        private readonly GetLevelIdQuery _getLevelIdQuery;
+        private readonly int _id;
+        private DisposeCommand _disposeCommand;
+        private GetLevelIdQuery _getLevelIdQuery;
         private ILevelViewRepository _levelViewRepository;
         private ILevelSelectingFormView _levelSelectingForm;
         private IInterfaceService _interfaceService;
@@ -29,6 +32,7 @@ namespace Codebase.MainMenu.Presentations.Implementations
         public LevelSelectingFormPresenter
         (
             int id,
+            DisposeCommand disposeCommand,
             GetLevelIdsQuery getLevelIdsQuery,
             GetLevelIdQuery getLevelIdQuery,
             ILevelViewRepository levelViewRepository,
@@ -38,6 +42,8 @@ namespace Codebase.MainMenu.Presentations.Implementations
             IStateMachineService<IScenePayload> sceneStateMachine
         )
         {
+            _id = id;
+            _disposeCommand = disposeCommand;
             _getLevelIdQuery = getLevelIdQuery;
             _levelViewRepository = levelViewRepository;
             _levelSelectingForm = levelSelectingForm;
@@ -63,12 +69,19 @@ namespace Codebase.MainMenu.Presentations.Implementations
                 return;
 
             _sceneStateMachine.SetState
-                (new GameplayScenePayload(_getLevelIdQuery.Handle(_selectedLevelService.CurrentId), MapType.Grass1)); // todo: hardcoded value
+            (
+                new GameplayScenePayload(_getLevelIdQuery.Handle(_selectedLevelService.CurrentId), MapType.Grass1)
+            ); // todo: hardcoded value
         }
 
         public void OnBackClicked()
         {
             _interfaceService.Hide(new LevelSelectorFormType());
+        }
+
+        public void OnViewDispose()
+        {
+            Dispose();
         }
 
         private void OnLevelIdsChanged(IReadOnlyList<int> ids)
@@ -88,6 +101,21 @@ namespace Codebase.MainMenu.Presentations.Implementations
 
                 view.UnParent();
             }
+        }
+
+        private void Dispose()
+        {
+            _disposeCommand.Handle(_id);
+
+            _currentIds = null;
+            _disposeCommand = null;
+            _getLevelIdQuery = null;
+            _levelViewRepository = null;
+            _levelSelectingForm = null;
+            _interfaceService = null;
+            _selectedLevelService = null;
+            _sceneStateMachine = null;
+            _levelIds = null;
         }
     }
 }

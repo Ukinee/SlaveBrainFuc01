@@ -8,5 +8,6 @@ namespace Codebase.Gameplay.Interface.Presentation.Interfaces
         public void OnMusicButtonPressed();
         public void OnSoundButtonPressed();
         public void OnExitButtonPressed();
+        public void OnViewDisposed();
     }
 }

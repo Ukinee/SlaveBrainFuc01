@@ -5,5 +5,6 @@
         public void OnClickBack();
         public void OnClickSound();
         public void OnClickMusic();
+        public void OnViewDisposed();
     }
 }

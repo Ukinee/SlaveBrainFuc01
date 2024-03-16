@@ -4,15 +4,16 @@ using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Cubes.CQRS.Queries;
 using Codebase.Cubes.Presentations.Interfaces;
 using Codebase.Cubes.Views.Interfaces;
+using Codebase.Gameplay.Cubes.Controllers.ServiceCommands;
 using Codebase.Structures.Services.Interfaces;
 
-namespace Codebase.Cubes.Presentations.Implementations
+namespace Codebase.Gameplay.Cubes.Presentations.Implementations
 {
     public class CubePresenter : ICubePresenter
     {
         private readonly int _id;
         private IStructureService _structureService;
-        private DisposeCommand _disposeCommand;
+        private CubeDeactivatorCollisionHandler _cubeDeactivatorCollisionHandler;
         private ILiveData<CubeColor> _color;
         private ICubeView _cubeView;
 
@@ -20,15 +21,15 @@ namespace Codebase.Cubes.Presentations.Implementations
         (
             int id,
             IStructureService structureService,
-            DisposeCommand disposeCommand,
+            CubeDeactivatorCollisionHandler cubeDeactivatorCollisionHandler,
             GetColorQuery getColorQuery,
             ICubeView cubeView
         )
         {
             _id = id;
             _structureService = structureService;
+            _cubeDeactivatorCollisionHandler = cubeDeactivatorCollisionHandler;
             _color = getColorQuery.Handle(id);
-            _disposeCommand = disposeCommand;
             _cubeView = cubeView;
         }
 
@@ -52,10 +53,10 @@ namespace Codebase.Cubes.Presentations.Implementations
 
         public void Dispose()
         {
-            _disposeCommand.Handle(_id);
+            _cubeDeactivatorCollisionHandler.Handle(_id);
 
+            _cubeDeactivatorCollisionHandler = null;
             _structureService = null;
-            _disposeCommand = null;
             _color = null;
             _cubeView = null;
         }

@@ -1,7 +1,7 @@
 ﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
-using Codebase.Game.Models;
+using Codebase.MainMenu.Models;
 
 namespace Codebase.Game.CQRS.Queries
 {

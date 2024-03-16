@@ -20,6 +20,11 @@ namespace Codebase.Gameplay.Interface.Views.Implementations
             _continueButton.onClick.RemoveListener(Continue);
         }
 
+        private void OnDestroy()
+        {
+            Presenter.OnViewDisposed();
+        }
+
         private void Continue()
         {
             Presenter.OnContinueClick();

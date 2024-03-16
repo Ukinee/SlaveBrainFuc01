@@ -6,7 +6,7 @@ using Codebase.Tanks.Model;
 using Codebase.Tanks.Presentation.Implementations;
 using Codebase.Tanks.View.Implementations;
 
-namespace Codebase.Tanks.Services.Implementations
+namespace Codebase.Gameplay.Tanks.Services.Implementations
 {
     public class TankCreationService
     {

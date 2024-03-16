@@ -4,11 +4,13 @@ using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
+using Codebase.Gameplay.Cubes.Controllers.ServiceCommands;
+using Codebase.Gameplay.Cubes.Services.Implementations;
 using Codebase.Structures.CQRS.Commands;
 using Codebase.Structures.Infrastructure.Services.Implementations;
 using Codebase.Structures.Services.Implementations;
 
-namespace Codebase.Structures.Controllers
+namespace Codebase.Gameplay.Structures.Controllers
 {
     public class CreateStructureCommandFactory
     {
@@ -19,6 +21,7 @@ namespace Codebase.Structures.Controllers
         private CubeViewPool _cubeViewPool;
         private CubeRepositoryController _cubeRepositoryController;
         private readonly CubeViewRepository _cubeViewRepository;
+        private readonly CubeDeactivatorCollisionHandler _cubeDeactivatorCollisionHandler;
 
         public CreateStructureCommandFactory
         (
@@ -28,7 +31,8 @@ namespace Codebase.Structures.Controllers
             IEntityRepository entityRepository,
             CubeViewPool cubeViewPool,
             CubeRepositoryController cubeRepositoryController,
-            CubeViewRepository cubeViewRepository 
+            CubeViewRepository cubeViewRepository,
+            CubeDeactivatorCollisionHandler cubeDeactivatorCollisionHandler
         )
         {
             _assetProvider = assetProvider;
@@ -38,6 +42,7 @@ namespace Codebase.Structures.Controllers
             _cubeViewPool = cubeViewPool;
             _cubeRepositoryController = cubeRepositoryController;
             _cubeViewRepository = cubeViewRepository;
+            _cubeDeactivatorCollisionHandler = cubeDeactivatorCollisionHandler;
         }
 
         public CreateStructureCommand Create()
@@ -45,9 +50,6 @@ namespace Codebase.Structures.Controllers
 
             StructureReader structureReader = new StructureReader(_assetProvider, _filePathProvider);
             StructureViewFactory structureViewFactory = new StructureViewFactory(_assetProvider, _filePathProvider);
-
-            RemoveCubeFromStructureCommand removeCubeFromStructureCommand =
-                new RemoveCubeFromStructureCommand(_entityRepository);
 
             StructureFactory structureFactory = new StructureFactory(_idGenerator, _cubeViewRepository, structureViewFactory);
             StructureService structureService = new StructureService(structureFactory);
@@ -59,7 +61,7 @@ namespace Codebase.Structures.Controllers
                 _cubeViewPool,
                 structureService,
                 _cubeRepositoryController,
-                removeCubeFromStructureCommand
+                _cubeDeactivatorCollisionHandler
             );
 
             StructureCreationService structureCreationService = new StructureCreationService

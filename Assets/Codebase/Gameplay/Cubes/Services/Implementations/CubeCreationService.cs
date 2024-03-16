@@ -1,19 +1,19 @@
 ﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using Codebase.Core.Common.Application.Types;
-using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Cubes.CQRS.Queries;
 using Codebase.Cubes.Models;
-using Codebase.Cubes.Presentations.Implementations;
 using Codebase.Cubes.Repositories.Implementations;
+using Codebase.Cubes.Services.Implementations;
 using Codebase.Cubes.Services.Interfaces;
 using Codebase.Cubes.Views.Implementations;
+using Codebase.Gameplay.Cubes.Controllers.ServiceCommands;
+using Codebase.Gameplay.Cubes.Presentations.Implementations;
 using Codebase.Structures.CQRS.Commands;
-using Codebase.Structures.Services.Implementations;
 using Codebase.Structures.Services.Interfaces;
 using UnityEngine;
 
-namespace Codebase.Cubes.Services.Implementations
+namespace Codebase.Gameplay.Cubes.Services.Implementations
 {
     public class CubeCreationService : ICubeCreationService
     {
@@ -22,9 +22,8 @@ namespace Codebase.Cubes.Services.Implementations
         private readonly CubeViewPool _cubeViewPool;
         private readonly IStructureService _structureService;
         private readonly CubeRepositoryController _cubeRepositoryController;
-        private readonly RemoveCubeFromStructureCommand _removeCubeCommand;
         private readonly GetColorQuery _getColorQuery;
-        private readonly DisposeCommand _disposeCommand;
+        private readonly CubeDeactivatorCollisionHandler _cubeDeactivatorCollisionHandler;
 
         public CubeCreationService
         (
@@ -33,7 +32,7 @@ namespace Codebase.Cubes.Services.Implementations
             CubeViewPool cubeViewPool,
             IStructureService structureService,
             CubeRepositoryController cubeRepositoryController,
-            RemoveCubeFromStructureCommand removeCubeCommand
+            CubeDeactivatorCollisionHandler cubeDeactivatorCollisionHandler
         )
         {
             _idGenerator = idGenerator;
@@ -41,9 +40,8 @@ namespace Codebase.Cubes.Services.Implementations
             _cubeViewPool = cubeViewPool;
             _structureService = structureService;
             _cubeRepositoryController = cubeRepositoryController;
-            _removeCubeCommand = removeCubeCommand;
+            _cubeDeactivatorCollisionHandler = cubeDeactivatorCollisionHandler;
             _getColorQuery = new GetColorQuery(_entityRepository);
-            _disposeCommand = new DisposeCommand(_entityRepository);
         }
 
         public int Create(CubeColor cubeColor, Vector3 globalPosition)
@@ -56,7 +54,7 @@ namespace Codebase.Cubes.Services.Implementations
             CubeView cubeView = _cubeViewPool.Get();
             _cubeRepositoryController.Register(cubeModel, cubeView);
             
-            CubePresenter cubePresenter = new CubePresenter(id, _structureService, _disposeCommand, _getColorQuery, cubeView);
+            CubePresenter cubePresenter = new CubePresenter(id, _structureService, _cubeDeactivatorCollisionHandler, _getColorQuery, cubeView);
             
             cubeModel.SetColor(cubeColor);
             

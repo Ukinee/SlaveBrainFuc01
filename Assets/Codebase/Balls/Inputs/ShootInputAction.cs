@@ -1,11 +1,9 @@
-﻿using System;
-using ApplicationCode.Core.Services.NewInputSystem.Common;
-using Codebase.Balls.Services.Interfaces;
+﻿using ApplicationCode.Core.Services.NewInputSystem.Common;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.NewInputSystem.Infrastructure;
 using Codebase.Core.Services.NewInputSystem.Interfaces;
+using Codebase.Gameplay.Shooting.Services.Interfaces;
 using Codebase.Tank.Services.Interfaces;
-using Cysharp.Threading.Tasks;
 
 namespace Codebase.Balls.Inputs
 {

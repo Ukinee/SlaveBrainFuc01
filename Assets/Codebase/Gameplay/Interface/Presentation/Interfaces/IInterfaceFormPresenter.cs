@@ -5,5 +5,6 @@ namespace Codebase.Gameplay.Interface.Presentation.Interfaces
     public interface IInterfaceFormPresenter : IPresenter
     {
         public void OnPauseButtonPressed();
+        public void OnViewDisposed();
     }
 }

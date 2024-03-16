@@ -5,5 +5,6 @@ namespace Codebase.Gameplay.Interface.Presentation.Interfaces
     public interface IWinFormPresenter : IPresenter
     {
         public void OnContinueClick();
+        public void OnViewDisposed();
     }
 }

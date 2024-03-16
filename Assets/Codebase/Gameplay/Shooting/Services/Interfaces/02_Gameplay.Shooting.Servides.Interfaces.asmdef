@@ -1,0 +1,4 @@
+{
+	"name": "02_Gameplay.Shooting.Servides.Interfaces",
+	"references":[ "GUID:f51ebe6a0ceec4240a699833d6309b23", "GUID:9943d087e41963f4f969f4d93bcfd349" ]
+}

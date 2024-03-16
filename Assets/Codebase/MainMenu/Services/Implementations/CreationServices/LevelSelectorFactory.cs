@@ -5,6 +5,7 @@ using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Forms.CQRS.Queries;
 using Codebase.Forms.Models;
@@ -12,7 +13,7 @@ using Codebase.Forms.Presentations.Implementations;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.CQRS.Queries;
-using Codebase.Game.Models;
+using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Presentations.Implementations;
 using Codebase.MainMenu.Services.Interfaces;
 using Codebase.MainMenu.Views.Implementations;
@@ -68,7 +69,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             LevelSelectionFormModel model = new LevelSelectionFormModel(true, id); //todo: debug tru
             _entityRepository.Register(model);
             
-            LevelSelectingFormView view = _assetProvider.Instantiate<LevelSelectingFormView>(_assetPath);
+            LevelSelectorFormView view = _assetProvider.Instantiate<LevelSelectorFormView>(_assetPath);
 
             FormVisibilityPresenter visibilityPresenter = new FormVisibilityPresenter
             (
@@ -80,6 +81,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             LevelSelectingFormPresenter levelSelectingFormPresenter = new LevelSelectingFormPresenter
             (
                 id,
+                new DisposeCommand(_entityRepository),
                 _getLevelIdsQuery,
                 _getLevelIdQuery,
                 _levelViewRepository,

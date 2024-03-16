@@ -1,4 +1,5 @@
-﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+﻿using System;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Forms.Presentations.Interfaces.MainMenu;
 using Codebase.Forms.Views.Interfaces;
 using UnityEngine;
@@ -25,6 +26,9 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
             _musicMuteButton.onClick.RemoveListener(OnMusicMuteButtonClicked);
             _backButton.onClick.RemoveListener(OnBackButtonClicked);
         }
+
+        private void OnDestroy() =>
+            Presenter.OnViewDisposed();
 
         private void OnBackButtonClicked() =>
             Presenter.OnClickBack();

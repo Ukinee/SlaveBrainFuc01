@@ -19,6 +19,11 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
             _backButton.onClick.RemoveListener(OnBackButtonClicked);
         }
 
+        private void OnDestroy()
+        {
+            Presenter.OnViewDisposed();
+        }
+
         private void OnBackButtonClicked()
         {
             Presenter.OnBackClick();

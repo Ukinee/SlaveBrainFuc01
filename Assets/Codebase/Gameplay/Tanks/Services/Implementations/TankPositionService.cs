@@ -1,5 +1,4 @@
 ﻿using System;
-using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Tank.Services.Interfaces;
 using Codebase.Tanks.CQRS;
@@ -7,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Codebase.Tanks.Services.Implementations
+namespace Codebase.Gameplay.Tanks.Services.Implementations
 {
     public class TankPositionService : ITankPositionService
     {

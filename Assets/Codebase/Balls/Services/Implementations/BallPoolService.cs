@@ -1,11 +1,10 @@
 ﻿using System;
 using Codebase.Balls.Models;
 using Codebase.Balls.Presentations.Implementations;
-using Codebase.Balls.Services.Interfaces;
 using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
-using Codebase.Tank.Services.Interfaces;
+using Codebase.Gameplay.Shooting.Services.Interfaces;
 using UnityEngine;
 
 namespace Codebase.Balls.Services.Implementations
@@ -14,13 +13,13 @@ namespace Codebase.Balls.Services.Implementations
     {
         private readonly BallViewPool _ballViewPool;
         private readonly ICollisionService _collisionService;
-        private readonly BallMover _ballMover;
+        private readonly IBallMover _ballMover;
 
         public BallPoolService
         (
             BallViewPool ballViewPool,
             ICollisionService collisionService,
-            BallMover ballMover
+            IBallMover ballMover
         )
         {
             _ballViewPool = ballViewPool;

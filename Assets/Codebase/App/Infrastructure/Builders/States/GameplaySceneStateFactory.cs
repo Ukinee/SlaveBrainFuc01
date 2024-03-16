@@ -4,7 +4,6 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using ApplicationCode.Core.Services.Cameras;
 using ApplicationCode.Core.Services.RaycastHitProviders;
-using Assets.Codebase.Core.Frameworks.EnitySystem.Repositories;
 using Codebase.App.Infrastructure.StateMachines.States;
 using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Balls.Inputs;
@@ -12,6 +11,7 @@ using Codebase.Balls.Services.Implementations;
 using Codebase.Balls.Views.Implementations;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.Repositories;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.AudioService.Implementation;
 using Codebase.Core.Services.NewInputSystem.General;
@@ -29,18 +29,24 @@ using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.Data.Common;
 using Codebase.Game.Data.Infrastructure;
 using Codebase.Game.Services.Implementations;
+using Codebase.Gameplay.Cubes.Controllers.ServiceCommands;
 using Codebase.Gameplay.Interface.Services.Implementations;
 using Codebase.Gameplay.Interface.Services.Implementations.CreationServices;
+using Codebase.Gameplay.PlayerData.CQRS.Commands;
+using Codebase.Gameplay.PlayerData.CQRS.Queries;
+using Codebase.Gameplay.PlayerData.CreationServices;
+using Codebase.Gameplay.PlayerData.Services.Interfaces;
+using Codebase.Gameplay.Shooting.Services.Implementations;
+using Codebase.Gameplay.Structures.Controllers;
+using Codebase.Gameplay.Tanks.Services.Implementations;
 using Codebase.Maps.Controllers.ServiceCommands;
 using Codebase.Maps.Views.Implementations;
 using Codebase.PlayerData.CQRS.Commands;
 using Codebase.PlayerData.Services.Implementations;
 using Codebase.PlayerData.Services.Interfaces;
-using Codebase.Structures.Controllers;
 using Codebase.Structures.CQRS.Commands;
 using Codebase.Tanks.CQRS;
 using Codebase.Tanks.Model;
-using Codebase.Tanks.Services.Implementations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -141,6 +147,35 @@ namespace Codebase.App.Infrastructure.Builders.States
             CubeViewRepository cubeViewRepository = new CubeViewRepository();
             CubeRepositoryController cubeRepositoryController = new CubeRepositoryController(cubeViewRepository);
 
+            GameplayPlayerCreationService gameplayPlayerDataCreationService = new GameplayPlayerCreationService
+            (
+                _entityRepository,
+                _idGenerator
+            );
+
+            IGameplayPlayerDataService gameplayPlayerDataService = gameplayPlayerDataCreationService.Create();
+
+            AddGameplayCoinsCommand addGameplayCoinsCommand = new AddGameplayCoinsCommand
+            (
+                gameplayPlayerDataService,
+                _entityRepository
+            );
+            
+            GetGameplayPlayerCoinAmountQuery getGameplayPlayerCoinAmountQuery = new GetGameplayPlayerCoinAmountQuery
+            (
+                gameplayPlayerDataService,
+                _entityRepository
+            );
+            
+            AddPlayerCoinsCommand addPlayerCoinsCommand = new AddPlayerCoinsCommand
+            (
+                _playerIdProvider,
+                _entityRepository
+            );
+
+            CubeDeactivatorCollisionHandler cubeDeactivatorCollisionHandler = new CubeDeactivatorCollisionHandler
+                (_entityRepository, addGameplayCoinsCommand);
+
             CreateStructureCommandFactory createStructureCommandFactory = new CreateStructureCommandFactory
             (
                 _assetProvider,
@@ -149,7 +184,8 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _entityRepository,
                 _cubeViewPool,
                 cubeRepositoryController,
-                cubeViewRepository
+                cubeViewRepository,
+                cubeDeactivatorCollisionHandler
             );
 
             CreateStructureCommand createStructureCommand = createStructureCommandFactory.Create();
@@ -184,6 +220,8 @@ namespace Codebase.App.Infrastructure.Builders.States
                 gameStarter,
                 gameEnder,
                 addPassedLevelCommand,
+                addPlayerCoinsCommand,
+                getGameplayPlayerCoinAmountQuery,
                 cubeRepositoryController,
                 interfaceService,
                 winFormService,
@@ -225,7 +263,8 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _audioService,
                 _filePathProvider,
                 pauseService,
-                gameService
+                gameService,
+                getGameplayPlayerCoinAmountQuery
             );
 
             var factories = new Dictionary<Type, Func<Tuple<FormBase, IFormView>>>()
@@ -239,7 +278,9 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             #endregion
 
-            return new GameplayScene
+            int _ = _entityRepository.Count;
+
+            return new GameplaySceneState
             (
                 ballMover,
                 pauseService,
@@ -249,6 +290,7 @@ namespace Codebase.App.Infrastructure.Builders.States
                 gameplayScenePayload.LevelId,
                 gameplayScenePayload.MapType,
                 _contextActionService,
+                gameplayPlayerDataService,
                 new IContextInputAction[]
                 {
                     new ShootInputAction

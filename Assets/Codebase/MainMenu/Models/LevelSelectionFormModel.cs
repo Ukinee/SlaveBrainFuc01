@@ -4,7 +4,7 @@ using System.Linq;
 using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Forms.Models;
 
-namespace Codebase.Game.Models
+namespace Codebase.MainMenu.Models
 {
     public class LevelSelectionFormModel : FormBase
     {
@@ -19,6 +19,13 @@ namespace Codebase.Game.Models
         public void AddLevel(int levelId)
         {
             _levels.Value = _levels.Value.Append(levelId).ToArray();
+        }
+
+        protected override void OnDispose()
+        {
+            _levels.Dispose();
+
+            _levels = null;
         }
     }
 }

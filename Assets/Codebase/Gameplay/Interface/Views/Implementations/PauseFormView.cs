@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Codebase.Gameplay.Interface.Views.Implementations
 {
-    public class PauseFormView : FormViewBase<IPauseFormPresenter> , IPauseFormView
+    public class PauseFormView : FormViewBase<IPauseFormPresenter>, IPauseFormView
     {
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _musicButton;
@@ -29,6 +29,11 @@ namespace Codebase.Gameplay.Interface.Views.Implementations
             _musicButton.onClick.RemoveListener(OnMusicButtonPressed);
             _soundButton.onClick.RemoveListener(OnSoundButtonPressed);
             _exitButton.onClick.RemoveListener(OnExitButtonPressed);
+        }
+
+        private void OnDestroy()
+        {
+            Presenter.OnViewDisposed();
         }
 
         public void SetMusicMuteButtonState(bool isMusicMuted)

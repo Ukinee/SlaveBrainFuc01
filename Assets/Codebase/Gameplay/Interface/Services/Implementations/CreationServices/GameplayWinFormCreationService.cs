@@ -4,6 +4,7 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Frameworks.EnitySystem.General;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.PauseServices;
@@ -66,7 +67,7 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 
             WinFormView view = _assetProvider.Instantiate<WinFormView>(_path);
 
-            WinFormPresenter winFormPresenter = new WinFormPresenter(view, _winFormService);
+            WinFormPresenter winFormPresenter = new WinFormPresenter(id, view, _winFormService, new DisposeCommand(_entityRepository));
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
             view.Construct(winFormPresenter);

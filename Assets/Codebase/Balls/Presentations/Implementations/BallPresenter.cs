@@ -1,8 +1,8 @@
 ﻿using Codebase.Balls.Models;
 using Codebase.Balls.Presentations.Interfaces;
-using Codebase.Balls.Services.Interfaces;
 using Codebase.Balls.Views.Interfaces;
 using Codebase.Core.Services.Pools;
+using Codebase.Gameplay.Shooting.Services.Interfaces;
 using Codebase.Tank.Services.Interfaces;
 using UnityEngine;
 

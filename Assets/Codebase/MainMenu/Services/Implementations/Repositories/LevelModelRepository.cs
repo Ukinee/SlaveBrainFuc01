@@ -1,5 +1,5 @@
 ﻿using Codebase.Core.Infrastructure.Repositories.Base;
-using Codebase.Game.Models;
+using Codebase.MainMenu.Models;
 
 namespace Codebase.MainMenu.Services.Implementations.Repositories
 {

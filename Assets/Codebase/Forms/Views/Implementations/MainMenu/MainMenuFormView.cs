@@ -31,6 +31,11 @@ namespace Codebase.Forms.Views.Implementations.MainMenu
             _shopButton.onClick.RemoveListener(OnShopButtonClicked);
         }
 
+        private void OnDestroy()
+        {
+            Presenter.OnViewDisposed();
+        }
+
         public void Set(string value) =>
             _coinAmount.text = value;
 

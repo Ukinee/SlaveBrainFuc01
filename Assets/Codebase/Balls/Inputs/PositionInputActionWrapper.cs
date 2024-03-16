@@ -1,7 +1,7 @@
 ﻿using ApplicationCode.Core.Services.NewInputSystem.Common;
 using ApplicationCode.Core.Services.RaycastHitProviders;
-using Codebase.Balls.Services.Interfaces;
 using Codebase.Core.Services.NewInputSystem.Infrastructure;
+using Codebase.Gameplay.Shooting.Services.Interfaces;
 using UnityEngine;
 
 namespace Codebase.Balls.Inputs

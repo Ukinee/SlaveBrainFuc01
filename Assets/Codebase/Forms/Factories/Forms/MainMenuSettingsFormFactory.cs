@@ -4,6 +4,7 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Frameworks.EnitySystem.General;
 using Codebase.Core.Services.Common;
 using Codebase.Forms.CQRS.Queries;
@@ -53,7 +54,7 @@ namespace Codebase.Forms.Factories.Forms
             SimpleForm model = new SimpleForm(false, id);
             _entityRepository.Register(model);
             
-            MainMenuSettingsFormPresenter presenter = new MainMenuSettingsFormPresenter(_interfaceService, _audioService, view);
+            MainMenuSettingsFormPresenter presenter = new MainMenuSettingsFormPresenter(id, _interfaceService, _audioService, view, new DisposeCommand(_entityRepository));
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
             formVisibilityPresenter.Enable();

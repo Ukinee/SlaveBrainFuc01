@@ -2,7 +2,7 @@
 using Codebase.Tank.Services.Interfaces;
 using UnityEngine;
 
-namespace Codebase.Tanks.Services.Implementations
+namespace Codebase.Gameplay.Tanks.Services.Implementations
 {
     public class TankPositionCalculator : ITankPositionCalculator
     {

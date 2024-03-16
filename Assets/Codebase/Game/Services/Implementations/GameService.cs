@@ -11,6 +11,7 @@ using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Forms.Common.FormTypes.Gameplay;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Gameplay.Interface.Services.Interfaces;
+using Codebase.Gameplay.PlayerData.CQRS.Queries;
 using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Commands;
 using Codebase.PlayerData.Services.Interfaces;
@@ -23,6 +24,8 @@ namespace Codebase.Game.Services.Implementations
         private readonly GameStarter _gameStarter;
         private readonly GameEnder _gameEnder;
         private readonly AddPassedLevelCommand _addPassedLevelCommand;
+        private readonly AddPlayerCoinsCommand _addPlayerCoinsCommand;
+        private readonly GetGameplayPlayerCoinAmountQuery _getGameplayPlayerCoinAmountQuery;
         private readonly CubeRepositoryController _cubeRepositoryController;
         private readonly IInterfaceService _interfaceService;
         private readonly IWinFormService _winFormService;
@@ -41,6 +44,8 @@ namespace Codebase.Game.Services.Implementations
             GameStarter gameStarter,
             GameEnder gameEnder,
             AddPassedLevelCommand addPassedLevelCommand,
+            AddPlayerCoinsCommand addPlayerCoinsCommand,
+            GetGameplayPlayerCoinAmountQuery getGameplayPlayerCoinAmountQuery,
             CubeRepositoryController cubeRepositoryController,
             IInterfaceService interfaceService,
             IWinFormService winFormService,
@@ -52,6 +57,8 @@ namespace Codebase.Game.Services.Implementations
             _gameStarter = gameStarter;
             _gameEnder = gameEnder;
             _addPassedLevelCommand = addPassedLevelCommand;
+            _addPlayerCoinsCommand = addPlayerCoinsCommand;
+            _getGameplayPlayerCoinAmountQuery = getGameplayPlayerCoinAmountQuery;
             _cubeRepositoryController = cubeRepositoryController;
             _interfaceService = interfaceService;
             _winFormService = winFormService;
@@ -85,14 +92,20 @@ namespace Codebase.Game.Services.Implementations
             if (_currentTask.Status == UniTaskStatus.Pending)
                 _cancellationTokenSource.Cancel();
 
+            $"Before scene change: {_levelId}".Log();
+            
             _stateMachineService.SetState(new MainMenuScenePayload());
+
+            $"Gameplay end: {_levelId}".Log();
         }
-        
+
         private async UniTask EndAsWin(CancellationToken cancellationToken = default)
         {
             try
             {
                 _addPassedLevelCommand.Handle(_levelId);
+                int coins = _getGameplayPlayerCoinAmountQuery.Handle().Value;
+                _addPlayerCoinsCommand.Handle(coins);
 
                 await UniTask.Delay(1000, cancellationToken: cancellationToken); //todo : hardcoded value
 

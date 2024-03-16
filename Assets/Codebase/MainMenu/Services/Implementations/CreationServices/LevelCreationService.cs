@@ -3,8 +3,9 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Game.CQRS.Queries;
-using Codebase.Game.Models;
+using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Presentations.Implementations;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.MainMenu.Services.Interfaces;
@@ -57,6 +58,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             LevelPresenter presenter = new LevelPresenter
             (
                 id,
+                new DisposeCommand(_entityRepository),
                 _getLevelSelectionQuery,
                 _getLevelStateQuery,
                 _getLevelIdQuery,

@@ -9,5 +9,7 @@
         public const string RaycastTarget = "RaycastTarget";
         public const string Wall = "Wall";
         public const string Block = "Cube";
+        
+        public const int UpgradeShootingServiceThreshold = 5;
     }
 }

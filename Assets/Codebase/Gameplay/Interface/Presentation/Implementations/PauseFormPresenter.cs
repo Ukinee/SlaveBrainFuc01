@@ -1,4 +1,5 @@
-﻿using Codebase.Core.Services.Common;
+﻿using Codebase.Core.Frameworks.EnitySystem.CQRS;
+using Codebase.Core.Services.Common;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Forms.Common.FormTypes.Gameplay;
 using Codebase.Forms.Services.Implementations;
@@ -10,26 +11,32 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
 {
     public class PauseFormPresenter : IPauseFormPresenter
      {
-        private readonly PauseService _pauseService;
+         private readonly int _id;
+         private readonly PauseService _pauseService;
         private readonly GameService _gameService;
         private readonly IAudioService _audioService;
         private readonly IInterfaceService _interfaceService;
         private readonly IPauseFormView _view;
+        private readonly DisposeCommand _disposeCommand;
 
         public PauseFormPresenter
         (
+            int id,
             PauseService pauseService,
             GameService gameService,
             IAudioService audioService,
             IInterfaceService interfaceService,
-            IPauseFormView view
+            IPauseFormView view,
+            DisposeCommand disposeCommand
         )
         {
+            _id = id;
             _pauseService = pauseService;
             _gameService = gameService;
             _audioService = audioService;
             _interfaceService = interfaceService;
             _view = view;
+            _disposeCommand = disposeCommand;
         }
         
         public void Enable()
@@ -70,6 +77,16 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
         {
             _pauseService.ResumeGame();
             _gameService.End();
+        }
+        
+        public void OnViewDisposed()
+        {
+            Dispose();
+        }
+
+        private void Dispose()
+        {
+            _disposeCommand.Handle(_id);
         }
      }
 }

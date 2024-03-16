@@ -1,7 +1,6 @@
 ﻿using Codebase.Balls.Services.Implementations;
-using Codebase.Balls.Services.Interfaces;
-using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
+using Codebase.Gameplay.Shooting.Services.Interfaces;
 
 namespace Codebase.Game.Services.Implementations
 {

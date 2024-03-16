@@ -4,6 +4,7 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Forms.CQRS.Queries;
@@ -14,6 +15,8 @@ using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.Services.Implementations;
 using Codebase.Gameplay.Interface.Presentation.Implementations;
 using Codebase.Gameplay.Interface.Views.Implementations;
+using Codebase.Gameplay.PlayerData.CQRS.Queries;
+using Codebase.Gameplay.PlayerData.Services.Interfaces;
 
 namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 {
@@ -27,6 +30,7 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
         private readonly PauseService _pauseService;
         private readonly GameService _gameService;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
+        private readonly GetGameplayPlayerCoinAmountQuery _coinAmountQuery;
         private readonly string _path;
 
         public GameplayInterfaceFormCreationService
@@ -38,7 +42,8 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
             IAudioService audioService,
             FilePathProvider filePathProvider,
             PauseService pauseService,
-            GameService gameService
+            GameService gameService,
+            GetGameplayPlayerCoinAmountQuery coinAmountQuery
         )
         {
             _idGenerator = idGenerator;
@@ -48,6 +53,7 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
             _audioService = audioService;
             _pauseService = pauseService;
             _gameService = gameService;
+            _coinAmountQuery = coinAmountQuery;
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
             _path = filePathProvider.Forms.Data[PathConstants.Forms.GameplayForm];
         }
@@ -61,7 +67,16 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 
             InterfaceFormView view = _assetProvider.Instantiate<InterfaceFormView>(_path);
 
-            InterfaceFormPresenter winFormPresenter = new InterfaceFormPresenter(_pauseService, _interfaceService, view);
+            InterfaceFormPresenter winFormPresenter = new InterfaceFormPresenter
+            (
+                id,
+                _pauseService,
+                _coinAmountQuery,
+                _interfaceService,
+                view,
+                new DisposeCommand(_entityRepository)
+            );
+
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
             view.Construct(winFormPresenter);

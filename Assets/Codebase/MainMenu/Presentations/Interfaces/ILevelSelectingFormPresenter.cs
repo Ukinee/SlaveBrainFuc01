@@ -6,5 +6,6 @@ namespace Codebase.Game.Presentations.Interfaces
     {
         public void OnStartClicked();
         public void OnBackClicked();
+        public void OnViewDispose();
     }
 }

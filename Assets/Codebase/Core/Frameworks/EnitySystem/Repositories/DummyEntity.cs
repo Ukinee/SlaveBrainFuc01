@@ -1,7 +1,7 @@
 ﻿using System;
 using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 
-namespace Assets.Codebase.Core.Frameworks.EnitySystem.Repositories
+namespace Codebase.Core.Frameworks.EnitySystem.Repositories
 {
     public class DummyEntity : IEntity
     {

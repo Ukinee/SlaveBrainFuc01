@@ -1,4 +1,5 @@
-﻿using Codebase.Core.Common.General.Extensions.ObjectExtensions;
+﻿using System;
+using Codebase.Core.Common.General.Extensions.ObjectExtensions;
 using Codebase.Core.Frameworks.MVP.BaseClasses;
 using Codebase.Game.Presentations.Interfaces;
 using Codebase.Game.Views.Interfaces;
@@ -21,6 +22,11 @@ namespace Codebase.MainMenu.Views.Implementations
         private void OnDisable()
         {
             _button.onClick.RemoveListener(OnButtonClicked);
+        }
+
+        private void OnDestroy()
+        {
+            Presenter.OnViewDispose();
         }
 
         public void SetPassed(bool isPassed)

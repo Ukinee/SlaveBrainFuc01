@@ -2,6 +2,6 @@
 {
     public interface IInterfaceFormView
     {
-        
+        public void SetCoinAmount(int currentValue, int difference);
     }
 }

@@ -4,6 +4,7 @@ using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Forms.CQRS.Queries;
 using Codebase.Forms.Models;
 using Codebase.Forms.Presentations.Implementations;
@@ -22,7 +23,7 @@ namespace Codebase.Forms.Factories.Forms
         private readonly AssetProvider _assetProvider;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
         private readonly string _path;
-        
+
         public MainMenuShopFormFactory
         (
             IIdGenerator idGenerator,
@@ -39,21 +40,23 @@ namespace Codebase.Forms.Factories.Forms
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
             _path = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuShopForm];
         }
-        
-        public Tuple<FormBase, IFormView> Create() 
+
+        public Tuple<FormBase, IFormView> Create()
         {
             int id = _idGenerator.Generate();
-            
+
             MainMenuShopFormView view = _assetProvider.Instantiate<MainMenuShopFormView>(_path);
             SimpleForm model = new SimpleForm(false, id);
             _entityRepository.Register(model);
-            
-            MainMenuShopFormPresenter formPresenter = new MainMenuShopFormPresenter(_interfaceService);
+
+            MainMenuShopFormPresenter formPresenter = new MainMenuShopFormPresenter
+                (id, _interfaceService, new DisposeCommand(_entityRepository));
+
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
-            
+
             formVisibilityPresenter.Enable();
             view.Construct(formPresenter);
-            
+
             return new Tuple<FormBase, IFormView>(model, view);
         }
     }

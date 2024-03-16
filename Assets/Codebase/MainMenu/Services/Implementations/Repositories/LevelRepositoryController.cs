@@ -1,5 +1,5 @@
-﻿using Codebase.Game.Models;
-using Codebase.Game.Views.Interfaces;
+﻿using Codebase.Game.Views.Interfaces;
+using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Services.Interfaces;
 
 namespace Codebase.MainMenu.Services.Implementations.Repositories

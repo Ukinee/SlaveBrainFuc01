@@ -1,7 +1,7 @@
 ﻿using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.General;
 
-namespace Codebase.Game.Models
+namespace Codebase.MainMenu.Models
 {
     public class LevelModel : BaseEntity
     {
