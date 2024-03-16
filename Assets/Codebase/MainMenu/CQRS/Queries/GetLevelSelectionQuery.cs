@@ -3,7 +3,7 @@ using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.Models;
 
-namespace Codebase.Game.CQRS.Queries
+namespace Codebase.MainMenu.CQRS.Queries
 {
     public class GetLevelSelectionQuery : EntityUseCaseBase<LevelModel>
     {

@@ -4,7 +4,7 @@ using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
-using Codebase.Game.CQRS.Queries;
+using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Presentations.Implementations;
 using Codebase.MainMenu.Services.Implementations.Repositories;

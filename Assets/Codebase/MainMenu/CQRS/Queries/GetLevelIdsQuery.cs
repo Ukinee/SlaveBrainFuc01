@@ -4,9 +4,9 @@ using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.Models;
 
-namespace Codebase.Game.CQRS.Queries
+namespace Codebase.MainMenu.CQRS.Queries
 {
-    public class GetLevelIdsQuery : EntityUseCaseBase<LevelSelectionFormModel>
+    public class GetLevelIdsQuery : EntityUseCaseBase<MainMenuLevelSelectionFormModel>
     {
         public GetLevelIdsQuery(IEntityRepository repository) : base(repository)
         {

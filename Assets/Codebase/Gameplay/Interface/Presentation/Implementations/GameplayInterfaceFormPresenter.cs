@@ -11,12 +11,12 @@ using Codebase.Gameplay.Shooting.CQRS.Queries;
 
 namespace Codebase.Gameplay.Interface.Presentation.Implementations
 {
-    public class InterfaceFormPresenter : IInterfaceFormPresenter
+    public class GameplayInterfaceFormPresenter : IInterfaceFormPresenter
     {
         private readonly int _id;
         private PauseService _pauseService;
         private IInterfaceService _interfaceService;
-        private IInterfaceFormView _view;
+        private IGameplayInterfaceFormView _view;
         private DisposeCommand _disposeCommand;
         private ILiveData<int> _coinAmount;
         private ILiveData<int> _ballsToShoot;
@@ -24,7 +24,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
 
         private int _currentValue;
 
-        public InterfaceFormPresenter
+        public GameplayInterfaceFormPresenter
         (
             int id,
             PauseService pauseService,
@@ -32,7 +32,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
             GetBallsToShootQuery getBallsToShootQuery,
             GetUpgradePointsQuery getUpgradePointsQuery,
             IInterfaceService interfaceService,
-            IInterfaceFormView view,
+            IGameplayInterfaceFormView view,
             DisposeCommand disposeCommand
         )
         {

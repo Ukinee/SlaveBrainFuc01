@@ -9,7 +9,7 @@ using Codebase.Gameplay.Interface.Views.Interfaces;
 
 namespace Codebase.Gameplay.Interface.Presentation.Implementations
 {
-    public class PauseFormPresenter : IPauseFormPresenter
+    public class GameplayPauseFormPresenter : IPauseFormPresenter
      {
          private readonly int _id;
          private readonly PauseService _pauseService;
@@ -19,7 +19,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
         private readonly IPauseFormView _view;
         private readonly DisposeCommand _disposeCommand;
 
-        public PauseFormPresenter
+        public GameplayPauseFormPresenter
         (
             int id,
             PauseService pauseService,

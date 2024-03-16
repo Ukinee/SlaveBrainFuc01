@@ -62,7 +62,7 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 
             PauseFormView pauseFormView = _assetProvider.Instantiate<PauseFormView>(_path);
 
-            PauseFormPresenter pauseFormPresenter = new PauseFormPresenter
+            GameplayPauseFormPresenter gameplayPauseFormPresenter = new GameplayPauseFormPresenter
             (
                 id,
                 _pauseService,
@@ -80,9 +80,9 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
                 pauseFormView
             );
 
-            pauseFormView.Construct(pauseFormPresenter);
+            pauseFormView.Construct(gameplayPauseFormPresenter);
 
-            pauseFormPresenter.Enable();
+            gameplayPauseFormPresenter.Enable();
             formVisibilityPresenter.Enable();
 
             return new Tuple<FormBase, IFormView>(simpleForm, pauseFormView);

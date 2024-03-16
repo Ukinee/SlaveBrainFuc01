@@ -7,7 +7,7 @@ using Codebase.Gameplay.Interface.Views.Interfaces;
 
 namespace Codebase.Gameplay.Interface.Presentation.Implementations
 {
-    public class WinFormPresenter : IWinFormPresenter
+    public class GameplayWinFormPresenter : IWinFormPresenter
     {
         private readonly int _id;
         private readonly IWinFormView _winFormView;
@@ -16,7 +16,14 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
 
         private readonly ILiveData<int> _coinAmount;
 
-        public WinFormPresenter(int id, GetWinFormCoinAmountQuery getWinFormCoinAmountQuery, IWinFormView winFormView, IWinFormService winFormService, DisposeCommand disposeCommand)
+        public GameplayWinFormPresenter
+        (
+            int id,
+            GetWinFormCoinAmountQuery getWinFormCoinAmountQuery,
+            IWinFormView winFormView,
+            IWinFormService winFormService,
+            DisposeCommand disposeCommand
+        )
         {
             _id = id;
             _winFormView = winFormView;
@@ -24,7 +31,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
             _disposeCommand = disposeCommand;
             _coinAmount = getWinFormCoinAmountQuery.Handle(_id);
         }
-        
+
         public void Enable()
         {
             _coinAmount.AddListener(OnCoinsAmountChanged);

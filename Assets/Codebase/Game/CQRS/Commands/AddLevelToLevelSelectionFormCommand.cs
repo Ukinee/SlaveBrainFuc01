@@ -4,7 +4,7 @@ using Codebase.MainMenu.Models;
 
 namespace Codebase.Game.CQRS.Commands
 {
-    public class AddLevelToLevelSelectionFormCommand : EntityUseCaseBase<LevelSelectionFormModel>
+    public class AddLevelToLevelSelectionFormCommand : EntityUseCaseBase<MainMenuLevelSelectionFormModel>
     {
         public AddLevelToLevelSelectionFormCommand(IEntityRepository repository) : base(repository)
         {

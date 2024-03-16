@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Codebase.Gameplay.Interface.Views.Implementations
 {
-    public class InterfaceFormView : FormViewBase<IInterfaceFormPresenter>, IInterfaceFormView
+    public class GameplayInterfaceFormView : FormViewBase<IInterfaceFormPresenter>, IGameplayInterfaceFormView
     {
         [SerializeField] private Button _pauseButton;
         

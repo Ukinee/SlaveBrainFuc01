@@ -63,7 +63,7 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
         {
             int id = _idGenerator.Generate();
 
-            WinFormModel form = new WinFormModel(false, id);
+            GameplayWinFormModel form = new GameplayWinFormModel(false, id);
             _entityRepository.Register(form);
 
             WinFormView view = _assetProvider.Instantiate<WinFormView>(_path);
@@ -71,7 +71,7 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
             GetWinFormCoinAmountQuery getWinFormCoinAmountQuery = new GetWinFormCoinAmountQuery(_entityRepository);
             DisposeCommand disposeCommand = new DisposeCommand(_entityRepository);
             
-            WinFormPresenter winFormPresenter = new WinFormPresenter
+            GameplayWinFormPresenter gameplayWinFormPresenter = new GameplayWinFormPresenter
             (
                 id,
                 getWinFormCoinAmountQuery,
@@ -82,9 +82,9 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
-            view.Construct(winFormPresenter);
+            view.Construct(gameplayWinFormPresenter);
             
-            winFormPresenter.Enable();
+            gameplayWinFormPresenter.Enable();
             formVisibilityPresenter.Enable();
 
             return new Tuple<FormBase, IFormView>(form, view);

@@ -4,7 +4,7 @@ using Codebase.Gameplay.Interface.Models;
 
 namespace Codebase.Gameplay.Interface.CQRS
 {
-    public class SetWinFormCoinAmountCommand : EntityUseCaseBase<WinFormModel>
+    public class SetWinFormCoinAmountCommand : EntityUseCaseBase<GameplayWinFormModel>
     {
         public SetWinFormCoinAmountCommand(IEntityRepository repository) : base(repository)
         {

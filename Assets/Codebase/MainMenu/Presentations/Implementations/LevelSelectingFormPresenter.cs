@@ -7,8 +7,8 @@ using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Forms.Common.FormTypes.MainMenu;
 using Codebase.Forms.Services.Implementations;
-using Codebase.Game.CQRS.Queries;
 using Codebase.Game.Views.Interfaces;
+using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Presentations.Interfaces;
 using Codebase.MainMenu.Services.Interfaces;
 using Codebase.Maps.Common;
@@ -71,7 +71,7 @@ namespace Codebase.MainMenu.Presentations.Implementations
             _sceneStateMachine.SetState
             (
                 new GameplayScenePayload(_getLevelIdQuery.Handle(_selectedLevelService.CurrentId), MapType.Grass1)
-            ); // todo: hardcoded value
+            ); // todo: hardcoded value, to service ? 
         }
 
         public void OnBackClicked()

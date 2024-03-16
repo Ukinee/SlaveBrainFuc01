@@ -72,9 +72,9 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
             SimpleForm form = new SimpleForm(true, id);
             _entityRepository.Register(form);
 
-            InterfaceFormView view = _assetProvider.Instantiate<InterfaceFormView>(_path);
+            GameplayInterfaceFormView view = _assetProvider.Instantiate<GameplayInterfaceFormView>(_path);
 
-            InterfaceFormPresenter winFormPresenter = new InterfaceFormPresenter
+            GameplayInterfaceFormPresenter winFormPresenter = new GameplayInterfaceFormPresenter
             (
                 id,
                 _pauseService,

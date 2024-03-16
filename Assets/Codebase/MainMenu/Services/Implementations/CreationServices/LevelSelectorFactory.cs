@@ -12,7 +12,7 @@ using Codebase.Forms.Models;
 using Codebase.Forms.Presentations.Implementations;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
-using Codebase.Game.CQRS.Queries;
+using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Presentations.Implementations;
 using Codebase.MainMenu.Services.Interfaces;
@@ -66,7 +66,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
         {
             int id = _idGenerator.Generate();
 
-            LevelSelectionFormModel model = new LevelSelectionFormModel(true, id); //todo: debug tru
+            MainMenuLevelSelectionFormModel model = new MainMenuLevelSelectionFormModel(true, id); //todo: debug tru
             _entityRepository.Register(model);
             
             LevelSelectorFormView view = _assetProvider.Instantiate<LevelSelectorFormView>(_assetPath);
