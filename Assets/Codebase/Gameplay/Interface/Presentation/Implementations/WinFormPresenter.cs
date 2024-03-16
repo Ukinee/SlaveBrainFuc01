@@ -1,4 +1,6 @@
-﻿using Codebase.Core.Frameworks.EnitySystem.CQRS;
+﻿using Codebase.Core.Common.General.LiveDatas;
+using Codebase.Core.Frameworks.EnitySystem.CQRS;
+using Codebase.Gameplay.Interface.CQRS.Queries;
 using Codebase.Gameplay.Interface.Presentation.Interfaces;
 using Codebase.Gameplay.Interface.Services.Interfaces;
 using Codebase.Gameplay.Interface.Views.Interfaces;
@@ -12,35 +14,37 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
         private readonly IWinFormService _winFormService;
         private readonly DisposeCommand _disposeCommand;
 
-        public WinFormPresenter(int id, IWinFormView winFormView, IWinFormService winFormService, DisposeCommand disposeCommand)
+        private readonly ILiveData<int> _coinAmount;
+
+        public WinFormPresenter(int id, GetWinFormCoinAmountQuery getWinFormCoinAmountQuery, IWinFormView winFormView, IWinFormService winFormService, DisposeCommand disposeCommand)
         {
             _id = id;
             _winFormView = winFormView;
             _winFormService = winFormService;
             _disposeCommand = disposeCommand;
+            _coinAmount = getWinFormCoinAmountQuery.Handle(_id);
         }
         
         public void Enable()
         {
+            _coinAmount.AddListener(OnCoinsAmountChanged);
         }
 
         public void Disable()
         {
+            _coinAmount.RemoveListener(OnCoinsAmountChanged);
         }
 
-        public void OnContinueClick()
-        {
+        private void OnCoinsAmountChanged(int amount) =>
+            _winFormView.SetCoinAmount(amount);
+
+        public void OnContinueClick() =>
             _winFormService.OnContinueClick();
-        }
-        
-        public void OnViewDisposed()
-        {
-            Dispose();
-        }
 
-        private void Dispose()
-        {
+        public void OnViewDisposed() =>
+            Dispose();
+
+        private void Dispose() =>
             _disposeCommand.Handle(_id);
-        }
     }
 }

@@ -226,7 +226,6 @@ namespace Codebase.App.Infrastructure.Builders.States
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
             AddPassedLevelCommand addPassedLevelCommand = new AddPassedLevelCommand(_playerIdProvider, _entityRepository);
 
-            WinFormService winFormService = new WinFormService();
 
             #region Interface
 
@@ -235,6 +234,8 @@ namespace Codebase.App.Infrastructure.Builders.States
             string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
             InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
             InterfaceService interfaceService = new InterfaceService(setFormVisibilityCommand);
+            
+            WinFormService winFormService = new WinFormService(interfaceService, _entityRepository);
 
             GameService gameService = new GameService
             (
@@ -245,7 +246,6 @@ namespace Codebase.App.Infrastructure.Builders.States
                 addPlayerCoinsCommand,
                 getGameplayPlayerCoinAmountQuery,
                 cubeRepositoryController,
-                interfaceService,
                 winFormService,
                 stateMachineService,
                 _dataService

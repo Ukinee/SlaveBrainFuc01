@@ -2,6 +2,6 @@
 {
     public interface IWinFormView
     {
-        
+        public void SetCoinAmount(int amount);
     }
 }

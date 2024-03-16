@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Codebase.App.Infrastructure.StatePayloads;
 using Codebase.Core.Common.General.Extensions.ObjectExtensions;
-using Codebase.Core.Common.General.Utils;
 using Codebase.Core.Infrastructure.StateMachines.Simple;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Cubes.Repositories.Implementations;
@@ -27,7 +24,6 @@ namespace Codebase.Game.Services.Implementations
         private readonly AddPlayerCoinsCommand _addPlayerCoinsCommand;
         private readonly GetGameplayPlayerCoinAmountQuery _getGameplayPlayerCoinAmountQuery;
         private readonly CubeRepositoryController _cubeRepositoryController;
-        private readonly IInterfaceService _interfaceService;
         private readonly IWinFormService _winFormService;
         private readonly IStateMachineService<IScenePayload> _stateMachineService;
         private readonly IDataService _dataService;
@@ -47,7 +43,6 @@ namespace Codebase.Game.Services.Implementations
             AddPlayerCoinsCommand addPlayerCoinsCommand,
             GetGameplayPlayerCoinAmountQuery getGameplayPlayerCoinAmountQuery,
             CubeRepositoryController cubeRepositoryController,
-            IInterfaceService interfaceService,
             IWinFormService winFormService,
             IStateMachineService<IScenePayload> stateMachineService,
             IDataService dataService
@@ -60,7 +55,6 @@ namespace Codebase.Game.Services.Implementations
             _addPlayerCoinsCommand = addPlayerCoinsCommand;
             _getGameplayPlayerCoinAmountQuery = getGameplayPlayerCoinAmountQuery;
             _cubeRepositoryController = cubeRepositoryController;
-            _interfaceService = interfaceService;
             _winFormService = winFormService;
             _stateMachineService = stateMachineService;
             _dataService = dataService;
@@ -69,7 +63,7 @@ namespace Codebase.Game.Services.Implementations
         public void Start(string levelId, MapType mapType)
         {
             if (string.IsNullOrEmpty(_levelId) == false)
-                throw new System.Exception("GameService: level id already set.");
+                throw new Exception("GameService: level id already set.");
 
             _levelId = levelId;
 
@@ -91,12 +85,8 @@ namespace Codebase.Game.Services.Implementations
 
             if (_currentTask.Status == UniTaskStatus.Pending)
                 _cancellationTokenSource.Cancel();
-
-            $"Before scene change: {_levelId}".Log();
             
             _stateMachineService.SetState(new MainMenuScenePayload());
-
-            $"Gameplay end: {_levelId}".Log();
         }
 
         private async UniTask EndAsWin(CancellationToken cancellationToken = default)
@@ -108,15 +98,15 @@ namespace Codebase.Game.Services.Implementations
                 _addPlayerCoinsCommand.Handle(coins);
 
                 await UniTask.Delay(1000, cancellationToken: cancellationToken); //todo : hardcoded value
-
-                _interfaceService.Show(new GameplayWinFormType());
+                
+                _winFormService.Enable(coins);
+                
                 await UniTask.WaitUntil(_winFormService.GetContinueClicked, cancellationToken: cancellationToken);
 
                 End();
             }
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException)
             {
-                e.Message.Log();
             }
         }
 

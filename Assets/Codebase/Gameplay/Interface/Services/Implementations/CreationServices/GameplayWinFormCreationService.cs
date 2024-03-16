@@ -5,7 +5,6 @@ using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
-using Codebase.Core.Frameworks.EnitySystem.General;
 using Codebase.Core.Services.Common;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Forms.CQRS.Queries;
@@ -14,6 +13,8 @@ using Codebase.Forms.Presentations.Implementations;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
 using Codebase.Game.Services.Implementations;
+using Codebase.Gameplay.Interface.CQRS.Queries;
+using Codebase.Gameplay.Interface.Models;
 using Codebase.Gameplay.Interface.Presentation.Implementations;
 using Codebase.Gameplay.Interface.Services.Interfaces;
 using Codebase.Gameplay.Interface.Views.Implementations;
@@ -62,12 +63,23 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
         {
             int id = _idGenerator.Generate();
 
-            SimpleForm form = new SimpleForm(false, id);
+            WinFormModel form = new WinFormModel(false, id);
             _entityRepository.Register(form);
 
             WinFormView view = _assetProvider.Instantiate<WinFormView>(_path);
 
-            WinFormPresenter winFormPresenter = new WinFormPresenter(id, view, _winFormService, new DisposeCommand(_entityRepository));
+            GetWinFormCoinAmountQuery getWinFormCoinAmountQuery = new GetWinFormCoinAmountQuery(_entityRepository);
+            DisposeCommand disposeCommand = new DisposeCommand(_entityRepository);
+            
+            WinFormPresenter winFormPresenter = new WinFormPresenter
+            (
+                id,
+                getWinFormCoinAmountQuery,
+                view,
+                _winFormService,
+                disposeCommand
+            );
+
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
             view.Construct(winFormPresenter);

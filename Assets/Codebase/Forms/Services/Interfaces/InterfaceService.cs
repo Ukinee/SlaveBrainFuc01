@@ -31,5 +31,8 @@ namespace Codebase.Forms.Services.Interfaces
         {
             _setFormVisibilityCommand.Handle(_forms[formType.GetType()], false);
         }
+
+        public int GetId(IFormType formType) =>
+            _forms[formType.GetType()];
     }
 }

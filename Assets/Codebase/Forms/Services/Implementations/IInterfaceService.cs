@@ -7,5 +7,6 @@ namespace Codebase.Forms.Services.Implementations
         public void Register(IFormType formType, int id);
         public void Show(IFormType formType);
         public void Hide(IFormType formType);
+        public int GetId(IFormType formType);
     }
 }
