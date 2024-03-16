@@ -36,6 +36,8 @@ using Codebase.Gameplay.PlayerData.CQRS.Commands;
 using Codebase.Gameplay.PlayerData.CQRS.Queries;
 using Codebase.Gameplay.PlayerData.CreationServices;
 using Codebase.Gameplay.PlayerData.Services.Interfaces;
+using Codebase.Gameplay.Shooting.CQRS.Commands;
+using Codebase.Gameplay.Shooting.CQRS.Queries;
 using Codebase.Gameplay.Shooting.Services.Implementations;
 using Codebase.Gameplay.Structures.Controllers;
 using Codebase.Gameplay.Tanks.Services.Implementations;
@@ -111,6 +113,14 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _contextActionService
             );
 
+            GameplayPlayerCreationService gameplayPlayerDataCreationService = new GameplayPlayerCreationService
+            (
+                _entityRepository,
+                _idGenerator
+            );
+
+            IGameplayPlayerDataService gameplayPlayerDataService = gameplayPlayerDataCreationService.Create();
+
             AimView aimView = _assetProvider.Instantiate<AimView>(_filePathProvider.General.Data[PathConstants.General.Aim]);
 
             MapView mapView = Object.FindObjectOfType<MapView>()
@@ -141,32 +151,44 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             InputService inputService = inputServiceFactory.Create();
 
-            ShootingService shootingService = new ShootingService(getTankPositionQuery, ballPoolService, ballMover);
+            GetBallsToShootQuery ballsToShootQuery = new GetBallsToShootQuery
+            (
+                gameplayPlayerDataService,
+                _entityRepository
+            );
+
+            GetUpgradePointsQuery getUpgradePointsQuery = new GetUpgradePointsQuery
+            (
+                gameplayPlayerDataService,
+                _entityRepository
+            );
+
+            ShootingService shootingService = new ShootingService
+                (ballsToShootQuery, getTankPositionQuery, ballPoolService, ballMover);
+
             AimService aimService = new AimService(getTankPositionQuery, aimView);
 
             CubeViewRepository cubeViewRepository = new CubeViewRepository();
             CubeRepositoryController cubeRepositoryController = new CubeRepositoryController(cubeViewRepository);
-
-            GameplayPlayerCreationService gameplayPlayerDataCreationService = new GameplayPlayerCreationService
-            (
-                _entityRepository,
-                _idGenerator
-            );
-
-            IGameplayPlayerDataService gameplayPlayerDataService = gameplayPlayerDataCreationService.Create();
 
             AddGameplayCoinsCommand addGameplayCoinsCommand = new AddGameplayCoinsCommand
             (
                 gameplayPlayerDataService,
                 _entityRepository
             );
-            
+
+            AddShootingUpgradePointCommand addShootingUpgradePointCommand = new AddShootingUpgradePointCommand
+            (
+                gameplayPlayerDataService,
+                _entityRepository
+            );
+
             GetGameplayPlayerCoinAmountQuery getGameplayPlayerCoinAmountQuery = new GetGameplayPlayerCoinAmountQuery
             (
                 gameplayPlayerDataService,
                 _entityRepository
             );
-            
+
             AddPlayerCoinsCommand addPlayerCoinsCommand = new AddPlayerCoinsCommand
             (
                 _playerIdProvider,
@@ -174,7 +196,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             );
 
             CubeDeactivatorCollisionHandler cubeDeactivatorCollisionHandler = new CubeDeactivatorCollisionHandler
-                (_entityRepository, addGameplayCoinsCommand);
+                (_entityRepository, addGameplayCoinsCommand, addShootingUpgradePointCommand);
 
             CreateStructureCommandFactory createStructureCommandFactory = new CreateStructureCommandFactory
             (
@@ -264,7 +286,9 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _filePathProvider,
                 pauseService,
                 gameService,
-                getGameplayPlayerCoinAmountQuery
+                getGameplayPlayerCoinAmountQuery,
+                ballsToShootQuery,
+                getUpgradePointsQuery
             );
 
             var factories = new Dictionary<Type, Func<Tuple<FormBase, IFormView>>>()

@@ -17,6 +17,7 @@ using Codebase.Gameplay.Interface.Presentation.Implementations;
 using Codebase.Gameplay.Interface.Views.Implementations;
 using Codebase.Gameplay.PlayerData.CQRS.Queries;
 using Codebase.Gameplay.PlayerData.Services.Interfaces;
+using Codebase.Gameplay.Shooting.CQRS.Queries;
 
 namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
 {
@@ -32,6 +33,8 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
         private readonly GetGameplayPlayerCoinAmountQuery _coinAmountQuery;
         private readonly string _path;
+        private GetUpgradePointsQuery _upgradePointsQuery;
+        private GetBallsToShootQuery _ballsToShootQuery;
 
         public GameplayInterfaceFormCreationService
         (
@@ -43,7 +46,9 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
             FilePathProvider filePathProvider,
             PauseService pauseService,
             GameService gameService,
-            GetGameplayPlayerCoinAmountQuery coinAmountQuery
+            GetGameplayPlayerCoinAmountQuery coinAmountQuery,
+            GetBallsToShootQuery ballsToShootQuery,
+            GetUpgradePointsQuery upgradePointsQuery
         )
         {
             _idGenerator = idGenerator;
@@ -54,6 +59,8 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
             _pauseService = pauseService;
             _gameService = gameService;
             _coinAmountQuery = coinAmountQuery;
+            _ballsToShootQuery = ballsToShootQuery;
+            _upgradePointsQuery = upgradePointsQuery;
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
             _path = filePathProvider.Forms.Data[PathConstants.Forms.GameplayForm];
         }
@@ -72,6 +79,8 @@ namespace Codebase.Gameplay.Interface.Services.Implementations.CreationServices
                 id,
                 _pauseService,
                 _coinAmountQuery,
+                _ballsToShootQuery,
+                _upgradePointsQuery,
                 _interfaceService,
                 view,
                 new DisposeCommand(_entityRepository)

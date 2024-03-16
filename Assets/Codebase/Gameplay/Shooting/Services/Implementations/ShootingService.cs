@@ -1,6 +1,9 @@
 ﻿using Codebase.Balls.Models;
 using Codebase.Balls.Services.Implementations;
 using Codebase.Core.Common.Application.Utils.Constants;
+using Codebase.Core.Common.General.LiveDatas;
+using Codebase.Gameplay.Shooting.CQRS;
+using Codebase.Gameplay.Shooting.CQRS.Queries;
 using Codebase.Gameplay.Shooting.Services.Interfaces;
 using Codebase.Tanks.CQRS;
 using Cysharp.Threading.Tasks;
@@ -14,17 +17,19 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
         private BallPoolService _ballPoolService;
         private BallMover _ballMover;
 
-        private int _ballsToShoot = BallConstants.DefaultAmountToShoot;
+        private ILiveData<int> _ballsToShoot;
         private bool _isDisposed;
 
-        public bool IsShooting { get; private set; }
-
-        public ShootingService(GetTankPositionQuery tankPositionQuery, BallPoolService ballPoolService, BallMover ballMover)
+        public ShootingService(GetBallsToShootQuery ballsToShootQuery, GetTankPositionQuery tankPositionQuery, BallPoolService ballPoolService, BallMover ballMover)
         {
             _tankPositionQuery = tankPositionQuery;
             _ballPoolService = ballPoolService;
             _ballMover = ballMover;
+            
+            _ballsToShoot = ballsToShootQuery.Handle();
         }
+
+        public bool IsShooting { get; private set; }
 
         public async UniTask Shoot(Vector3 targetPosition)
         {
@@ -36,18 +41,13 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
             IsShooting = false;
         }
 
-        public void Upgrade()
-        {
-            _ballsToShoot++;
-        }
-
         private async UniTask ShootTask(Vector3 tankPosition, Vector3 direction)
         {
-            for (int i = 0; i < _ballsToShoot; i++)
+            for (int i = 0; i < _ballsToShoot.Value; i++)
             {
-                if(_isDisposed)
+                if (_isDisposed)
                     break;
-                
+
                 Shoot(tankPosition, direction);
 
                 await UniTask.Delay(GameConstants.MillisecondsToShoot);
@@ -62,10 +62,11 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
 
         public void Dispose()
         {
+            _ballsToShoot = null;
             _tankPositionQuery = null;
             _ballPoolService = null;
             _ballMover = null;
-            
+
             _isDisposed = true;
         }
     }

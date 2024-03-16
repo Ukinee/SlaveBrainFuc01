@@ -8,6 +8,5 @@ namespace Codebase.Gameplay.Shooting.Services.Interfaces
     {
         public bool IsShooting { get; }
         public UniTask Shoot(Vector3 targetPosition);
-        public void Upgrade();
     }
 }

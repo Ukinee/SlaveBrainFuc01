@@ -11,7 +11,10 @@ namespace Codebase.Gameplay.Interface.Views.Implementations
     public class InterfaceFormView : FormViewBase<IInterfaceFormPresenter>, IInterfaceFormView
     {
         [SerializeField] private Button _pauseButton;
+        
+        [SerializeField] private Slider _upgradeProgress;
         [SerializeField] private TMP_Text _coinAmount;
+        [SerializeField] private TMP_Text _boolsToShootAmount;
 
         private void OnEnable()
         {
@@ -36,6 +39,21 @@ namespace Codebase.Gameplay.Interface.Views.Implementations
         public void SetCoinAmount(int currentValue, int difference)
         {
             _coinAmount.text = currentValue.ToString();
+        }
+
+        public void SetMaxUpgradePoints(int upgradeMaxValue)
+        {
+            _upgradeProgress.maxValue = upgradeMaxValue;
+        }
+
+        public void SetBallsToShoot(int amount)
+        {
+            _boolsToShootAmount.text = amount.ToString();
+        }
+
+        public void SetUpgradePoints(int upgradeValue)
+        {
+            _upgradeProgress.value = upgradeValue;
         }
     }
 }
