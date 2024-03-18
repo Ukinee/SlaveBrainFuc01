@@ -18,28 +18,23 @@ namespace ApplicationCode.Core.Services.AssetProviders
                 _resources[path] = resource;
             }
 
-            try
-            {
-                return (T)Object.Instantiate(resource);
-            }
-            catch (Exception)
-            {
+            if (resource == null)
                 throw new Exception("Resource not found: " + path + " with type: " + typeof(T));
-            }
+
+            return (T)Object.Instantiate(resource);
         }
 
         public T Get<T>(string path) where T : Object
         {
-            if( _objects.TryGetValue(path, out Object resource) == false)
+            if (_objects.TryGetValue(path, out Object resource) == false)
             {
                 resource = Resources.Load<T>(path);
-                
-                if(resource == null)
-                    throw new Exception("Resource not found: " + path + " with type: " + typeof(T));
-                
                 _objects[path] = resource;
             }
-            
+
+            if (resource == null)
+                throw new Exception("Resource not found: " + path + " with type: " + typeof(T));
+
             return (T)resource;
         }
     }

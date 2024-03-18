@@ -11,7 +11,10 @@ using Codebase.Forms.Models;
 using Codebase.Forms.Presentations.Implementations;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.CQRS.Queries;
+using Codebase.MainMenu.Models;
 using Codebase.MainMenu.Presentations.Implementations;
+using Codebase.MainMenu.Presentations.Implementations.Shops;
 using Codebase.MainMenu.Views.Implementations;
 
 namespace Codebase.MainMenu.Factories
@@ -23,6 +26,7 @@ namespace Codebase.MainMenu.Factories
         private readonly IEntityRepository _entityRepository;
         private readonly AssetProvider _assetProvider;
         private readonly GetFormVisibilityQuery _getFormVisibilityQuery;
+        private readonly GetShopLevelIdsQuery _getShopLevelIdsQuery;
         private readonly string _path;
 
         public MainMenuShopFormFactory
@@ -39,6 +43,7 @@ namespace Codebase.MainMenu.Factories
             _entityRepository = entityRepository;
             _assetProvider = assetProvider;
             _getFormVisibilityQuery = new GetFormVisibilityQuery(entityRepository);
+            _getShopLevelIdsQuery = new GetShopLevelIdsQuery(entityRepository);
             _path = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuShopForm];
         }
 
@@ -47,15 +52,16 @@ namespace Codebase.MainMenu.Factories
             int id = _idGenerator.Generate();
 
             MainMenuShopFormView view = _assetProvider.Instantiate<MainMenuShopFormView>(_path);
-            SimpleForm model = new SimpleForm(false, id);
+            MainMenuShopFormModel model = new MainMenuShopFormModel(false, id);
             _entityRepository.Register(model);
 
             MainMenuShopFormPresenter formPresenter = new MainMenuShopFormPresenter
-                (id, _interfaceService, new DisposeCommand(_entityRepository));
+                (id, _interfaceService, _getShopLevelIdsQuery, new DisposeCommand(_entityRepository));
 
             FormVisibilityPresenter formVisibilityPresenter = new FormVisibilityPresenter(id, _getFormVisibilityQuery, view);
 
             formVisibilityPresenter.Enable();
+            formPresenter.Enable();
             view.Construct(formPresenter);
 
             return new Tuple<FormBase, IFormView>(model, view);

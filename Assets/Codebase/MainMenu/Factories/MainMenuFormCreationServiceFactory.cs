@@ -12,12 +12,12 @@ using Codebase.Forms.Models;
 using Codebase.Forms.Services.Implementations;
 using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.Common;
 using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations.CreationServices;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.MainMenu.Services.Interfaces;
-using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Interfaces;
 
@@ -36,10 +36,12 @@ namespace Codebase.MainMenu.Factories
         private readonly AssetProvider _assetProvider;
         private readonly FilePathProvider _filePathProvider;
         private GetPassedLevelsQuery _getPassedLevelsQuery;
+        private readonly GetPlayerMapsQuery _getPlayerMapsQuery;
         private readonly GetPlayerSelectedMapQuery _getPlayerSelectedMapQuery;
         private readonly SelectedMapService _selectedMapService;
         private IPlayerIdProvider _playerIdProvider;
         private IStateMachineService<IScenePayload> _stateMachineService;
+        private IShopService _shopService;
 
         public MainMenuFormCreationServiceFactory
         (
@@ -53,11 +55,10 @@ namespace Codebase.MainMenu.Factories
             ISelectedLevelService selectedLevelService,
             AssetProvider assetProvider,
             FilePathProvider filePathProvider,
-            GetPassedLevelsQuery getPassedLevelsQuery,
-            GetPlayerSelectedMapQuery getPlayerSelectedMapQuery,
             SelectedMapService selectedMapService,
             IPlayerIdProvider playerIdProvider,
-            IStateMachineService<IScenePayload> stateMachineService
+            IStateMachineService<IScenePayload> stateMachineService,
+            IShopService shopService
         )
         {
             _idGenerator = idGenerator;
@@ -70,14 +71,16 @@ namespace Codebase.MainMenu.Factories
             _selectedLevelService = selectedLevelService;
             _assetProvider = assetProvider;
             _filePathProvider = filePathProvider;
-            _getPassedLevelsQuery = getPassedLevelsQuery;
-            _getPlayerSelectedMapQuery = getPlayerSelectedMapQuery;
-            _selectedMapService = selectedMapService;
             _playerIdProvider = playerIdProvider;
+            _getPassedLevelsQuery = new GetPassedLevelsQuery(_playerIdProvider, _entityRepository);
+            _getPlayerMapsQuery = new GetPlayerMapsQuery(_playerIdProvider, _entityRepository);
+            _getPlayerSelectedMapQuery = new GetPlayerSelectedMapQuery(_playerIdProvider, _entityRepository);
+            _selectedMapService = selectedMapService;
             _stateMachineService = stateMachineService;
+            _shopService = shopService;
         }
 
-        public FormCreationService Create(string[] levelIds, MapType[] mapTypes)
+        public FormCreationService Create(string[] levelIds, IReadOnlyList<MapShopData> mapData)
         {
             MainMenuFormFactory mainMenuFormFactory = new MainMenuFormFactory
             (
@@ -157,6 +160,7 @@ namespace Codebase.MainMenu.Factories
                 _entityRepository,
                 _mapRepositoryController,
                 _selectedMapService,
+                _shopService,
                 _filePathProvider
             );
 
@@ -167,10 +171,11 @@ namespace Codebase.MainMenu.Factories
                     levelSelectorFactory,
                     _getPassedLevelsQuery,
                     _getPlayerSelectedMapQuery,
+                    _getPlayerMapsQuery,
                     mainMenuMapCreationService,
                     _entityRepository,
                     levelIds,
-                    mapTypes,
+                    mapData,
                     _selectedMapService
                 );
 

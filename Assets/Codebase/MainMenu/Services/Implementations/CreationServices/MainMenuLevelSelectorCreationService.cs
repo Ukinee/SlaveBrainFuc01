@@ -4,6 +4,7 @@ using System.Linq;
 using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using Codebase.Forms.Models;
 using Codebase.Forms.Views.Interfaces;
+using Codebase.MainMenu.Common;
 using Codebase.MainMenu.CQRS.Commands;
 using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Queries;
@@ -16,10 +17,11 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
         private readonly LevelSelectorFactory _levelSelectorFactory;
         private readonly GetPassedLevelsQuery _getPassedLevelsQuery;
         private readonly GetPlayerSelectedMapQuery _getPlayerSelectedMapQuery;
+        private readonly GetPlayerMapsQuery _getPlayerMapsQuery;
         private readonly MainMenuMapCreationService _mainMenuMapCreationService;
         private readonly SelectedMapService _selectedMapService;
         private readonly string[] _levelIds;
-        private readonly MapType[] _mapTypes;
+        private readonly IReadOnlyList<MapShopData> _mapTypes;
         private readonly AddLevelToLevelSelectionFormCommand _addLevelToLevelSelectionFormCommand;
         private readonly AddMapToLevelSelectionFormCommand _addMapToLevelSelectionFormCommand;
 
@@ -29,10 +31,11 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             LevelSelectorFactory levelSelectorFactory,
             GetPassedLevelsQuery getPassedLevelsQuery,
             GetPlayerSelectedMapQuery getPlayerSelectedMapQuery,
+            GetPlayerMapsQuery getPlayerMapsQuery,
             MainMenuMapCreationService mainMenuMapCreationService,
             IEntityRepository entityRepository,
             string[] levelIds,
-            MapType[] mapTypes,
+            IReadOnlyList<MapShopData> mapTypes,
             SelectedMapService selectedMapService
         )
         {
@@ -40,6 +43,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             _levelSelectorFactory = levelSelectorFactory;
             _getPassedLevelsQuery = getPassedLevelsQuery;
             _getPlayerSelectedMapQuery = getPlayerSelectedMapQuery;
+            _getPlayerMapsQuery = getPlayerMapsQuery;
             _mainMenuMapCreationService = mainMenuMapCreationService;
             _levelIds = levelIds;
             _mapTypes = mapTypes;
@@ -58,19 +62,24 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             foreach (string levelStringId in _levelIds)
             {
                 int levelId = _levelCreationService.Create(levelStringId, passedLevels.Contains(levelStringId));
-                
+
                 _addLevelToLevelSelectionFormCommand.Handle(selectorFormId, levelId);
             }
 
             MapType selectedMapType = _getPlayerSelectedMapQuery.Handle();
-            
-            foreach (MapType mapType in _mapTypes)
+            IReadOnlyList<MapType> playerMaps = _getPlayerMapsQuery.Handle();
+
+            foreach (MapShopData mapShopData in _mapTypes)
             {
-                int mapId = _mainMenuMapCreationService.Create(mapType, selectedMapType == mapType);
-                
+                MapType mapType = mapShopData.Type;
+                bool isSelected = mapType == selectedMapType;
+                bool isBought = playerMaps.Contains(mapType);
+
+                int mapId = _mainMenuMapCreationService.Create(mapType, mapShopData.Price, isSelected, isBought);
+
                 if (selectedMapType == mapType)
                     _selectedMapService.Select(mapId);
-                
+
                 _addMapToLevelSelectionFormCommand.Handle(selectorFormId, mapId);
             }
 

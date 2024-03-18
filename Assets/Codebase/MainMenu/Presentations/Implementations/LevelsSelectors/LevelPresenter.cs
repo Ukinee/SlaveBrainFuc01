@@ -5,7 +5,7 @@ using Codebase.MainMenu.Presentations.Interfaces;
 using Codebase.MainMenu.Services.Interfaces;
 using Codebase.MainMenu.Views.Interfaces;
 
-namespace Codebase.MainMenu.Presentations.Implementations
+namespace Codebase.MainMenu.Presentations.Implementations.LevelsSelectors
 {
     public class LevelPresenter : ILevelPresenter
     {

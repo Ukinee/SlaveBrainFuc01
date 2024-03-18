@@ -6,7 +6,7 @@ using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Models;
-using Codebase.MainMenu.Presentations.Implementations;
+using Codebase.MainMenu.Presentations.Implementations.LevelsSelectors;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.MainMenu.Services.Interfaces;
 using Codebase.MainMenu.Views.Implementations;
@@ -21,8 +21,11 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
         private readonly IEntityRepository _entityRepository;
         private readonly MapRepositoryController _mapRepositoryController;
         private readonly ISelectedMapService _selectedMapService;
-        private readonly GetMapTypeQuery _getMapTypeQuery;
+        private readonly IShopService _shopService;
+        private readonly MainMenuMapGetTypeQuery _mainMenuMapGetTypeQuery;
+        private readonly MainMenuMapGetPriceQuery _mainMenuMapGetPriceQuery;
         private readonly GetMapSelectionQuery _getMapSelectionQuery;
+        private readonly GetMapBoughtQuery _getMapBoughtQuery;
         private readonly DisposeCommand _disposeCommand;
         private readonly string _assetPath;
 
@@ -33,6 +36,7 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             IEntityRepository entityRepository,
             MapRepositoryController mapRepositoryController,
             ISelectedMapService selectedMapService,
+            IShopService shopService,
             FilePathProvider filePathProvider
         )
         {
@@ -41,17 +45,20 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             _entityRepository = entityRepository;
             _mapRepositoryController = mapRepositoryController;
             _selectedMapService = selectedMapService;
-            _getMapTypeQuery = new GetMapTypeQuery(_entityRepository);
+            _shopService = shopService;
+            _mainMenuMapGetTypeQuery = new MainMenuMapGetTypeQuery(_entityRepository);
+            _mainMenuMapGetPriceQuery = new MainMenuMapGetPriceQuery(_entityRepository);
             _getMapSelectionQuery = new GetMapSelectionQuery(_entityRepository);
             _disposeCommand = new DisposeCommand(_entityRepository);
+            _getMapBoughtQuery = new GetMapBoughtQuery(_entityRepository);
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuMapView];
         }
 
-        public int Create(MapType mapType, bool isSelected)
+        public int Create(MapType mapType, int price, bool isSelected, bool isBought)
         {
             int id = _idGenerator.Generate();
-
-            MainMenuMapModel model = new MainMenuMapModel(id, mapType, isSelected);
+            
+            MainMenuMapModel model = new MainMenuMapModel(id, mapType, price, isSelected, isBought);
             _entityRepository.Register(model);
 
             MainMenuMapView view = _assetProvider.Instantiate<MainMenuMapView>(_assetPath);
@@ -61,9 +68,12 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             (
                 id,
                 _getMapSelectionQuery,
-                _getMapTypeQuery,
+                _getMapBoughtQuery,
+                _mainMenuMapGetTypeQuery,
+                _mainMenuMapGetPriceQuery,
                 view,
                 _selectedMapService,
+                _shopService,
                 _disposeCommand
             );
              

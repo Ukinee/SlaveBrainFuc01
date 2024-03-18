@@ -5,9 +5,9 @@ using Codebase.Maps.Common;
 
 namespace Codebase.MainMenu.CQRS.Queries
 {
-    public class GetMapTypeQuery : EntityUseCaseBase<MainMenuMapModel>
+    public class MainMenuMapGetTypeQuery : EntityUseCaseBase<MainMenuMapModel>
     {
-        public GetMapTypeQuery(IEntityRepository repository) : base(repository)
+        public MainMenuMapGetTypeQuery(IEntityRepository repository) : base(repository)
         {
         }
 

@@ -1,4 +1,7 @@
-﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.App.Infrastructure.StateMachines.States;
@@ -11,8 +14,10 @@ using Codebase.Forms.CQRS;
 using Codebase.Forms.Services.Implementations.Factories;
 using Codebase.Forms.Services.Interfaces;
 using Codebase.Forms.Views.Implementations;
+using Codebase.MainMenu.Common;
 using Codebase.MainMenu.CQRS.Commands;
 using Codebase.MainMenu.CQRS.Queries;
+using Codebase.MainMenu.DataServices;
 using Codebase.MainMenu.Factories;
 using Codebase.MainMenu.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations.Repositories;
@@ -20,6 +25,7 @@ using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Commands;
 using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Interfaces;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Codebase.App.Infrastructure.Builders.States
@@ -61,7 +67,7 @@ namespace Codebase.App.Infrastructure.Builders.States
                 "Test Two Towers",
                 "Test Three Towers",
             };
-            
+
             MapType[] mapTypes =
             {
                 MapType.Grass1,
@@ -73,23 +79,60 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             #endregion
 
+            #region InitJson
+
+            ShopData shopDataTest = new ShopData
+            (
+                new List<MapShopData>()
+                {
+                    new MapShopData(MapType.Grass1, 10),
+                    new MapShopData(MapType.Desert1, 10),
+                    new MapShopData(MapType.Desert2, 10),
+                    new MapShopData(MapType.Jungle1, 10),
+                    new MapShopData(MapType.Snow1, 10),
+                },
+                availableLevelIds.Select(x => new StructureShopData(x, 10)).ToList()
+            );
+            
+            string json = JsonConvert.SerializeObject(shopDataTest);
+            //File.WriteAllText(@"D:\UnityProjects\Tanchik\Assets\Art\Resources\MainMenu\ShopData.json", json);
+
+            #endregion
+
+            #region PlayerData
+
+            SetPlayerSelectedMapCommand playerSelectedMapCommand = new SetPlayerSelectedMapCommand
+                (_playerIdProvider, _entityRepository);
+
+            #endregion
+
+            #region Shop
+
+            ShopDataLoader shopDataLoader = new ShopDataLoader
+                (_entityRepository, _assetProvider, _filePathProvider, _playerIdProvider);
+
+            ShopData shopData = shopDataLoader.Load(availableLevelIds, mapTypes);
+
+            ShopService shopService = new ShopService(_entityRepository, _playerIdProvider);
+
+            #endregion
+
             SetFormVisibilityCommand setFormVisibilityCommand = new SetFormVisibilityCommand(_entityRepository);
             InterfaceService interfaceService = new InterfaceService(setFormVisibilityCommand);
 
             string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
             InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
 
-            SetLevelSelectionCommand setLevelSelectionCommand = new SetLevelSelectionCommand(_entityRepository);
             LevelRepositoryController levelRepositoryController = new LevelRepositoryController();
+            SetLevelSelectionCommand setLevelSelectionCommand = new SetLevelSelectionCommand(_entityRepository);
             SelectedLevelService selectedLevelService = new SelectedLevelService(setLevelSelectionCommand);
-            GetPassedLevelsQuery getPassedLevelsQuery = new GetPassedLevelsQuery(_playerIdProvider, _entityRepository);
-            GetPlayerSelectedMapQuery getPlayerInitialMapTypeQuery = new GetPlayerSelectedMapQuery(_playerIdProvider, _entityRepository);
 
-            SetPlayerSelectedMapCommand playerSelectedMapCommand = new SetPlayerSelectedMapCommand(_playerIdProvider, _entityRepository);
+            MainMenuMapGetTypeQuery mainMenuMapGetTypeQuery = new MainMenuMapGetTypeQuery(_entityRepository);
             SetMapSelectionCommand setMapSelectionCommand = new SetMapSelectionCommand(_entityRepository);
-            GetMapTypeQuery getMapTypeQuery = new GetMapTypeQuery(_entityRepository);
-            
-            SelectedMapService selectedMapService = new SelectedMapService(setMapSelectionCommand, getMapTypeQuery, playerSelectedMapCommand);
+
+            SelectedMapService selectedMapService = new SelectedMapService
+                (setMapSelectionCommand, mainMenuMapGetTypeQuery, playerSelectedMapCommand);
+
             MapRepositoryController mapRepositoryController = new MapRepositoryController();
 
             MainMenuFormCreationServiceFactory mainMenuFormCreationServiceFactory = new MainMenuFormCreationServiceFactory
@@ -104,14 +147,14 @@ namespace Codebase.App.Infrastructure.Builders.States
                 selectedLevelService,
                 _assetProvider,
                 _filePathProvider,
-                getPassedLevelsQuery,
-                getPlayerInitialMapTypeQuery,
                 selectedMapService,
                 _playerIdProvider,
-                stateMachineService
+                stateMachineService,
+                shopService
             );
 
-            FormCreationService formCreationService = mainMenuFormCreationServiceFactory.Create(availableLevelIds, mapTypes);
+            FormCreationService formCreationService = mainMenuFormCreationServiceFactory
+                .Create(availableLevelIds, shopData.Maps);
 
             MainMenuFactory mainMenuFactory = new MainMenuFactory(formCreationService);
 

@@ -6,9 +6,11 @@ namespace Codebase.Core.Common.General.Utils
     public static class MaloyAlert
     {
         // ReSharper disable once ConvertToConstant.Local
+        // ReSharper disable once InconsistentNaming
         private static readonly bool _enabled = true;
 
         // ReSharper disable once ConvertToConstant.Local
+        // ReSharper disable once InconsistentNaming
         private static readonly bool _blameEnabled = true;
 
         public static void Todo(object message)

@@ -11,7 +11,7 @@ namespace Codebase.PlayerData.Models
         private LiveData<int> _coins;
         private LiveData<int> _levelsPassed;
         private LiveData<string[]> _passedLevels;
-        private LiveData<string[]> _unlockedStructures;
+        private LiveData<string[]> _unlockedGamePresets;
         private LiveData<MapType[]> _unlockedMaps;
 
         public PlayerDataModel
@@ -29,7 +29,7 @@ namespace Codebase.PlayerData.Models
             _coins = new LiveData<int>(coins);
             _levelsPassed = new LiveData<int>(levelsPassed);
             _passedLevels = new LiveData<string[]>(passedLevels);
-            _unlockedStructures = new LiveData<string[]>(unlockedStructures);
+            _unlockedGamePresets = new LiveData<string[]>(unlockedStructures);
             _unlockedMaps = new LiveData<MapType[]>(unlockedMaps);
         }
 
@@ -37,7 +37,7 @@ namespace Codebase.PlayerData.Models
         public ILiveData<int> Coins => _coins;
         public ILiveData<int> LevelsPassed => _levelsPassed;
         public ILiveData<IReadOnlyList<string>> PassedLevels => _passedLevels;
-        public ILiveData<IReadOnlyList<string>> UnlockedStructures => _unlockedStructures;
+        public ILiveData<IReadOnlyList<string>> UnlockedGamePresets => _unlockedGamePresets;
         public ILiveData<IReadOnlyList<MapType>> UnlockedMaps => _unlockedMaps;
 
         public void SetSelectedMap(MapType selectedMap) =>
@@ -55,10 +55,10 @@ namespace Codebase.PlayerData.Models
                 _passedLevels.Value = _passedLevels.Value.Concat(new string[] { passedLevel }).ToArray();
         }
 
-        public void AddUnlockedStructure(string unlockedStructure)
+        public void AddUnlockedGamePreset(string presetId)
         {
-            if (_unlockedStructures.Value.Contains(unlockedStructure) == false)
-                _unlockedStructures.Value = _unlockedStructures.Value.Concat(new string[] { unlockedStructure }).ToArray();
+            if (_unlockedGamePresets.Value.Contains(presetId) == false)
+                _unlockedGamePresets.Value = _unlockedGamePresets.Value.Concat(new string[] { presetId }).ToArray();
         }
 
         public void AddUnlockedMap(MapType unlockedMap)
@@ -72,13 +72,13 @@ namespace Codebase.PlayerData.Models
             _coins.Dispose();
             _levelsPassed.Dispose();
             _passedLevels.Dispose();
-            _unlockedStructures.Dispose();
+            _unlockedGamePresets.Dispose();
             _unlockedMaps.Dispose();
 
             _coins = null;
             _levelsPassed = null;
             _passedLevels = null;
-            _unlockedStructures = null;
+            _unlockedGamePresets = null;
             _unlockedMaps = null;
         }
     }

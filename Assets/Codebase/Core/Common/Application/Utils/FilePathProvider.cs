@@ -10,6 +10,7 @@ namespace Codebase.Core.Common.Application.Utils
         public FileData Structures = new FileData();
         public FileData Game = new FileData();
         public FileData Forms = new FileData();
+        public FileData MainMenu = new FileData();
     }
 
     public class FileData

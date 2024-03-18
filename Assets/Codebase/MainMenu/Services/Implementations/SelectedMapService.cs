@@ -10,15 +10,15 @@ namespace Codebase.MainMenu.Services.Implementations
     public class SelectedMapService : ISelectedMapService
     {
         private SetMapSelectionCommand _setMapSelectionCommand;
-        private GetMapTypeQuery _getMapTypeQuery;
+        private MainMenuMapGetTypeQuery _mainMenuMapGetTypeQuery;
         private SetPlayerSelectedMapCommand _setPlayerSelectedMapCommand;
 
         private int _currentId = -1;
 
-        public SelectedMapService(SetMapSelectionCommand setMapSelectionCommand, GetMapTypeQuery getMapTypeQuery, SetPlayerSelectedMapCommand setPlayerSelectedMapCommand)
+        public SelectedMapService(SetMapSelectionCommand setMapSelectionCommand, MainMenuMapGetTypeQuery mainMenuMapGetTypeQuery, SetPlayerSelectedMapCommand setPlayerSelectedMapCommand)
         {
             _setMapSelectionCommand = setMapSelectionCommand;
-            _getMapTypeQuery = getMapTypeQuery;
+            _mainMenuMapGetTypeQuery = mainMenuMapGetTypeQuery;
             _setPlayerSelectedMapCommand = setPlayerSelectedMapCommand;
         }
 
@@ -31,7 +31,7 @@ namespace Codebase.MainMenu.Services.Implementations
             
             _currentId = id;
             _setMapSelectionCommand.Handle(_currentId, true);
-            MapType = _getMapTypeQuery.Handle(id);
+            MapType = _mainMenuMapGetTypeQuery.Handle(id);
             _setPlayerSelectedMapCommand.Handle(MapType);
         }
     }

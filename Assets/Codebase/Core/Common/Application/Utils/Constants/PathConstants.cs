@@ -51,5 +51,10 @@
         {
             public const string GamePresets = "GamePresets";
         }
+
+        public static class MainMenu
+        {
+            public const string ShopData = "ShopData";
+        }
     }
 }

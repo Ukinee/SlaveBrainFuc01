@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Codebase.Core.Common.General.Utils;
 
 namespace Codebase.Core.Common.General.LiveDatas
 {
@@ -33,6 +34,12 @@ namespace Codebase.Core.Common.General.LiveDatas
         {
             if (_isDisposed)
                 throw new ObjectDisposedException(nameof(LiveData<T>));
+
+            if (_listeners.Contains(listener))
+            {
+                MaloyAlert.Warning($"Listener {listener.Method.Name} already added to LiveData");
+                return;
+            }
 
             _listeners.Add(listener);
             listener.Invoke(_value);

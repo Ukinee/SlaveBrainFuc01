@@ -31,8 +31,7 @@ namespace Codebase.MainMenu.Views.Implementations
 
         public void SetPassed(bool isPassed)
         {
-            if (isPassed)
-                $"Is passed: {isPassed}".Log();
+            //$"Is passed: {isPassed}".Log();
         }
 
         public void SetSelected(bool isSelected)

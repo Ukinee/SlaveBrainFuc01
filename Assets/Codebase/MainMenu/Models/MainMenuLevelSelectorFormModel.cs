@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Forms.Models;
-using Codebase.Maps.Common;
 
 namespace Codebase.MainMenu.Models
 {

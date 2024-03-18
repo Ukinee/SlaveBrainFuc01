@@ -23,7 +23,7 @@ namespace Codebase.PlayerData.CQRS.Queries
                 model.LevelsPassed.Value,
                 model.SelectedMap,
                 model.PassedLevels.Value.ToArray(),
-                model.UnlockedStructures.Value.ToArray(),
+                model.UnlockedGamePresets.Value.ToArray(),
                 model.UnlockedMaps.Value.ToArray()
             );
         }

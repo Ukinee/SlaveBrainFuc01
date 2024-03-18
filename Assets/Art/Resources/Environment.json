@@ -21,6 +21,11 @@
       "GamePresets": "Game/GamePresets"
     }
   },
+  "MainMenu": {
+    "Data": {
+      "ShopData": "MainMenu/ShopData"
+    }
+  },
   "Forms": {
     "Data": {
       "InterfaceView": "Forms/InterfaceView",
