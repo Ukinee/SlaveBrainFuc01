@@ -1,1 +1,38 @@
-{"Maps":[{"Type":0,"Price":10},{"Type":1,"Price":10},{"Type":2,"Price":10},{"Type":3,"Price":10},{"Type":4,"Price":10}],"Structures":[{"Id":"Test Two Towers","Price":10},{"Id":"Test Three Towers","Price":10}]}
+{
+  "Maps": [
+    {
+      "Type": 0,
+      "Price": 10
+    },
+    {
+      "Type": 1,
+      "Price": 10
+    },
+    {
+      "Type": 2,
+      "Price": 10
+    },
+    {
+      "Type": 3,
+      "Price": 10
+    },
+    {
+      "Type": 4,
+      "Price": 10
+    }
+  ],
+  "Structures": [
+    {
+      "Id": "Test Two Towers",
+      "Price": 10
+    },
+    {
+      "Id": "Test Three Towers",
+      "Price": 10
+    },
+    {
+      "Id": "AAAAAAAAAA",
+      "Price": 10
+    }
+  ]
+}

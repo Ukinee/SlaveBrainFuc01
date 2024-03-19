@@ -21,12 +21,12 @@ namespace Codebase.App.Infrastructure.Builders.Pools
 
         private static AudioSourcePoolService CreateAudioSourcePoolService()
         {
-            AudioSource CreateAudioSource() =>
-                new GameObject(nameof(AudioSource)).AddComponent<AudioSource>();
-
             AudioSourcePoolService audioSourcePoolService = new AudioSourcePoolService(CreateAudioSource);
 
             return audioSourcePoolService;
+
+            AudioSource CreateAudioSource() =>
+                new GameObject(nameof(AudioSource)).AddComponent<AudioSource>();
         }
     }
 }

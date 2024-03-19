@@ -75,7 +75,8 @@ namespace Codebase.App.General
                 audioService,
                 assetProvider,
                 filePathProvider,
-                playerIdProvider
+                playerIdProvider,
+                dataService
             );
 
             GameplaySceneStateFactory gameplaySceneStateFactory = new GameplaySceneStateFactory

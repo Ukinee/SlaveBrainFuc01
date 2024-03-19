@@ -24,6 +24,7 @@ using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Commands;
 using Codebase.PlayerData.CQRS.Queries;
+using Codebase.PlayerData.Services.Implementations;
 using Codebase.PlayerData.Services.Interfaces;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace Codebase.App.Infrastructure.Builders.States
         private readonly AssetProvider _assetProvider;
         private readonly FilePathProvider _filePathProvider;
         private IPlayerIdProvider _playerIdProvider;
+        private readonly DataService _dataService;
 
         public MainMenuSceneFactory
         (
@@ -46,7 +48,8 @@ namespace Codebase.App.Infrastructure.Builders.States
             IAudioService audioService,
             AssetProvider assetProvider,
             FilePathProvider filePathProvider,
-            IPlayerIdProvider playerIdProvider
+            IPlayerIdProvider playerIdProvider,
+            DataService dataService
         )
         {
             _idGenerator = idGenerator;
@@ -55,6 +58,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             _assetProvider = assetProvider;
             _filePathProvider = filePathProvider;
             _playerIdProvider = playerIdProvider;
+            _dataService = dataService;
         }
 
         public ISceneState CreateSceneState
@@ -66,6 +70,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             {
                 "Test Two Towers",
                 "Test Three Towers",
+                "AAAAAAAAAA",
             };
 
             MapType[] mapTypes =
@@ -76,26 +81,6 @@ namespace Codebase.App.Infrastructure.Builders.States
                 MapType.Jungle1,
                 MapType.Snow1,
             };
-
-            #endregion
-
-            #region InitJson
-
-            ShopData shopDataTest = new ShopData
-            (
-                new List<MapShopData>()
-                {
-                    new MapShopData(MapType.Grass1, 10),
-                    new MapShopData(MapType.Desert1, 10),
-                    new MapShopData(MapType.Desert2, 10),
-                    new MapShopData(MapType.Jungle1, 10),
-                    new MapShopData(MapType.Snow1, 10),
-                },
-                availableLevelIds.Select(x => new StructureShopData(x, 10)).ToList()
-            );
-            
-            string json = JsonConvert.SerializeObject(shopDataTest);
-            //File.WriteAllText(@"D:\UnityProjects\Tanchik\Assets\Art\Resources\MainMenu\ShopData.json", json);
 
             #endregion
 
@@ -113,7 +98,7 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             ShopData shopData = shopDataLoader.Load(availableLevelIds, mapTypes);
 
-            ShopService shopService = new ShopService(_entityRepository, _playerIdProvider);
+            ShopService shopService = new ShopService(_entityRepository, _playerIdProvider, _dataService);
 
             #endregion
 
