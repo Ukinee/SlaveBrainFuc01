@@ -17,7 +17,6 @@ namespace Codebase.MainMenu.Views.Implementations
 
         private void OnEnable()
         {
-            _shopButton.onClick.AddListener(OnShopButtonClicked);
             _settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             _leaderboardButton.onClick.AddListener(OnLeaderboardButtonClicked);
             _levelSelectionButton.onClick.AddListener(OnLevelSelectionButtonClicked);
@@ -28,13 +27,10 @@ namespace Codebase.MainMenu.Views.Implementations
             _levelSelectionButton.onClick.RemoveListener(OnLevelSelectionButtonClicked);
             _leaderboardButton.onClick.RemoveListener(OnLeaderboardButtonClicked);
             _settingsButton.onClick.RemoveListener(OnSettingsButtonClicked);
-            _shopButton.onClick.RemoveListener(OnShopButtonClicked);
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() =>
             Presenter.OnViewDisposed();
-        }
 
         public void Set(string value) =>
             _coinAmount.text = value;
@@ -47,9 +43,6 @@ namespace Codebase.MainMenu.Views.Implementations
 
         private void OnLeaderboardButtonClicked() =>
             Presenter.OnClickLeaderboard();
-
-        private void OnShopButtonClicked() =>
-            Presenter.OnClickShop();
 
         public void Dispose()
         {

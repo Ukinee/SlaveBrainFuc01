@@ -1,4 +1,5 @@
 ﻿using System;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Maps.Common;
 using Unity.Plastic.Newtonsoft.Json;
 
@@ -14,7 +15,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             int levelsPassed,
             MapType selectedMap,
             string[] passedLevels,
-            string[] unlockedStructuresForInfiniteLevels,
+            string[] unlockedStructures,
             MapType[] unlockedMaps
         )
         {
@@ -23,7 +24,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             LevelsPassed = levelsPassed;
             SelectedMap = selectedMap;
             PassedLevels = passedLevels;
-            UnlockedStructuresForInfiniteLevels = unlockedStructuresForInfiniteLevels;
+            UnlockedStructures = unlockedStructures;
             UnlockedMaps = unlockedMaps;
         }
 
@@ -34,7 +35,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             0,
             MapType.Grass1,
             Array.Empty<string>(),
-            Array.Empty<string>(),
+            new[] { StructuresConstants.TwoTowersId },
             new[] { MapType.Grass1 }
         );
 
@@ -43,7 +44,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
         [JsonProperty] public int Coins { get; private set; }
         [JsonProperty] public int LevelsPassed { get; private set; }
         [JsonProperty] public string[] PassedLevels { get; private set; }
-        [JsonProperty] public string[] UnlockedStructuresForInfiniteLevels { get; private set; }
+        [JsonProperty] public string[] UnlockedStructures { get; private set; }
         [JsonProperty] public MapType[] UnlockedMaps { get; private set; }
         [JsonProperty] public MapType SelectedMap { get; private set; }
     }

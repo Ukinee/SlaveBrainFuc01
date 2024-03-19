@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
+﻿using ApplicationCode.Core.Frameworks.EnitySystem.Interfaces;
 using ApplicationCode.Core.Infrastructure.IdGenerators;
 using ApplicationCode.Core.Services.AssetProviders;
 using Codebase.App.Infrastructure.StateMachines.States;
@@ -23,11 +20,8 @@ using Codebase.MainMenu.Services.Implementations;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.Maps.Common;
 using Codebase.PlayerData.CQRS.Commands;
-using Codebase.PlayerData.CQRS.Queries;
 using Codebase.PlayerData.Services.Implementations;
 using Codebase.PlayerData.Services.Interfaces;
-using Unity.Plastic.Newtonsoft.Json;
-using UnityEngine;
 
 namespace Codebase.App.Infrastructure.Builders.States
 {
@@ -70,7 +64,6 @@ namespace Codebase.App.Infrastructure.Builders.States
             {
                 "Test Two Towers",
                 "Test Three Towers",
-                "AAAAAAAAAA",
             };
 
             MapType[] mapTypes =
@@ -139,7 +132,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             );
 
             FormCreationService formCreationService = mainMenuFormCreationServiceFactory
-                .Create(availableLevelIds, shopData.Maps);
+                .Create(shopData.Structures, shopData.Maps);
 
             MainMenuFactory mainMenuFactory = new MainMenuFactory(formCreationService);
 

@@ -48,7 +48,6 @@ namespace Codebase.Core.Services.AudioService.Implementation
             _backgroundMusicPlayer.clip = entry.Clip;
             _backgroundMusicPlayer.volume = entry.Volume;
             _backgroundMusicPlayer.Play();
-            
         }
 
         public void MuteMusic()

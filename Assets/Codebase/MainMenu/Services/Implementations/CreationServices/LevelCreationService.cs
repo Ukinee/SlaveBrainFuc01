@@ -6,7 +6,6 @@ using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.MainMenu.CQRS.Queries;
 using Codebase.MainMenu.Models;
-using Codebase.MainMenu.Presentations.Implementations;
 using Codebase.MainMenu.Presentations.Implementations.LevelsSelectors;
 using Codebase.MainMenu.Services.Implementations.Repositories;
 using Codebase.MainMenu.Services.Interfaces;
@@ -21,10 +20,14 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
         private readonly IEntityRepository _entityRepository;
         private readonly LevelRepositoryController _levelRepositoryController;
         private readonly ISelectedLevelService _selectedLevelService;
+        private readonly IShopService _shopService;
         private readonly GetLevelSelectionQuery _getLevelSelectionQuery;
-        private readonly GetLevelStateQuery _getLevelStateQuery;
+        private readonly GetLevelPassStatusQuery _getLevelPassStatusQuery;
+
         private readonly GetLevelIdQuery _getLevelIdQuery;
         private readonly string _assetPath;
+        private GetLevelUnlockStatusQuery _getLevelUnlockStatusQuery;
+        private GetLevelPriceQuery _getLevelPriceQuery;
 
         public LevelCreationService
         (
@@ -33,7 +36,8 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             FilePathProvider filePathProvider,
             IEntityRepository entityRepository,
             LevelRepositoryController levelRepositoryController,
-            ISelectedLevelService selectedLevelService
+            ISelectedLevelService selectedLevelService,
+            IShopService shopService
         )
         {
             _idGenerator = idGenerator;
@@ -41,17 +45,20 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             _entityRepository = entityRepository;
             _levelRepositoryController = levelRepositoryController;
             _selectedLevelService = selectedLevelService;
+            _shopService = shopService;
             _assetPath = filePathProvider.Forms.Data[PathConstants.Forms.MainMenuLevelView];
-            _getLevelStateQuery = new GetLevelStateQuery(entityRepository);
+            _getLevelPassStatusQuery = new GetLevelPassStatusQuery(entityRepository);
             _getLevelSelectionQuery = new GetLevelSelectionQuery(entityRepository);
             _getLevelIdQuery = new GetLevelIdQuery(entityRepository);
+            _getLevelUnlockStatusQuery = new GetLevelUnlockStatusQuery(entityRepository);
+            _getLevelPriceQuery = new GetLevelPriceQuery(entityRepository);
         }
 
-        public int Create(string levelId, bool isPassed)
+        public int Create(string levelId, bool isPassed, bool isUnlocked, int price)
         {
             int id = _idGenerator.Generate();
 
-            LevelModel model = new LevelModel(id, levelId);
+            LevelModel model = new LevelModel(id, levelId, price, isUnlocked, false, isPassed);
             _entityRepository.Register(model);
 
             LevelView view = _assetProvider.Instantiate<LevelView>(_assetPath);
@@ -60,9 +67,12 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             (
                 id,
                 new DisposeCommand(_entityRepository),
+                _getLevelUnlockStatusQuery,
+                _getLevelPriceQuery,
                 _getLevelSelectionQuery,
-                _getLevelStateQuery,
+                _getLevelPassStatusQuery,
                 _getLevelIdQuery,
+                _shopService,
                 view,
                 _selectedLevelService
             );
@@ -70,7 +80,6 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
             _levelRepositoryController.Register(model, view);
 
             view.Construct(presenter);
-            model.SetPassed(isPassed);
             presenter.Enable();
 
             return id;

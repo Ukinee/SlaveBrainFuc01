@@ -38,19 +38,9 @@ namespace Codebase.MainMenu.Presentations.Implementations
             _interfaceService.Show(new MainMenuLeaderboardFormType());
         }
 
-        public void OnClickShop()
-        {
-            _interfaceService.Show(new MainMenuShopFormType());
-        }
-        
         public void OnClickLevelSelection()
         {
             _interfaceService.Show(new LevelSelectorFormType());
-        }
-
-        public void OnClickMapType(MapType mapType)
-        {
-            $"{mapType} map type".Log();
         }
 
         public void OnViewDisposed()

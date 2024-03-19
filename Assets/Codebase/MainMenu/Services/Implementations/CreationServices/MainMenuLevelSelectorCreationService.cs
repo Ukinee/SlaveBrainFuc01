@@ -15,12 +15,13 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
     {
         private readonly LevelCreationService _levelCreationService;
         private readonly LevelSelectorFactory _levelSelectorFactory;
+        private readonly GetPlayerGamePresetsQuery _getPlayerGamePresetsQuery;
         private readonly GetPassedLevelsQuery _getPassedLevelsQuery;
         private readonly GetPlayerSelectedMapQuery _getPlayerSelectedMapQuery;
         private readonly GetPlayerMapsQuery _getPlayerMapsQuery;
         private readonly MainMenuMapCreationService _mainMenuMapCreationService;
         private readonly SelectedMapService _selectedMapService;
-        private readonly string[] _levelIds;
+        private readonly IReadOnlyList<StructureShopData> _structureShopData;
         private readonly IReadOnlyList<MapShopData> _mapTypes;
         private readonly AddLevelToLevelSelectionFormCommand _addLevelToLevelSelectionFormCommand;
         private readonly AddMapToLevelSelectionFormCommand _addMapToLevelSelectionFormCommand;
@@ -29,23 +30,25 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
         (
             LevelCreationService levelCreationService,
             LevelSelectorFactory levelSelectorFactory,
+            GetPlayerGamePresetsQuery getPlayerGamePresetsQuery,
             GetPassedLevelsQuery getPassedLevelsQuery,
             GetPlayerSelectedMapQuery getPlayerSelectedMapQuery,
             GetPlayerMapsQuery getPlayerMapsQuery,
             MainMenuMapCreationService mainMenuMapCreationService,
             IEntityRepository entityRepository,
-            string[] levelIds,
+            IReadOnlyList<StructureShopData> structureShopData,
             IReadOnlyList<MapShopData> mapTypes,
             SelectedMapService selectedMapService
         )
         {
             _levelCreationService = levelCreationService;
             _levelSelectorFactory = levelSelectorFactory;
+            _getPlayerGamePresetsQuery = getPlayerGamePresetsQuery;
             _getPassedLevelsQuery = getPassedLevelsQuery;
             _getPlayerSelectedMapQuery = getPlayerSelectedMapQuery;
             _getPlayerMapsQuery = getPlayerMapsQuery;
             _mainMenuMapCreationService = mainMenuMapCreationService;
-            _levelIds = levelIds;
+            _structureShopData = structureShopData;
             _mapTypes = mapTypes;
             _selectedMapService = selectedMapService;
             _addLevelToLevelSelectionFormCommand = new AddLevelToLevelSelectionFormCommand(entityRepository);
@@ -58,10 +61,14 @@ namespace Codebase.MainMenu.Services.Implementations.CreationServices
 
             int selectorFormId = tuple.Item1.Id;
             IReadOnlyList<string> passedLevels = _getPassedLevelsQuery.Handle();
+            IReadOnlyList<string> unlockedLevels = _getPlayerGamePresetsQuery.Handle();
 
-            foreach (string levelStringId in _levelIds)
+            foreach (StructureShopData shopData in _structureShopData)
             {
-                int levelId = _levelCreationService.Create(levelStringId, passedLevels.Contains(levelStringId));
+                bool isPassed = passedLevels.Contains(shopData.Id);
+                bool isUnlocked = unlockedLevels.Contains(shopData.Id);
+                
+                int levelId = _levelCreationService.Create(shopData.Id, isPassed, isUnlocked, shopData.Price);
 
                 _addLevelToLevelSelectionFormCommand.Handle(selectorFormId, levelId);
             }

@@ -4,7 +4,8 @@ namespace Codebase.MainMenu.Presentations.Interfaces
 {
     public interface ILevelPresenter : IPresenter
     {
-        public void OnButtonClick();
+        public void OnSelectButtonClick();
+        public void OnBuyButtonClick();
         public void OnViewDispose();
     }
 }

@@ -39,8 +39,6 @@ namespace Codebase.MainMenu.Views.Implementations
         {
             _selectButton.interactable = isAvailable;
             _buyButton.gameObject.SetActive(isAvailable == false);
-
-            $"SetBought {isAvailable}".Log();
         }
 
         public void SetPrice(int price) =>

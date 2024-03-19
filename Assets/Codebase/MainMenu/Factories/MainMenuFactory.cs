@@ -17,7 +17,6 @@ namespace Codebase.MainMenu.Factories
             _formCreationService.Create(new MainMenuFormType());
             _formCreationService.Create(new LevelSelectorFormType());
             _formCreationService.Create(new MainMenuSettingsFormType());
-            _formCreationService.Create(new MainMenuShopFormType());
             _formCreationService.Create(new MainMenuLeaderboardFormType());
         }
     }

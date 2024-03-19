@@ -35,7 +35,8 @@ namespace Codebase.MainMenu.Factories
         private readonly ISelectedLevelService _selectedLevelService;
         private readonly AssetProvider _assetProvider;
         private readonly FilePathProvider _filePathProvider;
-        private GetPassedLevelsQuery _getPassedLevelsQuery;
+        private readonly GetPlayerGamePresetsQuery _getPlayerGamePresetsQuery;
+        private readonly GetPassedLevelsQuery _getPassedLevelsQuery;
         private readonly GetPlayerMapsQuery _getPlayerMapsQuery;
         private readonly GetPlayerSelectedMapQuery _getPlayerSelectedMapQuery;
         private readonly SelectedMapService _selectedMapService;
@@ -75,12 +76,13 @@ namespace Codebase.MainMenu.Factories
             _getPassedLevelsQuery = new GetPassedLevelsQuery(_playerIdProvider, _entityRepository);
             _getPlayerMapsQuery = new GetPlayerMapsQuery(_playerIdProvider, _entityRepository);
             _getPlayerSelectedMapQuery = new GetPlayerSelectedMapQuery(_playerIdProvider, _entityRepository);
+            _getPlayerGamePresetsQuery = new GetPlayerGamePresetsQuery(_playerIdProvider, _entityRepository);
             _selectedMapService = selectedMapService;
             _stateMachineService = stateMachineService;
             _shopService = shopService;
         }
 
-        public FormCreationService Create(string[] levelIds, IReadOnlyList<MapShopData> mapData)
+        public FormCreationService Create(IReadOnlyList<StructureShopData> levelIds, IReadOnlyList<MapShopData> mapData)
         {
             MainMenuFormFactory mainMenuFormFactory = new MainMenuFormFactory
             (
@@ -98,15 +100,6 @@ namespace Codebase.MainMenu.Factories
                 _interfaceService,
                 _entityRepository,
                 _audioService,
-                _assetProvider,
-                _filePathProvider
-            );
-
-            MainMenuShopFormFactory shopFormFactory = new MainMenuShopFormFactory
-            (
-                _idGenerator,
-                _interfaceService,
-                _entityRepository,
                 _assetProvider,
                 _filePathProvider
             );
@@ -150,7 +143,8 @@ namespace Codebase.MainMenu.Factories
                 _filePathProvider,
                 _entityRepository,
                 _levelRepositoryController,
-                _selectedLevelService
+                _selectedLevelService,
+                _shopService
             );
 
             MainMenuMapCreationService mainMenuMapCreationService = new MainMenuMapCreationService
@@ -169,6 +163,7 @@ namespace Codebase.MainMenu.Factories
                 (
                     levelCreationService,
                     levelSelectorFactory,
+                    _getPlayerGamePresetsQuery,
                     _getPassedLevelsQuery,
                     _getPlayerSelectedMapQuery,
                     _getPlayerMapsQuery,
@@ -186,7 +181,6 @@ namespace Codebase.MainMenu.Factories
                 [typeof(LevelSelectorFormType)] = mainMenuLevelSelectorCreationService.Create,
                 [typeof(MainMenuFormType)] = mainMenuFormFactory.Create,
                 [typeof(MainMenuSettingsFormType)] = settingsFormFactory.Create,
-                [typeof(MainMenuShopFormType)] = shopFormFactory.Create,
                 [typeof(MainMenuLeaderboardFormType)] = leaderboardFormFactory.Create,
             };
 

@@ -4,9 +4,9 @@ using Codebase.MainMenu.Models;
 
 namespace Codebase.MainMenu.CQRS.Queries
 {
-    public class GetShopLevelPriceQuery: EntityUseCaseBase<ShopLevelModel>
+    public class GetLevelPriceQuery : EntityUseCaseBase<LevelModel>
     {
-        public GetShopLevelPriceQuery(IEntityRepository repository) : base(repository)
+        public GetLevelPriceQuery(IEntityRepository repository) : base(repository)
         {
         }
 

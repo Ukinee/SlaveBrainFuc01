@@ -36,7 +36,7 @@ namespace Codebase.PlayerData.Services.Implementations
                 dataObject.LevelsPassed,
                 dataObject.SelectedMap,
                 dataObject.PassedLevels,
-                dataObject.UnlockedStructuresForInfiniteLevels,
+                dataObject.UnlockedStructures,
                 dataObject.UnlockedMaps
             );
             

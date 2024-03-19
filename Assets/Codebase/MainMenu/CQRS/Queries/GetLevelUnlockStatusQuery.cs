@@ -5,13 +5,13 @@ using Codebase.MainMenu.Models;
 
 namespace Codebase.MainMenu.CQRS.Queries
 {
-    public class GetLevelStateQuery : EntityUseCaseBase<LevelModel>
+    public class GetLevelUnlockStatusQuery: EntityUseCaseBase<LevelModel>
     {
-        public GetLevelStateQuery(IEntityRepository repository) : base(repository)
+        public GetLevelUnlockStatusQuery(IEntityRepository repository) : base(repository)
         {
         }
 
         public ILiveData<bool> Handle(int id) =>
-            Get(id).IsPassed;
+            Get(id).IsUnlocked;
     }
 }

@@ -1,4 +1,4 @@
 {
 	"name": "08_PlayerData.Infrastructure.DTO",
-	"references":[ "GUID:abe37c14e9e7b4643bc87c24dc038dc4" ]
+	"references":[ "GUID:abe37c14e9e7b4643bc87c24dc038dc4", "GUID:c34303143d2fe944b8cc62b80a73d63f" ]
 }

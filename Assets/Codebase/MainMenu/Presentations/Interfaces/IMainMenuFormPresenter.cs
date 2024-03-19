@@ -7,8 +7,6 @@ namespace Codebase.MainMenu.Presentations.Interfaces
     {
         public void OnClickSettings();
         public void OnClickLeaderboard();
-        public void OnClickShop();
-        public void OnClickMapType(MapType mapType);
         public void OnClickLevelSelection();
         public void OnViewDisposed();
     }

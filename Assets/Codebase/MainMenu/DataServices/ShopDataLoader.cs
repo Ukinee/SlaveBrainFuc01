@@ -50,9 +50,7 @@ namespace Codebase.MainMenu.DataServices
 
         private void FilterGamePresets(ShopData shopData, string[] availableGamePresets)
         {
-            IReadOnlyList<string> playerUnlockedPresets = _getPlayerGamePresetsQuery.Handle();
             int amount = shopData.Structures.RemoveAll(data => availableGamePresets.Contains(data.Id) == false);
-            amount += shopData.Structures.RemoveAll(data => playerUnlockedPresets.Contains(data.Id));
             
             MaloyAlert.Message($"During loading shop data, removed {amount} structures that are not available or unlocked");
         }
