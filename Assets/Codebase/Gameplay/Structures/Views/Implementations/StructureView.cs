@@ -13,7 +13,7 @@ namespace Codebase.Structures.Views.Implementations
         {
             Vector3 angles = transform.rotation.eulerAngles;
             
-            transform.position = new Vector3(transform.position.x, GameConstants.YOffset, transform.position.z);
+            transform.position = new Vector3(transform.position.x, UnityConstants.YOffset, transform.position.z);
             transform.rotation = Quaternion.Euler(new Vector3(0, angles.y, 0));//todo: huinya
         }
 

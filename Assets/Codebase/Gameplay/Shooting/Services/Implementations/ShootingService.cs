@@ -50,7 +50,7 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
 
                 Shoot(tankPosition, direction);
 
-                await UniTask.Delay(GameConstants.MillisecondsToShoot);
+                await UniTask.Delay(GameplayConstants.Shooting.TimeToShootMilliseconds);
             }
         }
 

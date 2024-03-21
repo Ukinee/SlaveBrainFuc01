@@ -16,8 +16,8 @@ namespace Codebase.Gameplay.Tanks.Services.Implementations
             float verticalPosition
         )
         {
-            _mostLeftPosition = new Vector3(leftPosition, GameConstants.YOffset, verticalPosition);
-            _mostRightPosition = new Vector3(rightPosition, GameConstants.YOffset, verticalPosition);
+            _mostLeftPosition = new Vector3(leftPosition, UnityConstants.YOffset, verticalPosition);
+            _mostRightPosition = new Vector3(rightPosition, UnityConstants.YOffset, verticalPosition);
         }
 
         public Vector3 CalculatePosition(float position)

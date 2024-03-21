@@ -2,7 +2,7 @@
 using Codebase.Structures.Models;
 using Codebase.Structures.Services.Interfaces;
 
-namespace Codebase.Structures.Services.Implementations
+namespace Codebase.Gameplay.Structures.Services.Implementations
 {
     public class StructureService : IStructureService
     {

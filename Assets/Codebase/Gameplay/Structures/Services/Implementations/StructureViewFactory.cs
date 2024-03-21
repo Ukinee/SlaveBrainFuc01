@@ -3,7 +3,7 @@ using Codebase.Core.Common.Application.Utils;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Structures.Views.Implementations;
 
-namespace Codebase.Structures.Services.Implementations
+namespace Codebase.Gameplay.Structures.Services.Implementations
 {
     public class StructureViewFactory
     {

@@ -6,9 +6,9 @@ using Codebase.Cubes.Repositories.Implementations;
 using Codebase.Cubes.Services.Implementations;
 using Codebase.Gameplay.Cubes.Controllers.ServiceCommands;
 using Codebase.Gameplay.Cubes.Services.Implementations;
+using Codebase.Gameplay.Structures.Services.Implementations;
 using Codebase.Structures.CQRS.Commands;
 using Codebase.Structures.Infrastructure.Services.Implementations;
-using Codebase.Structures.Services.Implementations;
 
 namespace Codebase.Gameplay.Structures.Controllers
 {

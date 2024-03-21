@@ -1,24 +1,20 @@
-﻿using ApplicationCode.Core.Infrastructure.IdGenerators;
-using Codebase.Core.Common.Application.Types;
-using Codebase.Core.Common.General.Extensions.UnityVector3Extensions;
-using Codebase.Cubes.Services.Implementations;
+﻿using Codebase.Core.Common.Application.Types;
+using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Cubes.Services.Interfaces;
-using Codebase.Cubes.Views.Implementations;
 using Codebase.Structures.Common;
 using Codebase.Structures.Infrastructure.Services.Interfaces;
 using Codebase.Structures.Models;
-using Codebase.Structures.Presentations.Implementations;
-using Codebase.Structures.Views.Implementations;
 using UnityEngine;
-using static Codebase.Core.Common.Application.Utils.Constants.StructuresConstants;
 
-namespace Codebase.Structures.Services.Implementations
+namespace Codebase.Gameplay.Structures.Services.Implementations
 {
     public class StructureCreationService
     {
         private readonly ICubeCreationService _cubeCreationService;
         private readonly IStructureReader _structureReader;
         private readonly StructureFactory _structureFactory;
+        
+        private const float BlockSize = GameplayConstants.Structures.BlockSize;
 
         public StructureCreationService
         (

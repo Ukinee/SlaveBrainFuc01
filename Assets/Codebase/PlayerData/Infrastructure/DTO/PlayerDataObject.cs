@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Codebase.Core.Common.Application.Utils.Constants;
 using Codebase.Maps.Common;
 using Unity.Plastic.Newtonsoft.Json;
@@ -35,7 +36,7 @@ namespace Codebase.PlayerData.Infrastructure.DTO
             0,
             MapType.Grass1,
             Array.Empty<string>(),
-            new[] { StructuresConstants.TwoTowersId },
+            GameplayConstants.Structures.DefaultStructure.ToArray(),
             new[] { MapType.Grass1 }
         );
 

@@ -19,13 +19,19 @@ namespace Codebase.Gameplay.PlayerData.CreationServices
             _idGenerator = idGenerator;
         }
 
-        public IGameplayPlayerDataService Create()
+        public IGameplayPlayerDataService Create(int amountToShoot, int maxUpgradePoints)
         {
             int id = _idGenerator.Generate();
 
             GameplayPlayerDataService gameplayPlayerDataService = new GameplayPlayerDataService(_entityRepository, id);
 
-            GameplayPlayerDataModel gameplayPlayerDataModel = new GameplayPlayerDataModel(id, BallConstants.DefaultAmountToShoot);
+            GameplayPlayerDataModel gameplayPlayerDataModel = new GameplayPlayerDataModel
+            (
+                id,
+                amountToShoot,
+                maxUpgradePoints
+            );
+
             _entityRepository.Register(gameplayPlayerDataModel);
 
             return gameplayPlayerDataService;

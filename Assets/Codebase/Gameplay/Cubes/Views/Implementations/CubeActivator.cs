@@ -19,7 +19,7 @@ namespace Codebase.Cubes.Views.Implementations
 
             _isActive = true;
             transform.SetParent(null);
-            transform.position = transform.position.WithY(GameConstants.YOffset);
+            transform.position = transform.position.WithY(UnityConstants.YOffset);
             _rigidBody = gameObject.AddComponent<Rigidbody>();
             _rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
             _collider.excludeLayers += _activatedLayers;

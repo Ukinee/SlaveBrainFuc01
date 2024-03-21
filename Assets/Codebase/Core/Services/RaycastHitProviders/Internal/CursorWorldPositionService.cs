@@ -9,7 +9,7 @@ namespace Codebase.Core.Services.RaycastHitProviders.Internal
     {
         private readonly CameraService _cameraService;
         
-        private static readonly int SLayerMask = 1 << LayerMask.NameToLayer(GameConstants.RaycastTarget);
+        private static readonly int SLayerMask = 1 << LayerMask.NameToLayer(UnityConstants.RaycastTarget);
 
         public CursorWorldPositionService(CameraService cameraService)
         {

@@ -13,8 +13,8 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
         private readonly GetTankPositionQuery _getTankPositionQuery;
         private readonly IAimView _aimView;
 
-        private static readonly int SWallLayerMask = 1 << LayerMask.NameToLayer(GameConstants.Wall);
-        private static readonly int SBlockLayerMask = 1 << LayerMask.NameToLayer(GameConstants.Block);
+        private static readonly int SWallLayerMask = 1 << LayerMask.NameToLayer(UnityConstants.Wall);
+        private static readonly int SBlockLayerMask = 1 << LayerMask.NameToLayer(UnityConstants.Block);
         private static readonly int SLayerMask = SWallLayerMask | SBlockLayerMask;
 
         public AimService(GetTankPositionQuery getTankPositionQuery, IAimView aimView)
@@ -36,12 +36,12 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
 
         public void SetPosition(Vector3 position)
         {
-            AimPosition = position.WithY(GameConstants.YOffset);
+            AimPosition = position.WithY(UnityConstants.YOffset);
 
             if (IsAiming == false)
                 return;
 
-            Vector3 origin = _getTankPositionQuery.Handle().WithY(GameConstants.YOffset);
+            Vector3 origin = _getTankPositionQuery.Handle().WithY(UnityConstants.YOffset);
             Vector3 direction = AimPosition - origin;
             direction = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
 

@@ -101,6 +101,8 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             PauseService pauseService = new PauseService(_audioService);
 
+            ShootingUpgradeService shootingUpgradeService = new ShootingUpgradeService();
+
             CameraService cameraService = new CameraService();
             cameraService.Set(Camera.main);
 
@@ -119,7 +121,11 @@ namespace Codebase.App.Infrastructure.Builders.States
                 _idGenerator
             );
 
-            IGameplayPlayerDataService gameplayPlayerDataService = gameplayPlayerDataCreationService.Create();
+            IGameplayPlayerDataService gameplayPlayerDataService = gameplayPlayerDataCreationService.Create
+            (
+                GameplayConstants.Shooting.DefaultAmountToShoot,
+                GameplayConstants.Shooting.DefaultShootingUpgradeThreshold
+            );
 
             AimView aimView = _assetProvider.Instantiate<AimView>(_filePathProvider.General.Data[PathConstants.General.Aim]);
 
@@ -179,6 +185,13 @@ namespace Codebase.App.Infrastructure.Builders.States
 
             AddShootingUpgradePointCommand addShootingUpgradePointCommand = new AddShootingUpgradePointCommand
             (
+                shootingUpgradeService,
+                gameplayPlayerDataService,
+                _entityRepository
+            );
+
+            GetMaxUpgradePointsQuery getMaxUpgradePointsQuery = new GetMaxUpgradePointsQuery
+            (
                 gameplayPlayerDataService,
                 _entityRepository
             );
@@ -226,7 +239,6 @@ namespace Codebase.App.Infrastructure.Builders.States
             GameEnder gameEnder = new GameEnder(_ballViewPool, _cubeViewPool, shootingService);
             AddPassedLevelCommand addPassedLevelCommand = new AddPassedLevelCommand(_playerIdProvider, _entityRepository);
 
-
             #region Interface
 
             SetFormVisibilityCommand setFormVisibilityCommand = new SetFormVisibilityCommand(_entityRepository);
@@ -234,7 +246,7 @@ namespace Codebase.App.Infrastructure.Builders.States
             string path = _filePathProvider.Forms.Data[PathConstants.Forms.Interface];
             InterfaceView interfaceView = _assetProvider.Instantiate<InterfaceView>(path);
             InterfaceService interfaceService = new InterfaceService(setFormVisibilityCommand);
-            
+
             WinFormService winFormService = new WinFormService(interfaceService, _entityRepository);
 
             GameService gameService = new GameService
@@ -288,7 +300,8 @@ namespace Codebase.App.Infrastructure.Builders.States
                 gameService,
                 getGameplayPlayerCoinAmountQuery,
                 ballsToShootQuery,
-                getUpgradePointsQuery
+                getUpgradePointsQuery,
+                getMaxUpgradePointsQuery
             );
 
             var factories = new Dictionary<Type, Func<Tuple<FormBase, IFormView>>>()

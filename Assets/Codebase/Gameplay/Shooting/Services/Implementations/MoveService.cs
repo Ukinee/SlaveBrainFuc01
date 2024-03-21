@@ -9,7 +9,7 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
     {
         public void Move(BallModel ballModel, float deltaTime)
         {
-            Vector3 deltaPosition = ballModel.Direction * (BallConstants.Speed * deltaTime);
+            Vector3 deltaPosition = ballModel.Direction * (GameplayConstants.Balls.Speed * deltaTime);
             
             ballModel.SetPosition(ballModel.Position + deltaPosition);
         }

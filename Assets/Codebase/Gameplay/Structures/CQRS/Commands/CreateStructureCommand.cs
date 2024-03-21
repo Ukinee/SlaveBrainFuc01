@@ -1,5 +1,5 @@
-﻿using Codebase.Structures.Models;
-using Codebase.Structures.Services.Implementations;
+﻿using Codebase.Gameplay.Structures.Services.Implementations;
+using Codebase.Structures.Models;
 using UnityEngine;
 
 namespace Codebase.Structures.CQRS.Commands

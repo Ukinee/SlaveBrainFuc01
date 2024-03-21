@@ -40,14 +40,14 @@ namespace Codebase.App.Infrastructure.StateMachines
         protected override async UniTask OnBeforeStateChangeAsync(IScenePayload payload)
         {
             _curtain.Show();
-            await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
+            await UniTask.Delay(TimeSpan.FromSeconds(GameplayConstants.Curtains.AnimationTime));
             await _sceneLoadService.LoadSceneAsync(payload.SceneName);
         }
 
         protected override async UniTask OnAfterStateChangeAsync(IScenePayload payload)
         {
             GC.Collect();
-            await UniTask.Delay(TimeSpan.FromSeconds(CurtainConstants.CurtainAnimationTime));
+            await UniTask.Delay(TimeSpan.FromSeconds(GameplayConstants.Curtains.AnimationTime));
             _curtain.Hide();
         }
     }

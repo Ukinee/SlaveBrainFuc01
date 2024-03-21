@@ -1,5 +1,4 @@
-﻿using Codebase.Core.Common.Application.Utils.Constants;
-using Codebase.Core.Common.General.LiveDatas;
+﻿using Codebase.Core.Common.General.LiveDatas;
 using Codebase.Core.Frameworks.EnitySystem.CQRS;
 using Codebase.Core.Services.PauseServices;
 using Codebase.Forms.Common.FormTypes.Gameplay;
@@ -21,6 +20,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
         private ILiveData<int> _coinAmount;
         private ILiveData<int> _ballsToShoot;
         private ILiveData<int> _upgradePoints;
+        private ILiveData<int> _maxUpgradePoints;
 
         private int _currentValue;
 
@@ -31,6 +31,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
             GetGameplayPlayerCoinAmountQuery coinAmountQuery,
             GetBallsToShootQuery getBallsToShootQuery,
             GetUpgradePointsQuery getUpgradePointsQuery,
+            GetMaxUpgradePointsQuery getMaxUpgradePointsQuery,
             IInterfaceService interfaceService,
             IGameplayInterfaceFormView view,
             DisposeCommand disposeCommand
@@ -44,6 +45,7 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
             _coinAmount = coinAmountQuery.Handle();
             _ballsToShoot = getBallsToShootQuery.Handle();
             _upgradePoints = getUpgradePointsQuery.Handle();
+            _maxUpgradePoints = getMaxUpgradePointsQuery.Handle();
         }
 
         public void Enable()
@@ -51,16 +53,19 @@ namespace Codebase.Gameplay.Interface.Presentation.Implementations
             _coinAmount.AddListener(OnCoinAmountChanged);
             _ballsToShoot.AddListener(OnBallsToShootChanged);
             _upgradePoints.AddListener(OnUpgradePointsChanged);
-
-            _view.SetMaxUpgradePoints(GameConstants.UpgradeShootingServiceThreshold);
+            _maxUpgradePoints.AddListener(OnMaxUpgradePointsChanged);
         }
 
         public void Disable()
         {
+            _coinAmount.RemoveListener(OnCoinAmountChanged);
             _ballsToShoot.RemoveListener(OnBallsToShootChanged);
             _upgradePoints.RemoveListener(OnUpgradePointsChanged);
-            _coinAmount.RemoveListener(OnCoinAmountChanged);
+            _maxUpgradePoints.RemoveListener(OnMaxUpgradePointsChanged);
         }
+
+        private void OnMaxUpgradePointsChanged(int maxUpgradePoints) =>
+            _view.SetMaxUpgradePoints(maxUpgradePoints);
 
         private void OnUpgradePointsChanged(int upgradeValue) =>
             _view.SetUpgradePoints(upgradeValue);

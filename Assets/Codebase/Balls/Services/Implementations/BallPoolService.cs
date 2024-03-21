@@ -33,7 +33,7 @@ namespace Codebase.Balls.Services.Implementations
             BallModel ballModel = new BallModel();
             BallPresenter ballPresenter = new BallPresenter(_collisionService, _ballMover, ballModel, view);
 
-            ballModel.SetPosition(position.WithY(GameConstants.YOffset));
+            ballModel.SetPosition(position.WithY(UnityConstants.YOffset));
             ballModel.SetDirection(direction);
             view.Construct(ballPresenter);
             ballPresenter.Enable();
