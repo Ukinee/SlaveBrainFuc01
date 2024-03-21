@@ -6,7 +6,7 @@ namespace Codebase.Gameplay.Shooting.Services.Implementations
     {
         public int GetUpgradeThreshold(int currentBalls)
         {
-            return (int)(currentBalls * 2.4f) + 1;
+            return (int)(currentBalls * 2.5f) + 1; //todo: formula
         }
     }
 }
